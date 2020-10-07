@@ -1,0 +1,42 @@
+ul {
+    padding-inline-start: 0;
+}
+li {
+    list-style-type: none;
+}
+
+.content{
+    background-color:rgb(240, 240, 226);
+    display: flex;
+    flex:1;
+}
+.sidebar{
+    width: 330px;
+    padding: 10px 10px 0;
+    background: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: none;
+}
+.content{
+    display:flex;
+    flex:1;
+    overflow: auto;
+}
+.collapsed{
+    width: 50px;
+}
+.map{
+    background-color: gray;  
+     flex:1;
+}
+.searchBar{
+    height:50px;
+}
+.searchResult{
+    background-color: white;
+    width:350px;
+    flex:1;
+}

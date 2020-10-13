@@ -1,25 +1,23 @@
-import React, {Component, useEffect} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import SocketIOClient from 'socket.io-client';
 import store from '../store';
 
 function Chattest(){
+  const [chatState, setChatState] = useState('');
   var socket = SocketIOClient('http://localhost:3001');
-  var message=''
   useEffect(()=>{ 
     socket.on('chat message', (msg)=>{
-      console.log(msg);
-      message = msg;
+      setChatState(chatState => chatState+msg);
     });
   },[]);//빈 배열을 줌으로써 최초1번만 렌더링 되게 한다. 
   return (
       <div className="Chatting">
           <form id='chat' onSubmit={(e)=>{
             e.preventDefault();
-            console.log("in form");
             socket.emit('chat message', e.target.m.value);
           }}>
           <input id="m" autoComplete="off" /><button>Send</button>
-        <div>{message}</div>
+        <div>{chatState}</div>
       </form>
     </div>
   );
@@ -32,9 +30,12 @@ class Chattest extends Component {
   constructor(props){
     super(props);
   }
-    
+  message = 'hello';
   render() {
-    setMsg(this.socket);
+    this.socket.on('chat message', (msg)=>{
+    this.message = msg;
+    console.log(this.message);
+    });
     return (
       <div className="Chatting">
           <form id='chat' onSubmit={(e)=>{
@@ -43,7 +44,7 @@ class Chattest extends Component {
               this.socket.emit('chat message', e.target.m.value);
           }}>
             <input id="m" autoComplete="off" /><button>Send</button>
-          <div>{this.state.message}</div>
+          <div>{this.message}</div>
           </form>
       </div>
     );

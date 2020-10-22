@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Chattest from './Chattest';
+import Test from './Test';
 import './List.css';
 
 class List extends Component {
@@ -9,7 +10,7 @@ class List extends Component {
   render() {
     return (
       <div className="List">
-          <Chattest></Chattest>
+          <Test></Test>
       </div>
     );
   }

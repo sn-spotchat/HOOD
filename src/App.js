@@ -9,6 +9,11 @@ import './App.css';
 const server = require('http').createServer();*/
 //const io = require('socket.io')();
 
+const io = require('socket.io')({
+  path: '/test',
+  serveClient: false,
+});
+
 class App extends Component {
   render() {
     return (

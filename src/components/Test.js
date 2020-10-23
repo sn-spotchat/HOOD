@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'; // import 로 useState 를 �
 import SocketIOClient from 'socket.io-client';
 import { database } from '../firebase';
 
-var socket = SocketIOClient('http://localhost:3000');
+//var socket = SocketIOClient('http://localhost:3001');
+var socket = SocketIOClient('hood-sgtmi.web.app:5000');
 
 socket.on('chat message', (msg)=>{
   console.log(msg);
@@ -26,6 +27,7 @@ const Test = () => {
       <form id='chat' onSubmit={(e)=>{
       e.preventDefault();
       socket.emit('chat message', e.target.m.value);
+      console.log(e.target.m.value);
     }}>
       <input id="m" autoComplete="off" /><button>Send</button>
       

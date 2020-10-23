@@ -3,7 +3,11 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import logo from './logo.svg';
 import Main from './components/Main.js';
 import Login from './components/login';
+
 import './App.css';
+/*
+const server = require('http').createServer();*/
+//const io = require('socket.io')();
 
 class App extends Component {
   render() {
@@ -19,5 +23,4 @@ class App extends Component {
     );
   }
 }
-
 export default App;

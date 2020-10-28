@@ -1,37 +1,75 @@
-import React, { useState, useEffect } from 'react'; // import 로 useState 를 불러온다!
-import SocketIOClient from 'socket.io-client';
+import React, { useState, useEffect, useRef} from 'react'; // import 로 useState 를 불러온다!
+import io from 'socket.io-client';
 import { database } from '../firebase';
+import "./Test.css";
+//지금은 채팅방이 1개인 임시지만, 후에 socket.join을 이용해서 여러개의 방을 만들 생각임 
+const Test = () =>{
+  const [yourID, setYourID] = useState();//나의 아이디
+  const [chatRoomName, setChatRoomName] = useState("");//채팅방 이름
+  const [messages, setMessages] = useState([]);//모든 메시지(server로부터 받은 모든 메시지)
+  const [message, setMessage] = useState("");//내가 입력한 메시지
 
-//var socket = SocketIOClient('http://localhost:3001');
-var socket = SocketIOClient('hood-sgtmi.web.app:5000');
+  const socketRef = useRef();
+  useEffect(() => {
+    socketRef.current = io.connect("http://localhost:3001");//나중에 서버에 Server.js를 올리게 되면 바꿔야함.
+    setChatRoomName("chat name");//후에 방이름을 받아서 넣을 예정
+    socketRef.current.on("your id", id =>{
+      setYourID(id);
+    })
 
-socket.on('chat message', (msg)=>{
-  console.log(msg);
-  //database.ref('/chatroomlist/sinchon').update({ chatcount: chatCount+1});// 채팅받으면 chatCount와 데이터베이스 관계확인하기 위해 삽입
-});
+    socketRef.current.on("message", (message) =>{
+      receivedMessage(message);
+      console.log("in mst");
+    })
+  },[]);
 
-const Test = () => {
-  const [chatCount, setChatCount] = useState(0);
-  useEffect(() =>{
-  database.ref('/chatroomlist/sinchon').once("value", function(snapshot){ 
-    console.log("in first"); 
-    setChatCount(snapshot.val().chatcount); //값이 바뀌었으니 Test를 다시 소환해서 렌더링한다.
-    console.log("in",chatCount);//그래서 이게 밖에 구문보다 더 늦게 나옴
-  });}, []);
+  function receivedMessage(message){
+    setMessages(oldMsgs => [...oldMsgs, message]);
+  }
 
+  function sendMessage(e){
+    e.preventDefault();
+    const messageObject = {
+      body: message,
+      id: yourID,
+    };
+    setMessage("");
+    socketRef.current.emit("send message", messageObject);
+  }
+
+  function handleChange(e){
+    setMessage(e.target.value);
+  }
   return (
-    <div>
-      <p>
-        <b>{chatCount}</b> 채팅수
-      </p>
-      <form id='chat' onSubmit={(e)=>{
-      e.preventDefault();
-      socket.emit('chat message', e.target.m.value);
-      console.log(e.target.m.value);
-    }}>
-      <input id="m" autoComplete="off" /><button>Send</button>
-      
-    </form>
+    <div className="chat">
+      <div className="chatHead">{chatRoomName}</div>
+      <div className="chatBody">
+        {messages.map((message, index) => {
+            if(message.id === yourID){
+              return ( 
+                <div className="MyRow" key={index}>
+                  <div className="MyMsg">
+                    {message.body}
+                  </div>
+                </div>
+              )
+            }
+            return (
+              <div className="PeerRow" key={index}>
+                <div className="PeerMsg">
+                  {message.body}
+                  </div>
+                </div>
+            )
+          }
+        )}
+      </div>
+      <div className="chatUnder">
+        <form onSubmit={sendMessage}>
+          <textarea value={message} onChange={handleChange} placeholder="메시지 입력"></textarea>
+          <button>전송</button>
+        </form>
+      </div>
     </div>
   );
 };

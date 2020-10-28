@@ -5,14 +5,13 @@ import Main from './components/Main.js';
 import Login from './components/login';
 
 import './App.css';
+
 /*
 const server = require('http').createServer();*/
 //const io = require('socket.io')();
+//const express = require('express');
 
-const io = require('socket.io')({
-  path: '/test',
-  serveClient: false,
-});
+//const app = express();
 
 class App extends Component {
   render() {

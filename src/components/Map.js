@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef} from 'react';
 import './Map.css';
 import Sidebar from './Sidebar';
+import SidebarContainer from '../containers/SidebarContainer';
 import { RenderAfterNavermapsLoaded, NaverMap } from 'react-naver-maps'; // 패키지 불러오기
 
 function NaverMapAPI() {
@@ -35,7 +36,7 @@ const Map = () =>{
   return (
     <div className="mapWrap">
           <div id="sideBar" className="sideBar">
-            <Sidebar></Sidebar>
+            <SidebarContainer></SidebarContainer>
           </div>
           <button onClick={changeDisplay}>button</button>
           <div className="map">

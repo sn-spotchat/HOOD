@@ -1,34 +1,40 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
+import Home from './Home';
+import Login from './Login';
 import List from './List';
 import Chat from './Chat';
 import Test from './Test';
 import './Sidebar.css';
-//나중에 함수형 컴포넌트로 바꿀예정 
-//Navigation에서 클릭하는거에 따라 _content의 내용을 바꾸게 할 예정.
-class Sidebar extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      mode:'list'
+/*
+렌더링이 2번 되는 문제가 있음 뭐가 문제인지는 모르겠지만 문제없다고 생각함.
+*/
+const Sidebar = ({sidebarstate}) =>{
+  const [sidebarType, setSidebarType] = useState(sidebarstate);
+  
+  useEffect(() =>{
+    console.log(sidebarstate);
+    if(sidebarstate === 'home'){
+      setSidebarType(<Home></Home>);
     }
-  }
-
-  render() {
-    var _content = null;
-    /*if(this.state.mode === 'list'){
-      _content = <List></List>
+    else if(sidebarstate === 'login'){
+      setSidebarType(<Login></Login>);
     }
-    else if(this.state.mode === 'chat'){
-      _content = <Chat></Chat>
-    }*/
-    _content = <Test></Test>;
-    console.log(this.state.mode);
-    return (
-        <div className="sidebar">
-          {_content}
-        </div>
-    );
-  }
-}
+    else if(sidebarstate === 'list'){
+      setSidebarType(<List></List>);
+    }
+    else if(sidebarstate === 'chat'){
+      setSidebarType(<Chat></Chat>);
+    }
+    else if(sidebarstate === 'test'){
+      setSidebarType(<Test chatRoomName="sinsu"></Test>);
+    }
+  },[sidebarstate]);
+    
+  return (
+    <div className="sidebar">
+      {sidebarType}
+    </div>
+  );
+};
 
 export default Sidebar;

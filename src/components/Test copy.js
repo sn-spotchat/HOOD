@@ -5,6 +5,7 @@ import "./Test.css";
 //지금은 채팅방이 1개인 임시지만, 후에 socket.join을 이용해서 여러개의 방을 만들 생각임 
 const Test = (props) =>{
   const [yourID, setYourID] = useState();//나의 아이디
+  //const [chatRoomName, setChatRoomName] = useState("");//채팅방 이름
   const [messages, setMessages] = useState([]);//모든 메시지(server로부터 받은 모든 메시지)
   const [message, setMessage] = useState("");//내가 입력한 메시지
   
@@ -12,6 +13,7 @@ const Test = (props) =>{
 
   useEffect(() => {
     socketRef.current = io.connect("http://localhost:3001");//나중에 서버에 Server.js를 올리게 되면 바꿔야함.
+    //setChatRoomName("sinsu");//후에 방이름을 받아서 넣을 예정
     
     const dataObject = {
       user: yourID,
@@ -43,22 +45,13 @@ const Test = (props) =>{
     socketRef.current.emit("send message", messageObject);
   }
 
-  function leaveRoom(){
-    const dataObject = {
-      user: yourID,
-      roomName: props.chatRoomName,
-    };
-    socketRef.current.emit("leave room", dataObject);
-    console.log("leave room");
-  }
-
   function handleChange(e){
     setMessage(e.target.value);
   }
   return (
     <div className="chat">
       <div className="chatHead">{props.chatRoomName}
-        <button onClick={leaveRoom}>exit</button>
+        <button>exit</button>
       </div>
       <div className="chatBody">
         {messages.map((message, index) => {

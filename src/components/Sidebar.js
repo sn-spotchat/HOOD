@@ -21,7 +21,8 @@ class Sidebar extends Component {
     else if(this.state.mode === 'chat'){
       _content = <Chat></Chat>
     }*/
-    _content = <Test></Test>;
+    _content = <Test chatRoomName="sinsu"></Test>;
+    //_content = <List></List>;
     console.log(this.state.mode);
     return (
         <div className="sidebar">

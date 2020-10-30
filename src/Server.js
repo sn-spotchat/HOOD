@@ -10,8 +10,15 @@ const port = 3001;
 
 io.on("connection", socket => {
   socket.emit("your id", socket.id);
-  socket.on("send message", body=>{
-    io.emit("message", body)
+
+  socket.on("send message", (body, roomName)=>{
+    //io.to(body.roomName).emit("message", body.message);
+    io.to(roomName).emit("message", body)
+  })
+
+  socket.on("join room", roomName=>{
+    console.log("enter "+roomName);
+    socket.join(roomName);
   })
 })
 

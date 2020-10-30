@@ -1,10 +1,7 @@
-import React, {Component} from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import './Map.css';
+import Sidebar from './Sidebar';
 import { RenderAfterNavermapsLoaded, NaverMap } from 'react-naver-maps'; // 패키지 불러오기
-
-
-
-var mapDiv = document.getElementById('map');
 
 function NaverMapAPI() {
   return (
@@ -20,20 +17,68 @@ function NaverMapAPI() {
   );
 }
 
+
+const Map = () =>{
+  const [sideType, setSideType] = useState("block"); //사이드바의 타입(지금은 chat, list, 채팅방)
+  const [sideDisplay, setSideDisplay] = useState("list"); //사이드바의 display를 none, block 설정
+
+  function changeDisplay(){
+    if(sideDisplay === "none"){
+      setSideDisplay("block");
+    }
+    else{
+      setSideDisplay("none");
+    }
+    document.getElementById("sideBar").style.display=sideDisplay;
+  }
+
+  return (
+    <div className="mapWrap">
+          <div id="sideBar" className="sideBar">
+            <Sidebar></Sidebar>
+          </div>
+          <button onClick={changeDisplay}>button</button>
+          <div className="map">
+            <RenderAfterNavermapsLoaded
+              ncpClientId={'5blqxkrbsw'} // 자신의 네이버 계정에서 발급받은 Client ID
+              error={<p>Maps Load Error</p>}
+              loading={<p>Maps Loading...</p>}
+              >
+              <NaverMapAPI />
+            </RenderAfterNavermapsLoaded>
+          </div>
+        </div>
+  );
+};
+
+
+/*
 class Map extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      mode:'block'
+    }
+  }
+  
   render() {
     return (
-        <div className="map">
-          <RenderAfterNavermapsLoaded
-            ncpClientId={'5blqxkrbsw'} // 자신의 네이버 계정에서 발급받은 Client ID
-            error={<p>Maps Load Error</p>}
-            loading={<p>Maps Loading...</p>}
-            >
-            <NaverMapAPI />
-          </RenderAfterNavermapsLoaded>
+        <div className="mapWrap">
+          <div className="sideBar">
+            <Sidebar></Sidebar>
+          </div>
+          <div className="map">
+            <RenderAfterNavermapsLoaded
+              ncpClientId={'5blqxkrbsw'} // 자신의 네이버 계정에서 발급받은 Client ID
+              error={<p>Maps Load Error</p>}
+              loading={<p>Maps Loading...</p>}
+              >
+              <NaverMapAPI />
+            </RenderAfterNavermapsLoaded>
+          </div>
         </div>
     );
   }
 }
-
+*/
 export default Map;

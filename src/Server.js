@@ -1,25 +1,28 @@
-const express = require("express");
-const http = require("http");
-const app = express();
-const server = http.createServer(app);
-const socket = require("socket.io");
-const io = socket(server);
-const port = 3001;
-
-//이 파일은 따로 실행을 시켜줘야함. 이 디렉토리에서는 없어도 됨
+var app = require('express')();
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
 
 io.on("connection", socket => {
   socket.emit("your id", socket.id);
-
-  socket.on("send message", (body, roomName)=>{
-    //io.to(body.roomName).emit("message", body.message);
-    io.to(roomName).emit("message", body)
+  
+  socket.on("join room", data =>{
+    socket.join(data.roomName);
+    io.to(data.roomName).emit("enter room",data.user);
+    console.log("join"+data.roomName);
   })
 
-  socket.on("join room", roomName=>{
-    console.log("enter "+roomName);
-    socket.join(roomName);
+  socket.on("leave room", data =>{
+    socket.leave(data.roomName);
+    io.to(data.roomName).emit("leaved room", data.user);
+    console.log("leave"+data.roomName);
+  })
+
+  socket.on("send message", data=>{
+    io.to(data.roomName).emit("message", data)
+    console.log("received msg");
   })
 })
 
-server.listen(port, ()=> console.log("server is running on port ".port));
+http.listen(3001, ()=>{
+  console.log('listening on *:3000');
+});

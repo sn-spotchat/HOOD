@@ -14,6 +14,8 @@ const sidebarState = (state = initialState, action) =>{
             return {...state, sidebarstate: "list"};
         case actionType.SIDEBARCHAT:
             return {...state, sidebarstate: "chat"};
+        case actionType.SIDEBARTEST:
+            return {...state, sidebarstate: "test"};
         default:
             return state;
     }

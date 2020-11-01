@@ -1,10 +1,27 @@
 import React from 'react';
+import NaverLogin from 'react-naver-login';
 
-const Login = () =>{
+const Login = (props) =>{
+    const userinfo ={
+        age: undefined,
+        birthday: undefined,
+        email: undefined,
+        gender: undefined,
+        id: "00000000",
+        name: "Guest",
+        nickname: undefined,
+        profile_image: undefined
+    }
     return (
-        <div>
-            로그인 관련 화면으로 쓸려고 만들어둠 아마 필요없을거 같아서 상의후 삭제예정
-        </div>
+        <NaverLogin 
+            clientId="IiiApimgTUwcBWT8GLsw"
+            callbackUrl="https://hood-sgtmi.web.app/"
+            render={(props) => 
+            <div onClick={props.onClick}><img className = "NavigationIcon" src = {require('./naver.png')}></img></div>
+        }
+            onSuccess={(result) => console.log(result)}
+            onFailure={(result) => console.error(result)}                       
+        />   
     );
 };
 

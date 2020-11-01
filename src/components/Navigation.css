@@ -1,15 +1,20 @@
 .navigation{
-    width:60px;
+    width: 58px;
     height:100vh;
     background-color: lightgray;
-    align-items: conter;
+    align-items: center;
 }
 .NavigationIcon{
-    width:50px;
+    width: 50px;
     height:50px;
     margin-top: 3px;
     margin-left: 3px;
-    background-color: gray;
+    color: white;
     text-align: center;
+    vertical-align: center;
+    cursor: pointer;
+    background-color: #505050;
     border-radius: 10px;
+    border-width : 5px;
+    border-color : black;
 }

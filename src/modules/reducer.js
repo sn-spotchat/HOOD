@@ -2,6 +2,16 @@ import * as actionType from './action';
 
 const initialState = {
     sidebarstate: "list",
+    userinfo:{
+        age: undefined,
+        birthday: undefined,
+        email: undefined,
+        gender: undefined,
+        id: "Guest",
+        name: "Guest",
+        nickname: undefined,
+        profile_image: undefined
+    },
 }
 
 const sidebarState = (state = initialState, action) =>{

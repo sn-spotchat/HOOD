@@ -1,0 +1,16 @@
+.sidebarBtn{
+    width:400px;
+    background-color: black;
+    height:70px;
+    display: flex;
+    flex-direction: row;
+    margin-top:auto;
+}
+#listBtn{
+    flex:1;
+    background-color: red;
+}
+#chatBtn{
+    flex:1;
+    background-color: yellow;
+}

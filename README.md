@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+# KINDHOOD
+네이버 FE 프로젝트 4 - 2팀 레포
+
+프로젝트 진행상황을 정리한 [위키문서 :book:](http://cscp2.sogang.ac.kr/CSE4187/index.php/Tmi#.ED.94.84.EB.A1.9C.EC.A0.9D.ED.8A.B8_.EC.9D.BC.EB.B0.98.EC.82.AC.ED.95.AD)
+
+
+프로젝트 진행상황을 공유하는 [노션 :calendar:](https://www.notion.so/e34e7d75bb854c0dbe09250868c6af46?v=064ee8a7ad944ef7a5db32c23a44f125)
+=======
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -66,3 +75,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+>>>>>>> b17e28c4864d879e0bdd82b21cd3ff580dd07ade

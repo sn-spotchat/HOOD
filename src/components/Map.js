@@ -35,20 +35,20 @@ const Map = () =>{
 
   return (
     <div className="mapWrap">
-          <div id="sideBar" className="sideBar">
-            <SidebarContainer></SidebarContainer>
-          </div>
-          <button onClick={changeDisplay}>button</button>
-          <div className="map">
-            <RenderAfterNavermapsLoaded
-              ncpClientId={'5blqxkrbsw'} // 자신의 네이버 계정에서 발급받은 Client ID
-              error={<p>Maps Load Error</p>}
-              loading={<p>Maps Loading...</p>}
-              >
-              <NaverMapAPI />
-            </RenderAfterNavermapsLoaded>
-          </div>
-        </div>
+      <div id="sideBar" className="sideBar">
+        <SidebarContainer></SidebarContainer>
+      </div>
+      <button onClick={changeDisplay}>Button</button>
+      <div className="map">
+        <RenderAfterNavermapsLoaded
+          ncpClientId={'5blqxkrbsw'} // 자신의 네이버 계정에서 발급받은 Client ID
+          error={<p>Maps Load Error</p>}
+          loading={<p>Maps Loading...</p>}
+        >
+          <NaverMapAPI />
+        </RenderAfterNavermapsLoaded>
+      </div>
+    </div>
   );
 };
 

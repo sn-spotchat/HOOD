@@ -1,10 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import NaverLogin from 'react-naver-login';
+import {useSelector, useDispatch} from 'react-redux';
+import * as actionType from '../modules/action';
 
-const Login = () =>{
+const Login = (props) =>{
+    const [profile, setProfile] = useState();
+
+    const ProfileObject = {
+        age: undefined,
+        birthday: undefined,
+        email: undefined,
+        gender: undefined,
+        id: "00000000",
+        name: "GUEST",
+        nickname: undefined,
+        profile_image: undefined,
+    }
+
+    const sidebarstate = useSelector(state => state.reducer, []);
+    const dispatch = useDispatch();
+
+    useEffect((result) => {
+        setProfile(profile => result);
+    }, []);
+
     return (
-        <div>
-            로그인 관련 화면으로 쓸려고 만들어둠 아마 필요없을거 같아서 상의후 삭제예정
-        </div>
+        <NaverLogin 
+            //clientId="IiiApimgTUwcBWT8GLsw"
+            clientId="dgwFUqPZTSWhHSO0FkGl"
+            //callbackUrl="https://hood-sgtmi.web.app/"
+            callbackUrl="http://127.0.0.1:3000"
+            render={(props) => 
+            <div onClick={props.onClick} >
+                <img className = "NavigationIcon" src = {require('./naver.png')}/>
+            </div>
+            }
+            onSuccess={(result) => console.log(result)}
+            onSuccess={(result) => dispatch({type: actionType.SIDEBARMYPAGE})}
+            onFailure={(result) => console.error(result)}           
+            //onSuccess={(result) => this.setProfile(result)}            
+        />   
     );
 };
 

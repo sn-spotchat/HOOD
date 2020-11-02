@@ -1,6 +1,6 @@
 import React, {Component, useEffect, useState} from 'react';
 import Home from './Home';
-import Login from './Login';
+import Mypage from './Mypage';
 import List from './List';
 import Chat from './Chat';
 import Test from './Test';
@@ -16,8 +16,8 @@ const Sidebar = ({sidebarstate}) =>{
     if(sidebarstate === 'home'){
       setSidebarType(<Home></Home>);
     }
-    else if(sidebarstate === 'login'){
-      setSidebarType(<Login></Login>);
+    else if(sidebarstate === 'mypage'){
+      setSidebarType(<Mypage></Mypage>);
     }
     else if(sidebarstate === 'list'){
       setSidebarType(<List></List>);

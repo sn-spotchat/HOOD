@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Navigation from './Navigation';
 import Map from './Map';
-import Sidebar from './Sidebar';
 import './Main.css';
 
 

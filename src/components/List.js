@@ -10,7 +10,8 @@ const List = () =>{
     setChatList(oldList => [...oldList, "sogang"]);
     setChatList(oldList => [...oldList, "daeheong"]);
     setChatList(oldList => [...oldList, "sinsu"]);
-    setChatList(oldList => [...oldList, "moreom"]);
+    setChatList(oldList => [ "moreom", "sinsu"]);
+    setChatList(oldList => [...oldList]);
   }, []);
   return (
     <div className="List">

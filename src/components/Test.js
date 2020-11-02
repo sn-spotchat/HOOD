@@ -30,7 +30,6 @@ const Test = (props) =>{
     })
   }, []);
 
-
   function receivedMessage(message){
     setMessages(oldMsgs => [...oldMsgs, message]);
   }

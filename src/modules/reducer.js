@@ -9,6 +9,7 @@ const sidebarState = (state = initialState, action) =>{
         case actionType.SIDEBARHOME:
             return {...state, sidebarstate: "home"};
         case actionType.SIDEBARMYPAGE:
+            console.log('damn');
             return {...state, sidebarstate: "mypage"};
         case actionType.SIDEBARLIST:
             return {...state, sidebarstate: "list"};

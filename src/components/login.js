@@ -36,7 +36,7 @@ const Login = (props) =>{
             </div>
             }
             onSuccess={(result) => console.log(result)}
-            onSuccess={(result) => dispatch({type: actionType.SIDEBARMYPAGE})}
+            onSuccess={(result) => dispatch(actionType.insertUserInfo(result))}
             onFailure={(result) => console.error(result)}           
             //onSuccess={(result) => this.setProfile(result)}            
         />   

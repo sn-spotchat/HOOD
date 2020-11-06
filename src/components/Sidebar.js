@@ -1,7 +1,8 @@
 import React, {Component, useEffect, useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import Home from './Home';
 import Mypage from './Mypage';
-import List from './List';
+import Near from './Near';
 import Chat from './Chat';
 import Test from './Test';
 import './Sidebar.css';
@@ -10,23 +11,22 @@ import './Sidebar.css';
 */
 const Sidebar = ({sidebarstate}) =>{
   const [sidebarType, setSidebarType] = useState(sidebarstate);
-  
+  const chat = useSelector(state => state.chatreducer, []);
   useEffect(() =>{
-    console.log(sidebarstate);
     if(sidebarstate === 'home'){
       setSidebarType(<Home></Home>);
     }
     else if(sidebarstate === 'mypage'){
       setSidebarType(<Mypage></Mypage>);
     }
-    else if(sidebarstate === 'list'){
-      setSidebarType(<List></List>);
+    else if(sidebarstate === 'near'){
+      setSidebarType(<Near></Near>);
     }
     else if(sidebarstate === 'chat'){
       setSidebarType(<Chat></Chat>);
     }
     else if(sidebarstate === 'test'){
-      setSidebarType(<Test chatRoomName="sinsu"></Test>);
+      setSidebarType(<Test chatRoomName={chat.chatname}></Test>);
     }
   },[sidebarstate]);
     

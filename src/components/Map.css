@@ -12,7 +12,7 @@
     left:60px;
     z-index: 1;
 }
-.sideBar{
+#sideBar{
     width:340px;
     height:100vh;
     position:relative;

@@ -21,7 +21,7 @@ function NaverMapAPI() {
 
 const Map = () =>{
   const [sideType, setSideType] = useState("block"); //사이드바의 타입(지금은 chat, list, 채팅방)
-  const [sideDisplay, setSideDisplay] = useState("list"); //사이드바의 display를 none, block 설정
+  const [sideDisplay, setSideDisplay] = useState("near"); //사이드바의 display를 none, block 설정
 
   function changeDisplay(){
     if(sideDisplay === "none"){

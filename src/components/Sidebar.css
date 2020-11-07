@@ -1,12 +1,13 @@
 .sidebar{
-    width: 100%;
+    width: 340px;
     height:100%;
     background: white;
     display: flex;
 }
-.sidebarBody{
-    width:100%;
-    height:100%;
-    display:flex;
-    background-color: white;
+.head{
+    width:340px;
+    height:50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

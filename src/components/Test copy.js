@@ -25,7 +25,6 @@ const Test = (props) =>{
     })
     socketRef.current.on("message", (message) =>{
       receivedMessage(message);
-      console.log(message);
     })
   }, []);
 

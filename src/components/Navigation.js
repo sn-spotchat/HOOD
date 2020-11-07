@@ -20,7 +20,6 @@ const Navigation = () =>{
             <div id="home" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarhomeObject)}>Home</div>
             <div id="near" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarnearObject)}>Near</div>
             <div id="chat" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarchatObject)}>Chat</div>
-            <div id="test" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebartestObject)}>Test</div>
         </div>
     );
 };

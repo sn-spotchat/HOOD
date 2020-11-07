@@ -4,8 +4,15 @@ import initialState from './store';
 const chatreducer = (state = initialState, action) =>{
     switch(action.type){
         case actionType.CHATNAME:
-            console.log(action.name);
             return {...state, chatname: action.name};
+        case actionType.INSERTCHAT:
+            return {...state, chatlist: [...state.chatlist, {name:action.name}]};
+        case actionType.REMOVECHAT:
+            return {...state, chatlist: state.chatlist.filter((obj)=>{
+                if(obj.name !== action.name){
+                    return obj;
+                }
+            })};
         default:
             return state;
     }

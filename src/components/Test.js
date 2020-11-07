@@ -29,7 +29,6 @@ const Test = (props) =>{
     })
     socketRef.current.on("message", (message) =>{
       receivedMessage(message);
-      console.log(message);
     })
   }, []);
 
@@ -48,13 +47,13 @@ const Test = (props) =>{
     socketRef.current.emit("send message", messageObject);
   }
 
-  function leaveRoom(){
+  function leaveRoom(chatname){
     const dataObject = {
       user: yourID,
       roomName: props.chatRoomName,
     };
     socketRef.current.emit("leave room", dataObject);
-    console.log("leave room");
+    dispatch(actionType.removechat(chatname));
   }
 
   function handleChange(e){
@@ -65,7 +64,7 @@ const Test = (props) =>{
       <div className="chatHead">
         <button id="backBtn" onClick={()=>dispatch(actionType.sidebarchatObject)}>back</button>
         {props.chatRoomName}
-        <button id="exitChatroomBtn" onClick={leaveRoom}>exit</button>
+        <button id="exitChatroomBtn" onClick={() =>{leaveRoom(props.chatRoomName); dispatch(actionType.sidebarnearObject);}}>exit</button>
       </div>
       <div className="chatBody">
         {messages.map((message, index) => {

@@ -1,9 +1,10 @@
 import React from 'react';
-
+import './Home.css';
 const Home = () =>{
     return (
         <div>
-            홈 화면으로 쓸려고 만들어둠
+            <div id="homehead" className="head">Home</div>
+            <div id="homebody" className="body"></div>
         </div>
     );
 };

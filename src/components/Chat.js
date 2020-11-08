@@ -10,7 +10,7 @@ const Chat = () =>{
   const chat = useSelector(state => state.chatreducer, []);
   useEffect(()=>{//정보를 받아와 리스트를 작성한다.
     for(var i = 0; i < chat.chatlist.length; i++){
-      var temp = chat.chatlist[i].name;
+      const temp = chat.chatlist[i].name;
       setChatList(oldList => [...oldList, temp]);
     }
   }, []);
@@ -18,6 +18,7 @@ const Chat = () =>{
     <div className="Chat">
       <div id="chathead" className="head">Chat</div>
       {chatList.map((chatRoom,index) => {
+        console.log(chatList);
         return ( 
           <div className="ChatRaw" key={index} onClick={ () =>{
             dispatch(actionType.sidebartestObject);

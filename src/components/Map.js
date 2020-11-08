@@ -4,7 +4,20 @@ import Sidebar from './Sidebar';
 import SidebarContainer from '../containers/SidebarContainer';
 import { RenderAfterNavermapsLoaded, NaverMap } from 'react-naver-maps'; // 패키지 불러오기
 
-function NaverMapAPI() {
+const NaverMapAPI = () => {  
+  const [lat, setLat] = useState(0.0);
+  const [lng, setLng] = useState(0.0);
+  function ddd(position){
+    setLat(position.coords.latitude);
+    setLng(position.coords.longitude);
+    alert(position.coords.latitude+' '+position.coords.longitude);
+  }
+  /*if (navigator.geolocation) { // GPS를 지원하면
+    navigator.geolocation.getCurrentPosition(ddd);
+  } else {
+    alert('GPS를 지원하지 않습니다');
+  }*/
+  useEffect(()=>{navigator.geolocation.getCurrentPosition(ddd);},[]);
   return (
     <NaverMap
       mapDivId={'maps-getting-started-uncontrolled'} // default: react-naver-map
@@ -13,6 +26,7 @@ function NaverMapAPI() {
         height: '100%' // 네이버지도 세로 길이
       }}
       defaultCenter={{ lat: 37.554722, lng: 126.970833 }} // 지도 초기 위치
+      //defaultCenter={{ lat: lat, lng: lng }}
       defaultZoom={13} // 지도 초기 확대 배율
     />
   );

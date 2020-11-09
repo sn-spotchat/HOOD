@@ -1,5 +1,6 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {Component, useEffect, useState, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import io from 'socket.io-client';
 import Home from './Home';
 import Mypage from './Mypage';
 import Near from './Near';
@@ -12,6 +13,10 @@ import './Sidebar.css';
 const Sidebar = ({sidebarstate}) =>{
   const [sidebarType, setSidebarType] = useState(sidebarstate);
   const chat = useSelector(state => state.chatreducer, []);
+  const socketRef = useRef();
+  useEffect(() =>{
+    socketRef.current = io.connect("http://localhost:3001");
+  },[]);
   useEffect(() =>{
     if(sidebarstate === 'home'){
       setSidebarType(<Home></Home>);
@@ -26,7 +31,7 @@ const Sidebar = ({sidebarstate}) =>{
       setSidebarType(<Chat></Chat>);
     }
     else if(sidebarstate === 'test'){
-      setSidebarType(<Test chatRoomName={chat.chatname}></Test>);
+      setSidebarType(<Test chatRoomName={chat.chatname} socket={socketRef}></Test>);
     }
   },[sidebarstate]);
     

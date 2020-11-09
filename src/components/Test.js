@@ -12,22 +12,34 @@ const Test = (props) =>{
   
   const socketRef = useRef();
   const dispatch = useDispatch();
-  const sidebarstate = useSelector(state => state.reducer, []);
+  const chat = useSelector(state => state.chatreducer, []);
+  const date = new Date();
 
   useEffect(() => {
     socketRef.current = io.connect("http://localhost:3001");//나중에 서버에 Server.js를 올리게 되면 바꿔야함.
-    //socketRef.current = io.connect("192.168.55.20:3001");//나중에 서버에 Server.js를 올리게 되면 바꿔야함.
-    //socketRef.current = io.connect("192.168.55.:3001");//나중에 서버에 Server.js를 올리게 되면 바꿔야함.
-    
+    //socketRef.current = props.socket.current;
+    const flag=false;
+    for(var i = 0; i < chat.chatlist.length; i++){
+      const temp = chat.chatlist[i].chatname;
+      if(props.chatRoomName == temp){flag =true; break;}
+    }
     const dataObject = {
       user: yourID,
       roomName: props.chatRoomName,
     };
-    socketRef.current.emit("join room", dataObject);
+    if(flag === false){//새롭게 들어가는 방인 경우
+      socketRef.current.emit("join room", dataObject);
+    }
+    else{//chat목록에 있는 방인 경우
+      //저장해 놓은 채팅방의 채팅 내역을 불러오는 내용 작성
+      socketRef.current.emit("rejoin room", dataObject);
+    }
     socketRef.current.on("your id", id =>{
+      console.log("your id");
       setYourID(id);
     })
     socketRef.current.on("message", (message) =>{
+      console.log("message");
       receivedMessage(message);
     })
   }, []);
@@ -71,6 +83,7 @@ const Test = (props) =>{
             if(message.id === yourID){
               return ( 
                 <div className="MyRow" key={index}>
+                  <div className="MyTime">{date.getHours()}:{date.getMinutes()}</div>
                   <div className="MyMsg">
                     {message.body}
                   </div>
@@ -79,8 +92,14 @@ const Test = (props) =>{
             }
             return (
               <div className="PeerRow" key={index}>
-                <div className="PeerMsg">
-                  {message.body}
+                <div className="PeerInfo">
+                  <div className="PeerName">peer</div>
+                </div>
+                <div className="PeerMsgInfo">
+                  <div className="PeerMsg">
+                    {message.body}
+                  </div>
+                  <div className="PeerTime">{date.getHours()}:{date.getMinutes()}</div>
                 </div>
               </div>
             )

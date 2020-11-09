@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import * as actionType from '../modules/action';
 import './Navigation.css';
-import Login from './login';
+import Login from './Login';
 
 /*
 추가해야 할 사항:
@@ -23,5 +23,5 @@ const Navigation = () =>{
         </div>
     );
 };
-  
+
 export default Navigation;

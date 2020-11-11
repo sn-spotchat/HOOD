@@ -14,10 +14,32 @@ const Test = (props) =>{
   const dispatch = useDispatch();
   const chat = useSelector(state => state.chatreducer, []);
   const date = new Date();
-
+//username을 소켓아이디로 해서 매번 다름. 수정해야함
+function writeMsgData(name, msg, chatroomname) {
+  database.ref('chatlastdata/'+chatroomname).once('value', (snapshot) =>{
+    var Id = snapshot.val().id+1;
+    var Date = date.getFullYear()+"."+date.getMonth()+"."+date.getDay();
+    var Time = date.getHours()+":"+date.getMinutes();
+    database.ref('chatdata/' + chatroomname + '/' + Id).set({
+      username: name,
+      message: msg,
+      date: Date,
+      time: Time
+    });
+    database.ref('chatlastdata/' + chatroomname).set({
+      id: Id,
+      username: name,
+      message: msg,
+      date: Date,
+      time: Time
+    });
+  });
+}
+//
   useEffect(() => {
     socketRef.current = io.connect("http://localhost:3001");//나중에 서버에 Server.js를 올리게 되면 바꿔야함.
-    //socketRef.current = props.socket.current;
+    //socketRef.current = props.socket.current;//하면 모든 클라이언트의 소켓이 같아짐.
+    
     const flag=false;
     for(var i = 0; i < chat.chatlist.length; i++){
       const temp = chat.chatlist[i].chatname;
@@ -55,6 +77,8 @@ const Test = (props) =>{
       id: yourID,
       roomName: props.chatRoomName,
     };
+    writeMsgData(yourID, message, props.chatRoomName);
+    
     setMessage("");
     socketRef.current.emit("send message", messageObject);
   }

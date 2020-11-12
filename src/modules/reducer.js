@@ -13,9 +13,6 @@ const sidebarState = (state = initialState, action) =>{
             return {...state, sidebarstate: "chat"};
         case actionType.SIDEBARTEST:
             return {...state, sidebarstate: "test"};
-        case actionType.INSERTUSERINFO:
-            console.log('this is test'+action.userinfo);
-            return {...state, userinfo: action.userinfo};
         default:
             return state;
     }

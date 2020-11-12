@@ -47,8 +47,6 @@ const Test = (props) =>{
   }
 //
   useEffect(() => {
-    socketRef.current = io.connect("http://localhost:3001");//나중에 서버에 Server.js를 올리게 되면 바꿔야함.
-    //socketRef.current = props.socket.current;//하면 모든 클라이언트의 소켓이 같아짐.
     
     var flag=false;
     for(var i = 0; i < chat.chatlist.length; i++){

@@ -5,7 +5,7 @@ const initialState = {
     chatname: undefined,
     newchat: true,
     chatlist: [],
-    userinfo:{
+    profile:{
         age: undefined,
         birthday: undefined,
         email: undefined,

@@ -9,6 +9,8 @@ export const REMOVECHAT = 'chat/remove';
 export const NEWCHAT = 'chat/newchat';
 export const OLDCHAT = 'chat/oldchat';
 
+
+
 export const sidebarhome = () => ({type:SIDEBARHOME});
 export const sidebarmypage = () => ({type:SIDEBARMYPAGE});
 export const sidebarnear = () => ({type:SIDEBARNEAR});
@@ -27,5 +29,8 @@ export const sidebarchatObject = {type:SIDEBARCHAT};
 export const sidebartestObject = {type:SIDEBARTEST};
 export const chatnameObject = {type:CHATNAME};
 //
-export const INSERTUSERINFO = 'insertuserinfo';
-export const insertUserInfo = (userInfo) =>({type:INSERTUSERINFO, userinfo:userInfo});
+
+export const INSERTPROFILE = 'insertprofile';
+export const LOADPROFILE = 'loadprofile';
+export const insertprofile = (profile) =>({type:INSERTPROFILE, profile: profile});
+export const loadprofile = (profile) =>({type:LOADPROFILE, profile: profile});

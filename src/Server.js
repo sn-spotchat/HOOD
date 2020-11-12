@@ -1,4 +1,10 @@
-var app = require('express')();
+
+var cors = require('cors');
+var express = require('express');
+var router = express.Router();
+router.get('/', cors(), (req, res)=> {res.send('cors!')});
+
+var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
@@ -23,6 +29,7 @@ io.on("connection", socket => {
   })
 })
 
-http.listen(3001, ()=>{
-  console.log('listening on *:3001');
+var port = 3001;
+http.listen(port, ()=>{
+  console.log('listening on *:' + port);
 });

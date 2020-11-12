@@ -10,8 +10,9 @@ const Login = (props) =>{
             //deploy
             //clientId="IiiApimgTUwcBWT8GLsw"            
             //callbackUrl="https://hood-sgtmi.web.app/"
+            
             //local
-            clientId="dgwFUqPZTSWhHSO0FkGl"            
+            clientId="dgwFUqPZTSWhHSO0FkGl"
             callbackUrl="http://localhost:3000"
             render={(props) => 
             <div onClick={props.onClick} >
@@ -20,8 +21,8 @@ const Login = (props) =>{
             }
             onSuccess={(result) => console.log(result)}
             onSuccess={(result) => dispatch(actionType.insertprofile(result))}
-            onFailure={(result) => console.error(result)}           
-            //onSuccess={(result) => this.setProfile(result)}            
+            //onFailure={(result) => console.error(result)}           
+            
         />   
     );
 };

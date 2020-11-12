@@ -4,7 +4,7 @@ const initialState = {
     sidebarstate: "home",
     chatname: undefined,
     chatlist: [],
-    userinfo:{
+    profile:{
         age: undefined,
         birthday: undefined,
         email: undefined,

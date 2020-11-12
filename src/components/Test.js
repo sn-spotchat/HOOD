@@ -15,9 +15,7 @@ const Test = (props) =>{
   const sidebarstate = useSelector(state => state.reducer, []);
 
   useEffect(() => {
-    socketRef.current = io.connect("http://localhost:3001");//나중에 서버에 Server.js를 올리게 되면 바꿔야함.
-    //socketRef.current = io.connect("192.168.55.20:3001");//나중에 서버에 Server.js를 올리게 되면 바꿔야함.
-    //socketRef.current = io.connect("192.168.55.:3001");//나중에 서버에 Server.js를 올리게 되면 바꿔야함.
+    socketRef.current = io.connect("http://localhost:3001");  //나중에 서버에 Server.js를 올리게 되면 바꿔야함.
     
     const dataObject = {
       user: yourID,

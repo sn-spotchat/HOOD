@@ -47,7 +47,7 @@ const Test = (props) =>{
   }
 //
   useEffect(() => {
-    
+    socketRef.current = io.connect("http://localhost:3001");  //나중에 서버에 Server.js를 올리게 되면 바꿔야함.
     var flag=false;
     for(var i = 0; i < chat.chatlist.length; i++){
       const temp = chat.chatlist[i].name;
@@ -70,7 +70,7 @@ const Test = (props) =>{
       readMsgDate(props.chatRoomName);
     }
     socketRef.current.on("your id", id =>{
-      setYourID(chat.userinfo.id);
+      setYourID(chat.profile.id);
       setSocketID(id);
     })
     socketRef.current.on("message", (message) =>{

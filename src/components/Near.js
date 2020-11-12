@@ -23,14 +23,17 @@ const Near = () =>{
   function insertChat(chatRoom){
     var exist = false;
     for(var i = 0; i < chat.chatlist.length; i++){//foreach를 이용해도 될거로 보이는데 문법적용이 잘 안됨.
-      if(chat.chatlist[i].name === chatRoom){
+      const temp = chat.chatlist[i].name;
+      if(temp === chatRoom){
         exist = true;
         break;
       }
     }
     if(exist===false){
+      dispatch(actionType.newchat());
       dispatch(actionType.insertchat(chatRoom));
     }
+    else{dispatch(actionType.oldchat());}
   }
 
   return (

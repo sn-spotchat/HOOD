@@ -7,6 +7,7 @@ import * as actionType from '../modules/action';
 //지금은 채팅방이 1개인 임시지만, 후에 socket.join을 이용해서 여러개의 방을 만들 생각임 
 const Test = (props) =>{
   const [yourID, setYourID] = useState();//나의 아이디
+  const [socketID, setSocketID] = useState();
   const [messages, setMessages] = useState([]);//모든 메시지(server로부터 받은 모든 메시지)
   const [message, setMessage] = useState("");//내가 입력한 메시지
   
@@ -15,50 +16,64 @@ const Test = (props) =>{
   const chat = useSelector(state => state.chatreducer, []);
   const date = new Date();
 //username을 소켓아이디로 해서 매번 다름. 수정해야함
-function writeMsgData(name, msg, chatroomname) {
-  database.ref('chatlastdata/'+chatroomname).once('value', (snapshot) =>{
-    var Id = snapshot.val().id+1;
-    var Date = date.getFullYear()+"."+date.getMonth()+"."+date.getDay();
-    var Time = date.getHours()+":"+date.getMinutes();
-    database.ref('chatdata/' + chatroomname + '/' + Id).set({
-      username: name,
-      message: msg,
-      date: Date,
-      time: Time
+  function writeMsgData(name, msg, chatroomname) {
+    database.ref('chatlastdata/'+chatroomname).once('value', (snapshot) =>{
+      var Id = snapshot.val().id+1;
+      var Date = date.getFullYear()+"."+date.getMonth()+"."+date.getDay();
+      var Time = date.getHours()+":"+date.getMinutes();
+      database.ref('chatdata/' + chatroomname + '/' + Id).set({
+        username: name,
+        message: msg,
+        date: Date,
+        time: Time
+      });
+      database.ref('chatlastdata/' + chatroomname).set({
+        id: Id,
+        username: name,
+        message: msg,
+        date: Date,
+        time: Time
+      });
     });
-    database.ref('chatlastdata/' + chatroomname).set({
-      id: Id,
-      username: name,
-      message: msg,
-      date: Date,
-      time: Time
+  }
+  function readMsgDate(chatroomname){
+    database.ref('chatdata/').child(chatroomname).once('value', (snapshot) =>{
+      const msgdata = snapshot.val();
+      for(var i = 0; i<snapshot.numChildren(); i++){
+        console.log(msgdata[i]);
+        setMessages(oldMsgs => [...oldMsgs, msgdata[i]]);
+      }
     });
-  });
-}
+  }
 //
   useEffect(() => {
     socketRef.current = io.connect("http://localhost:3001");//나중에 서버에 Server.js를 올리게 되면 바꿔야함.
     //socketRef.current = props.socket.current;//하면 모든 클라이언트의 소켓이 같아짐.
     
-    const flag=false;
+    var flag=false;
     for(var i = 0; i < chat.chatlist.length; i++){
-      const temp = chat.chatlist[i].chatname;
-      if(props.chatRoomName == temp){flag =true; break;}
+      const temp = chat.chatlist[i].name;
+      if(temp === props.chatRoomName){
+        flag = true; break;
+      }
     }
     const dataObject = {
       user: yourID,
       roomName: props.chatRoomName,
     };
-    if(flag === false){//새롭게 들어가는 방인 경우
+    if(chat.newchat === true){//새롭게 들어가는 방인 경우
+      console.log("new");
       socketRef.current.emit("join room", dataObject);
     }
     else{//chat목록에 있는 방인 경우
       //저장해 놓은 채팅방의 채팅 내역을 불러오는 내용 작성
+      console.log("old");
       socketRef.current.emit("rejoin room", dataObject);
+      readMsgDate(props.chatRoomName);
     }
     socketRef.current.on("your id", id =>{
-      console.log("your id");
-      setYourID(id);
+      setYourID(chat.userinfo.id);
+      setSocketID(id);
     })
     socketRef.current.on("message", (message) =>{
       console.log("message");
@@ -73,9 +88,10 @@ function writeMsgData(name, msg, chatroomname) {
   function sendMessage(e){
     e.preventDefault();
     const messageObject = {
-      body: message,
+      message: message,
       id: yourID,
       roomName: props.chatRoomName,
+      time: date.getHours()+':'+date.getMinutes(),
     };
     writeMsgData(yourID, message, props.chatRoomName);
     
@@ -104,12 +120,12 @@ function writeMsgData(name, msg, chatroomname) {
       </div>
       <div className="chatBody">
         {messages.map((message, index) => {
-            if(message.id === yourID){
+            if(message.username === yourID){
               return ( 
                 <div className="MyRow" key={index}>
-                  <div className="MyTime">{date.getHours()}:{date.getMinutes()}</div>
+                  <div className="MyTime">{message.time}</div>
                   <div className="MyMsg">
-                    {message.body}
+                    {message.message}
                   </div>
                 </div>
               )
@@ -121,9 +137,9 @@ function writeMsgData(name, msg, chatroomname) {
                 </div>
                 <div className="PeerMsgInfo">
                   <div className="PeerMsg">
-                    {message.body}
+                    {message.message}
                   </div>
-                  <div className="PeerTime">{date.getHours()}:{date.getMinutes()}</div>
+                  <div className="PeerTime">{message.time}</div>
                 </div>
               </div>
             )

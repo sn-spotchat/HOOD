@@ -18,9 +18,10 @@ const Chat = () =>{
     <div className="Chat">
       <div id="chathead" className="head">Chat</div>
       {chatList.map((chatRoom,index) => {
-        console.log(chatList);
+        
         return ( 
           <div className="ChatRaw" key={index} onClick={ () =>{
+            dispatch(actionType.oldchat());
             dispatch(actionType.sidebartestObject);
             dispatch(actionType.chatname(chatRoom));
             }

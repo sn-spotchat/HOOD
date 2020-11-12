@@ -29,7 +29,7 @@ const Login = (props) =>{
             //clientId="IiiApimgTUwcBWT8GLsw"
             clientId="dgwFUqPZTSWhHSO0FkGl"
             //callbackUrl="https://hood-sgtmi.web.app/"
-            callbackUrl="http://127.0.0.1:3000"
+            callbackUrl="http://localhost:3000"
             render={(props) => 
             <div onClick={props.onClick} >
                 <img className = "NavigationIcon" src = {require('./naver.png')}/>

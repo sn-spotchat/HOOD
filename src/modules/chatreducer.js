@@ -13,6 +13,10 @@ const chatreducer = (state = initialState, action) =>{
                     return obj;
                 }
             })};
+        case actionType.NEWCHAT:
+            return {...state, newchat: true};
+        case actionType.OLDCHAT:
+            return {...state, newchat: false};
         default:
             return state;
     }

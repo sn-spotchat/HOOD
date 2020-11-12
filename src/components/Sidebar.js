@@ -13,10 +13,10 @@ import './Sidebar.css';
 const Sidebar = ({sidebarstate}) =>{
   const [sidebarType, setSidebarType] = useState(sidebarstate);
   const chat = useSelector(state => state.chatreducer, []);
-  const socketRef = useRef();
+  /*const socketRef = useRef();
   useEffect(() =>{
     socketRef.current = io.connect("http://localhost:3001");
-  },[]);
+  },[]);*/
   useEffect(() =>{
     if(sidebarstate === 'home'){
       setSidebarType(<Home></Home>);
@@ -31,7 +31,7 @@ const Sidebar = ({sidebarstate}) =>{
       setSidebarType(<Chat></Chat>);
     }
     else if(sidebarstate === 'test'){
-      setSidebarType(<Test chatRoomName={chat.chatname} socket={socketRef}></Test>);
+      setSidebarType(<Test chatRoomName={chat.chatname}></Test>);
     }
   },[sidebarstate]);
     

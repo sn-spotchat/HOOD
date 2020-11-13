@@ -17,30 +17,31 @@ const Test = (props) =>{
   const profilesaved = useSelector(state => state.profilereducer, {});
   const date = new Date();
 //
-  function writeMsgData(name, msg, chatroomname) {
-    /*
-    database.ref('chatlastdata/'+chatroomname).once('value', (snapshot) =>{
-      var Id = snapshot.val().id+1;
-      var Date = date.getFullYear()+"."+date.getMonth()+"."+date.getDay();
-      var Time = date.getHours()+":"+date.getMinutes();
-      database.ref('chatdata/' + chatroomname + '/' + Id).set({
-        username: name,
+  function writeMsgData(name, msg, chatroom_id) {
+    /*var chatID;
+    database.ref('chat').once('value', (snapshot) =>{
+      chatID = snapshot.numChildren();
+      database.ref('chat/' + chatroomname + '/' + chatID).set({
+        chat_id: chatID,
+        chatroom_id: chatroom_id,
         message: msg,
-        date: Date,
-        time: Time
+        time: date,
+        user_id: profilesaved.profile.id,
       });
-      database.ref('chatlastdata/' + chatroomname).set({
-        id: Id,
-        username: name,
-        message: msg,
-        date: Date,
-        time: Time
+    });
+    database.ref('chatroom/' + chatroom_id + '/chatlist').once('value', (snapshot) =>{
+      var id = snapshot.numChildren();
+      database.ref('chatroom/' + chatroom_id + '/chatlist/' + id).set({
+        chat_id: chatID,
+      });
+      database.ref('chatroom/' + chatroom_id + '/chatlastlist/' + id).update({
+        chat_id: chatID,
       });
     });
     */
   }
   function readMsgDate(chatroomname){
-    /*
+    /*수정해야함
     database.ref('chatdata/').child(chatroomname).once('value', (snapshot) =>{
       const msgdata = snapshot.val();
       for(var i = 0; i<snapshot.numChildren(); i++){
@@ -62,6 +63,27 @@ const Test = (props) =>{
 
     if(chat.newchat === true){//새롭게 들어가는 방인 경우
       console.log("new");
+      /*
+      database.ref('user').once('value', (snapshot) =>{
+        var num = snapshot.numChildren();
+        var temp = snapshot.val();
+        var user_index;
+        for(var i = 0; i<num ;i++){
+          if(temp[i].user_id === profilesaved.profile.id){
+            user_index = i;
+            break;
+          }
+        }
+        database.ref('user/' + user_index + '/chatroomlist/' + chatroom_id).once('value', (snapshot) =>{
+          var id = snapshot.numChildren();
+          database.ref('user/' + user_index + '/chatroomlist/' + id).set({
+            chatroom_id: chatroom_id,
+            start_chatg_id: 0,//추가로 적어줘야함.
+            time: date,
+          });
+        });
+      });
+      */
       socketRef.current.emit("join room", dataObject);
     }
     else{//chat목록에 있는 방인 경우
@@ -106,7 +128,7 @@ const Test = (props) =>{
     };
     socketRef.current.emit("leave room", dataObject);
     dispatch(actionType.removechat(chatname));
-  }
+  } 
 
   function handleChange(e){
     setMessage(e.target.value);

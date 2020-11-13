@@ -14,29 +14,34 @@ const Test = (props) =>{
   const socketRef = useRef();
   const dispatch = useDispatch();
   const chat = useSelector(state => state.chatreducer, []);
+  const profilesaved = useSelector(state => state.profilereducer, {});
   const date = new Date();
-//username을 소켓아이디로 해서 매번 다름. 수정해야함
-  function writeMsgData(name, msg, chatroomname) {
-    database.ref('chatlastdata/'+chatroomname).once('value', (snapshot) =>{
-      var Id = snapshot.val().id+1;
-      var Date = date.getFullYear()+"."+date.getMonth()+"."+date.getDay();
-      var Time = date.getHours()+":"+date.getMinutes();
-      database.ref('chatdata/' + chatroomname + '/' + Id).set({
-        username: name,
+//
+  function writeMsgData(name, msg, chatroom_id) {
+    /*var chatID;
+    database.ref('chat').once('value', (snapshot) =>{
+      chatID = snapshot.numChildren();
+      database.ref('chat/' + chatroomname + '/' + chatID).set({
+        chat_id: chatID,
+        chatroom_id: chatroom_id,
         message: msg,
-        date: Date,
-        time: Time
-      });
-      database.ref('chatlastdata/' + chatroomname).set({
-        id: Id,
-        username: name,
-        message: msg,
-        date: Date,
-        time: Time
+        time: date,
+        user_id: profilesaved.profile.id,
       });
     });
+    database.ref('chatroom/' + chatroom_id + '/chatlist').once('value', (snapshot) =>{
+      var id = snapshot.numChildren();
+      database.ref('chatroom/' + chatroom_id + '/chatlist/' + id).set({
+        chat_id: chatID,
+      });
+      database.ref('chatroom/' + chatroom_id + '/chatlastlist/' + id).update({
+        chat_id: chatID,
+      });
+    });
+    */
   }
   function readMsgDate(chatroomname){
+    /*수정해야함
     database.ref('chatdata/').child(chatroomname).once('value', (snapshot) =>{
       const msgdata = snapshot.val();
       for(var i = 0; i<snapshot.numChildren(); i++){
@@ -44,37 +49,55 @@ const Test = (props) =>{
         setMessages(oldMsgs => [...oldMsgs, msgdata[i]]);
       }
     });
+    */
   }
 //
   useEffect(() => {
     socketRef.current = io.connect("http://localhost:3001");  //나중에 서버에 Server.js를 올리게 되면 바꿔야함.
-    var flag=false;
-    for(var i = 0; i < chat.chatlist.length; i++){
-      const temp = chat.chatlist[i].name;
-      if(temp === props.chatRoomName){
-        flag = true; break;
-      }
-    }
+    console.log(profilesaved.profile.id);
+
     const dataObject = {
-      user: yourID,
+      user_id: profilesaved.profile.id,
       roomName: props.chatRoomName,
     };
+
     if(chat.newchat === true){//새롭게 들어가는 방인 경우
       console.log("new");
+      /*
+      database.ref('user').once('value', (snapshot) =>{
+        var num = snapshot.numChildren();
+        var temp = snapshot.val();
+        var user_index;
+        for(var i = 0; i<num ;i++){
+          if(temp[i].user_id === profilesaved.profile.id){
+            user_index = i;
+            break;
+          }
+        }
+        database.ref('user/' + user_index + '/chatroomlist/' + chatroom_id).once('value', (snapshot) =>{
+          var id = snapshot.numChildren();
+          database.ref('user/' + user_index + '/chatroomlist/' + id).set({
+            chatroom_id: chatroom_id,
+            start_chatg_id: 0,//추가로 적어줘야함.
+            time: date,
+          });
+        });
+      });
+      */
       socketRef.current.emit("join room", dataObject);
     }
     else{//chat목록에 있는 방인 경우
-      //저장해 놓은 채팅방의 채팅 내역을 불러오는 내용 작성
       console.log("old");
       socketRef.current.emit("rejoin room", dataObject);
       readMsgDate(props.chatRoomName);
     }
+
     socketRef.current.on("your id", id =>{
-      setYourID(chat.profile.id);
+      setYourID(profilesaved.profile.id);
       setSocketID(id);
     })
     socketRef.current.on("message", (message) =>{
-      console.log("message");
+      console.log(message.user_id);
       receivedMessage(message);
     })
   }, []);
@@ -87,11 +110,12 @@ const Test = (props) =>{
     e.preventDefault();
     const messageObject = {
       message: message,
-      id: yourID,
+      user_id: profilesaved.profile.id,
+      user_name: profilesaved.profile.name,
       roomName: props.chatRoomName,
       time: date.getHours()+':'+date.getMinutes(),
     };
-    writeMsgData(yourID, message, props.chatRoomName);
+    writeMsgData(profilesaved.profile.id, message, props.chatRoomName);
     
     setMessage("");
     socketRef.current.emit("send message", messageObject);
@@ -99,12 +123,12 @@ const Test = (props) =>{
 
   function leaveRoom(chatname){
     const dataObject = {
-      user: yourID,
+      user_id: profilesaved.profile.id,
       roomName: props.chatRoomName,
     };
     socketRef.current.emit("leave room", dataObject);
     dispatch(actionType.removechat(chatname));
-  }
+  } 
 
   function handleChange(e){
     setMessage(e.target.value);
@@ -118,7 +142,7 @@ const Test = (props) =>{
       </div>
       <div className="chatBody">
         {messages.map((message, index) => {
-            if(message.username === yourID){
+            if(message.user_id === profilesaved.profile.id){
               return ( 
                 <div className="MyRow" key={index}>
                   <div className="MyTime">{message.time}</div>
@@ -131,7 +155,7 @@ const Test = (props) =>{
             return (
               <div className="PeerRow" key={index}>
                 <div className="PeerInfo">
-                  <div className="PeerName">peer</div>
+                  <div className="PeerName">{message.user_name}</div>
                 </div>
                 <div className="PeerMsgInfo">
                   <div className="PeerMsg">

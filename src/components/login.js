@@ -10,6 +10,7 @@ const Login = (props) =>{
             //deploy
             //clientId="IiiApimgTUwcBWT8GLsw"            
             //callbackUrl="https://hood-sgtmi.web.app/"
+            clientId="dgwFUqPZTSWhHSO0FkGl" 
             callbackUrl="http://localhost:3000"
             render={(props) => 
             <div onClick={props.onClick} >

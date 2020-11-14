@@ -7,7 +7,6 @@ import './Chat.css';
 const Chat = () =>{
   const [chatList, setChatList] = useState([]);
   const dispatch = useDispatch();
-  //const chat = useSelector(state => state.chatreducer, []);
   const profilesaved = useSelector(state => state.profilereducer, {});
   useEffect(()=>{//정보를 받아와 리스트를 작성한다.
     const user = database.ref('user/');

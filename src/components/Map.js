@@ -37,7 +37,7 @@ function PolyMap(props) {
   }
 
   function displayArea(coordinates,name){
-    var path = []
+    var path=[];
     for(var i =0;i<coordinates.length;i++){
       var coord=coordinates[i][0]
       for(var j=0;j<coord.length;j++){
@@ -55,11 +55,11 @@ function PolyMap(props) {
     const Polygonlist = polylist.map(
       (poly)=>( <Polygon 
         paths={poly}
-        // fillColor={'#ff0000'}
-        // fillOpacity={0.3}        
-        strokeColor={'#ff0000'}
-        strokeOpacity={0.6}
-        strokeWeight={3}
+        fillColor={'#ee88aa'}
+        fillOpacity={0.2}
+        strokeColor={'#ffffff'}
+        strokeOpacity={0.8}
+        strokeWeight={2}
       />)
     )
 

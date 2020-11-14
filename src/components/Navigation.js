@@ -21,11 +21,11 @@ const Navigation = () =>{
         var my = user.orderByChild("user_id").equalTo(Number(profilesaved.profile.id));
         my.once('value', (data) =>{
             if(data.val() !== null){
-                setNavList(oldList => [...oldList, {id: "near", func: "()=>dispatch(actionType.sidebarnearObject)"}]);
-                setNavList(oldList => [...oldList, {id: "chat", func: "()=>dispatch(actionType.sidebarchatObject)"}]);
+                setNavList(oldList => [...oldList, {id: "near", func: ()=>dispatch(actionType.sidebarnearObject)}]);
+                setNavList(oldList => [...oldList, {id: "chat", func: ()=>dispatch(actionType.sidebarchatObject)}]);
             }
         });
-    },[]);
+    },[profilesaved]);
 
     return (
         <div className="navigation">
@@ -41,14 +41,6 @@ const Navigation = () =>{
             })}
         </div>
     );
-    /*return (
-        <div className="navigation">
-            <div id="mypage" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarmypageObject)}>Mypage</div>
-            <div id="home" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarhomeObject)}>Home</div>
-            <div id="near" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarnearObject)}>Near</div>
-            <div id="chat" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarchatObject)}>Chat</div>
-        </div>
-    );*/
 };
 
 export default Navigation;

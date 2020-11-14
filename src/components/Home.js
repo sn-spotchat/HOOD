@@ -17,8 +17,8 @@ const Home = () =>{
         
     });
     const b = profilesaved.profile;
-    console.log('b is : ' + JSON.stringify(b));
-    console.log(b);
+    //console.log('b is : ' + JSON.stringify(b));
+    //console.log(b);
 
     return (
         <div>

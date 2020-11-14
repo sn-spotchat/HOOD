@@ -7,12 +7,23 @@ import './Chat.css';
 const Chat = () =>{
   const [chatList, setChatList] = useState([]);
   const dispatch = useDispatch();
-  const chat = useSelector(state => state.chatreducer, []);
+  //const chat = useSelector(state => state.chatreducer, []);
+  const profilesaved = useSelector(state => state.profilereducer, {});
   useEffect(()=>{//정보를 받아와 리스트를 작성한다.
-    for(var i = 0; i < chat.chatlist.length; i++){
-      const temp = chat.chatlist[i].name;
-      setChatList(oldList => [...oldList, temp]);
-    }
+    const user = database.ref('user/');
+    var my = user.orderByChild("user_id").equalTo(Number(profilesaved.profile.id));
+    my.once('value', (data) =>{
+      const dataObj = Object.values(data.val())[0];
+      const chatroom = database.ref('chatroom/');
+      for(var i = 0; i<dataObj.chatroomlist.length; i++){
+        const Chatroom_id = dataObj.chatroomlist[i].chatroom_id;
+        var target = chatroom.orderByChild("chatroom_id").equalTo(Chatroom_id);
+        target.once('value', (snapshot)=>{
+          const chatroomdata = snapshot.val();
+          setChatList(oldList => [...oldList, chatroomdata[0].name]);
+        });
+      }
+    });
   }, []);
   return (
     <div className="Chat">

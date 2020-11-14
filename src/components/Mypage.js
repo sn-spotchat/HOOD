@@ -8,7 +8,7 @@ import {database} from '../firebase.js';
 const Mypage = (props) =>{
   
  // var key = firebase.database().ref('/user').key;
-  console.log(key);
+  //console.log(key);
 
 
   return (

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import * as actionType from '../modules/action';
 import './Navigation.css';
-import Login from './Login';
+import Login from './Login.js';
 
 /*
 추가해야 할 사항:
@@ -16,10 +16,8 @@ const Navigation = () =>{
 
     return (
         <div className="navigation">
-            <div id="login"><Login/></div>
-            <div id="home" className="NavigationIcon"
-             onClick={()=>dispatch(actionType.sidebarhomeObject)}
-             >Home</div>
+            <div id="mypage" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarmypageObject)}>Mypage</div>
+            <div id="home" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarhomeObject)}>Home</div>
             <div id="near" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarnearObject)}>Near</div>
             <div id="chat" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarchatObject)}>Chat</div>
         </div>

@@ -11,7 +11,7 @@ const Login = (props) =>{
             //clientId="IiiApimgTUwcBWT8GLsw"            
             //callbackUrl="https://hood-sgtmi.web.app/"
             clientId="dgwFUqPZTSWhHSO0FkGl" 
-            callbackUrl="http://localhost:3000"
+            callbackUrl="http://localhost:3000/callback"
             render={(props) => 
             <div onClick={props.onClick} >
                 <img className = "NavigationIcon" src = {require('./naver.png')}/>
@@ -19,7 +19,7 @@ const Login = (props) =>{
             }
             onSuccess={(result) => console.log(result)}
             onSuccess={(result) => dispatch(actionType.insertprofile(result))}
-            //onFailure={(result) => console.error(result)}           
+            //onFailure={(result) => console.error(result)}          
             
         />   
     );

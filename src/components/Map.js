@@ -17,13 +17,22 @@ function PolyMap(props) {
 
   var polylist=[];
 
+  function Near(ax, ay, bx, by, range){
+    if(Math.abs(ax - bx) <= range && Math.abs(ay - by) <= range)
+      return true;
+    return false;
+  }
   function makepolygon(geojson){
     var data=geojson.features;
     $.each(data,function(index,val){
-      var coordinates=val.geometry.coordinates;
-      var name=val.properties.adm_nm;
+      var y = val.geometry.centerXY[1]; var x = val.geometry.centerXY[0];
 
-      displayArea(coordinates,name);
+      var range = 0.015
+      if(Near(x, y, geolocation.latitude, geolocation.longitude, range)){
+        var coordinates=val.geometry.coordinates;
+        var name=val.properties.adm_nm;
+        displayArea(coordinates,name);
+      }
     })
   }
 
@@ -33,19 +42,18 @@ function PolyMap(props) {
       var coord=coordinates[i][0]
       for(var j=0;j<coord.length;j++){
         if(coord)
-          path.push(new window.naver.maps.LatLng(coord[j][1],coord[j][0]))
+          path.push(new window.naver.maps.LatLng(coord[j][1],coord[j][0]))      
       }
-    }
-    polylist.push(path);
+    }    
+    polylist.push(path);    
   }
   
   makepolygon(SeoulDong)
 
-  function NaverMapAPI() {
-
+  function NaverMapAPI() { 
     const navermaps = window.naver.maps;
-    const Polygonlist=polylist.map(
-      (poly)=>(<Polygon
+    const Polygonlist = polylist.map(
+      (poly)=>( <Polygon 
         paths={poly}
         fillColor={'#ee88aa'}
         fillOpacity={0.2}
@@ -63,16 +71,10 @@ function PolyMap(props) {
           height: '100%' // 네이버지도 세로 길이
         }}
         defaultCenter={{ lat: geolocation.latitude, lng: geolocation.longitude }} // 지도 초기 위치
-        defaultZoom={18} // 지도 초기 확대 배율
+        defaultZoom={16} // 지도 초기 확대 배율
         polygons={polylist}
       >
         {Polygonlist}
-        <Marker
-          key = {1}
-          position = {new navermaps.LatLng(geolocation.latitude, geolocation.longitude)}
-          animation ={2}
-          onClick={() => {alert('현재 사용자 위치입니다')}}
-        />
       </NaverMap>
     );
   }
@@ -97,7 +99,8 @@ const Map = () =>{
   }
 
   return (
-    <div className="mapWrap">
+    
+        <div className="mapWrap">
       <div id="sideBar" className="sideBar">
         <SidebarContainer></SidebarContainer>
       </div>
@@ -108,10 +111,11 @@ const Map = () =>{
           error={<p>Maps Load Error</p>}
           loading={<p>Maps Loading...</p>}
         >
-          <PolyMap />
+          <PolyMap /> 
         </RenderAfterNavermapsLoaded>
       </div>
     </div>
+    
   );
 };
 

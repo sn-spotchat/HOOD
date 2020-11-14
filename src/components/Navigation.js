@@ -29,6 +29,9 @@ const Navigation = () =>{
 
     return (
         <div className="navigation">
+            <div>
+                <Login/>
+            </div>
             <div id="mypage" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarmypageObject)}>Mypage</div>
             <div id="home" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarhomeObject)}>Home</div>
             {NavList.map((element,index) => {

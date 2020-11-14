@@ -8,6 +8,7 @@ import Login from './Login.js';
 const Mypage = (props) =>{
   return (
     <div className="Mypage">
+      <Login/>
       Hello?
     </div>
   );

@@ -7,7 +7,7 @@ import { RenderAfterNavermapsLoaded, NaverMap, Polygon, Marker } from 'react-nav
 import SeoulDong from "./SeoulDong.json";
 import $, { map } from "jquery";
 
-function PolyMap(props) {
+const PolyMap = (props) => {
   //현재위치 반환
   const geolocation = useGeolocation({
     enableHighAccuracy: true,
@@ -15,14 +15,13 @@ function PolyMap(props) {
     timeout:  12000
   })
 
-  var polylist=[];
 
   function Near(ax, ay, bx, by, range){
     if(Math.abs(ax - bx) <= range && Math.abs(ay - by) <= range)
       return true;
     return false;
   }
-  function makepolygon(geojson){
+  function makepolygon(geojson, polylist){
     var data=geojson.features;
     $.each(data,function(index,val){
       var y = val.geometry.centerXY[1]; var x = val.geometry.centerXY[0];
@@ -31,32 +30,31 @@ function PolyMap(props) {
       if(Near(x, y, geolocation.latitude, geolocation.longitude, range)){
         var coordinates=val.geometry.coordinates;
         var name=val.properties.adm_nm;
-        displayArea(coordinates,name);
+        DisplayArea(coordinates, polylist);
       }
     })
   }
 
-  function displayArea(coordinates,name){
+  function DisplayArea(coordinates, polylist){
     var path=[];
-    for(var i =0;i<coordinates.length;i++){
-      var coord=coordinates[i][0]
-      for(var j=0;j<coord.length;j++){
-        if(coord)
-          path.push(new window.naver.maps.LatLng(coord[j][1],coord[j][0]))      
-      }
-    }    
+    coordinates[0].forEach(data =>{
+      data.forEach(Coordinate =>{
+        path.push(new window.naver.maps.LatLng(Coordinate[1],Coordinate[0]))
+      })
+    })        
     polylist.push(path);    
   }
   
-  makepolygon(SeoulDong)
 
-  function NaverMapAPI() { 
+  function NaverMapAPI() {     
+    var polylist=[];
+    makepolygon(SeoulDong, polylist)
     const navermaps = window.naver.maps;
     const Polygonlist = polylist.map(
       (poly)=>( <Polygon 
         paths={poly}
-        fillColor={'#ee88aa'}
-        fillOpacity={0.2}
+        fillColor={'#ff5033'}
+        fillOpacity={0.4}
         strokeColor={'#ffffff'}
         strokeOpacity={0.8}
         strokeWeight={2}
@@ -98,8 +96,7 @@ const Map = () =>{
     document.getElementById("sideBar").style.display=sideDisplay;
   }
 
-  return (
-    
+  return (    
         <div className="mapWrap">
       <div id="sideBar" className="sideBar">
         <SidebarContainer></SidebarContainer>
@@ -111,7 +108,7 @@ const Map = () =>{
           error={<p>Maps Load Error</p>}
           loading={<p>Maps Loading...</p>}
         >
-          <PolyMap /> 
+        <PolyMap/>
         </RenderAfterNavermapsLoaded>
       </div>
     </div>

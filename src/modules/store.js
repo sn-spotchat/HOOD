@@ -10,7 +10,7 @@ const initialState = {
         birthday: undefined,
         email: undefined,
         gender: undefined,
-        id: "Guest",
+        id: "-1",
         name: "Guest",
         nickname: undefined,
         profile_image: undefined

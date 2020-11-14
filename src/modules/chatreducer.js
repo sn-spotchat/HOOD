@@ -3,13 +3,13 @@ import initialState from './store';
 
 const chatreducer = (state = initialState, action) =>{
     switch(action.type){
-        case actionType.CHATNAME:
-            return {...state, chatname: action.name};
+        case actionType.CHATID:
+            return {...state, chatid: action.id};
         case actionType.INSERTCHAT:
-            return {...state, chatlist: [...state.chatlist, {name:action.name}]};
+            return {...state, chatlist: [...state.chatlist, {id:action.id}]};
         case actionType.REMOVECHAT:
             return {...state, chatlist: state.chatlist.filter((obj)=>{
-                if(obj.name !== action.name){
+                if(obj.id !== action.id){
                     return obj;
                 }
             })};

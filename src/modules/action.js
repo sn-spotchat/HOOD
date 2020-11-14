@@ -3,7 +3,7 @@ export const SIDEBARMYPAGE = 'sidebar/mypage';
 export const SIDEBARNEAR = 'sidebar/near';
 export const SIDEBARCHAT = 'sidebar/chat';
 export const SIDEBARTEST = 'sidebar/test';
-export const CHATNAME = 'chat/name';
+export const CHATID = 'chat/id';
 export const INSERTCHAT = 'chat/insert';
 export const REMOVECHAT = 'chat/remove';
 export const NEWCHAT = 'chat/newchat';
@@ -16,9 +16,9 @@ export const sidebarmypage = () => ({type:SIDEBARMYPAGE});
 export const sidebarnear = () => ({type:SIDEBARNEAR});
 export const sidebarchat = () => ({type:SIDEBARCHAT});
 export const sidebartest = () => ({type:SIDEBARTEST});
-export const chatname = (chatname) => ({type:CHATNAME, name:chatname});
-export const insertchat = (chatname) =>({type:INSERTCHAT, name:chatname});
-export const removechat = (chatname) =>({type:REMOVECHAT, name:chatname});
+export const chatid = (chatid) => ({type:CHATID, id:chatid});
+export const insertchat = (chatid) =>({type:INSERTCHAT, id:chatid});
+export const removechat = (chatid) =>({type:REMOVECHAT, id:chatid});
 export const newchat = ()=>({type:NEWCHAT});
 export const oldchat = ()=>({type:OLDCHAT});
 
@@ -27,7 +27,7 @@ export const sidebarmypageObject = {type:SIDEBARMYPAGE};
 export const sidebarnearObject = {type:SIDEBARNEAR};
 export const sidebarchatObject = {type:SIDEBARCHAT};
 export const sidebartestObject = {type:SIDEBARTEST};
-export const chatnameObject = {type:CHATNAME};
+export const chatidObject = {type:CHATID};
 //
 
 export const INSERTPROFILE = 'insertprofile';

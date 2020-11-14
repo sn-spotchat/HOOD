@@ -53,7 +53,7 @@ const PolyMap = (props) => {
     const Polygonlist = polylist.map(
       (poly)=>( <Polygon 
         paths={poly}
-        fillColor={'#ff5033'}
+        fillColor={'#7ec4eb'}
         fillOpacity={0.4}
         strokeColor={'#ffffff'}
         strokeOpacity={0.8}

@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import * as actionType from '../modules/action';
 import './Navigation.css';
 import { database } from '../firebase';
-import Login from './Login.js';
+import NLogin from './NLogin.js';
 
 /*
 추가해야 할 사항:
@@ -26,13 +26,10 @@ const Navigation = () =>{
             }
         });
     },[profilesaved]);
-
+ 
     return (
         <div className="navigation">
-            <div>
-                <Login/>
-            </div>
-            <div id="mypage" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarmypageObject)}>Mypage</div>
+            <div id="mypageselecter" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarmypageselecterObject)}>Mypage</div>
             <div id="home" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarhomeObject)}>Home</div>
             {NavList.map((element,index) => {
                 return ( 

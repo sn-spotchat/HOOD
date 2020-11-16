@@ -3,6 +3,7 @@ import * as actionType from './action';
 const initialState = {
     sidebarstate: "home",
     chatid: undefined,
+    mypageselecterstate: 'login',
     newchat: true,
     chatlist: [],
     profile:{

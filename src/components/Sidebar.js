@@ -2,16 +2,16 @@ import React, {Component, useEffect, useState, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import io from 'socket.io-client';
 import Home from './Home';
-import Mypage from './Mypage';
+import MypageSelecter from './MypageSelecter';
 import Near from './Near';
 import Chat from './Chat';
 import Test from './Test';
 import './Sidebar.css';
-/*
-렌더링이 2번 되는 문제가 있음 뭐가 문제인지는 모르겠지만 문제없다고 생각함.
-*/
+
 const Sidebar = ({sidebarstate}) =>{
   const [sidebarType, setSidebarType] = useState(sidebarstate);
+  const initialState = useSelector(state => state.reducer,[]);
+
   const chat = useSelector(state => state.chatreducer, []);
   /*const socketRef = useRef();
   useEffect(() =>{
@@ -21,8 +21,8 @@ const Sidebar = ({sidebarstate}) =>{
     if(sidebarstate === 'home'){
       setSidebarType(<Home></Home>);
     }
-    else if(sidebarstate === 'mypage'){
-      setSidebarType(<Mypage></Mypage>);
+    else if(sidebarstate === 'mypageselecter'){
+      setSidebarType(<MypageSelecter mypageselecterstate = {initialState.mypageselecterstate}></MypageSelecter>);
     }
     else if(sidebarstate === 'near'){
       setSidebarType(<Near></Near>);

@@ -41,7 +41,7 @@ const ChatroomBox = (props) =>{
     }
     else{
       console.log(dateObj.getDate());
-      setTime(dateObj.getDate());
+      setTime(dateObj.getFullYear()+"-"+dateObj.getMonth()+"-"+dateObj.getDate());
     }
   },[lastchatTime]);
   return (

@@ -3,9 +3,10 @@ import {useSelector, useDispatch} from 'react-redux';
 
 const Mypage= (props) =>{
     const dispatch = useDispatch();
+    const a = useSelector(state => state.profilereducer, {});
     return (
         <div>
-            this is Mypage.js
+            {JSON.stringify(a)}
         </div>
     );
 };

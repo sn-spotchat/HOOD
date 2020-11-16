@@ -4,8 +4,9 @@ import initialState from './store';
 const profilereducer = (state = initialState, action) =>{
     switch(action.type){
         case actionType.INSERTPROFILE:
-            console.log('inserted?\n');
             return {...state, profile : action.profile};
+        case actionType.LOGIN:
+            return {...state, loggedin : true};
         default:
             return state;
     }

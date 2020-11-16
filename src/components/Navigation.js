@@ -17,22 +17,17 @@ const Navigation = () =>{
     
     useEffect(()=>{
         //가입되어 있는 사람인지를 확인->user db에 있는 사람인지로 파악.
+        console.log('here');
         setNavList([]);
-        if(profilesaved.profile.name == 'Guest'){
+        if(profilesaved.loggedin == false){
             setNavList(oldList => [...oldList, {id: "Login", func: ()=>dispatch(actionType.sidebarloginObject)}]);
         }
         else{
             setNavList(oldList => [...oldList, {id: "Mypage", func: ()=>dispatch(actionType.sidebarmypageObject)}]);
+            setNavList(oldList => [...oldList, {id: "Near", func: ()=>dispatch(actionType.sidebarnearObject)}]);
+            setNavList(oldList => [...oldList, {id: "Chat", func: ()=>dispatch(actionType.sidebarchatObject)}]);
         }
-        const user = database.ref('user/');
-        var my = user.orderByChild("user_id").equalTo(Number(profilesaved.profile.id));
-        my.once('value', (data) =>{
-            if(data.val() !== null){
-                setNavList(oldList => [...oldList, {id: "Near", func: ()=>dispatch(actionType.sidebarnearObject)}]);
-                setNavList(oldList => [...oldList, {id: "Chat", func: ()=>dispatch(actionType.sidebarchatObject)}]);
-            }
-        });
-    },[profilesaved]);
+    },[profilesaved, profilesaved.loggedin]);
  
     return (
         <div className="navigation">      

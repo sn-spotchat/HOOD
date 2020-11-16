@@ -44,3 +44,7 @@ export const INSERTPROFILE = 'insertprofile';
 export const insertprofile = (profile) =>({type:INSERTPROFILE, profile: profile});
 export const insertprofileObject = {type:INSERTPROFILE};
 
+export const LOGIN = 'login';
+export const login = () =>({type : LOGIN});
+export const loginObject = {type:LOGIN};
+

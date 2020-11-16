@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {useSelector, useDispatch, connect} from 'react-redux';
-import * as action from '../modules/action';
+import * as actionType from '../modules/action';
 import NLogin from './NLogin';
 import Signin from './Signin';
 import './Login.css';
@@ -44,6 +44,7 @@ const Login = () =>{
   const oldprofile = useSelector(state => state.profilereducer, {})
   const [profile, setprofile] = useState(oldprofile['profile']);
   const [dbdata, setdbdata] = useState();
+  const [ERRFLAG, setERRFLAG] = useState(false);
   const [ID, setID] = useState('');
   const [PW, setPW] = useState('');
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const Login = () =>{
   const classes = useStyles(); 
 
   useEffect(()=>{
-    dispatch(action.insertprofile(profile));     
+    dispatch(actionType.insertprofile(profile));  
   }, [profile]);
   
   const changeID = (event) => {
@@ -62,28 +63,34 @@ const Login = () =>{
   }    
 
   const Authenticate = () => {    
+    var flag = false;
     database.ref('/user').once('value', function(snapshot) {
       snapshot.val().forEach(function(Snap){
         if(ID == Snap['ID'] && PW == Snap['PW']){
           setprofile(Snap['profile'])
-          dispatch(action.sidebarmypage());
+          dispatch(actionType.login());
+          dispatch(actionType.sidebarmypage()); 
           console.log('matches ');
           console.log(Snap['name'])
+          flag = true;
         }
       })
     }); 
+    if (flag == false){
+      setERRFLAG(true)
+    }
   }
     return(
         <form className = 'SigninMain'>
             <div className = 'MarginTop'>
                 <img className = 'Icon' src = {require('./HoodIcon.png')}></img>
             </div>
-            <Typography component="h1" variant="h5">로그인</Typography>
-            <TextField onChange = {(event) => changeID(event)} variant = 'outlined' label="ID" margin="dense"/>
-            <TextField onChange = {(event) => changePW(event)} variant = 'outlined' label="PW" margin="dense"/>
+            <Typography component="h1" variant="h5" >로그인</Typography>
+            <TextField onChange = {(event) => changeID(event)} error = {ERRFLAG} variant = 'outlined' label='ID' margin="dense"/>
+            <TextField onChange = {(event) => changePW(event)} error = {ERRFLAG} variant = 'outlined' label="PW" margin="dense"/>
             <div className = 'SigninRow'>
               <Button onClick = {() => Authenticate()} variant="contained" color="primary" className={classes.submit}>로그인</Button>
-              <Button onClick = {() => dispatch(action.sidebarsigninObject)} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
+              <Button onClick = {() => dispatch(actionType.sidebarsigninObject)} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
             </div>    
             <NLogin/>        
         </form>

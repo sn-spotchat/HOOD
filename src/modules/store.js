@@ -2,6 +2,7 @@ import * as actionType from './action';
 
 const initialState = {
     sidebarstate: "home",
+    loggedin:false,
     chatname: undefined,
     newchat: true,
     chatlist: [],

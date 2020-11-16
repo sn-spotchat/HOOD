@@ -97,8 +97,8 @@ const Map = () =>{
     document.getElementById("sideBar").style.display=sideDisplay;
   }
 
-  const AA = () =>{
-    
+  const AA = () =>{  
+    /*  
     return (
       <RenderAfterNavermapsLoaded
           ncpClientId={'5blqxkrbsw'} // 자신의 네이버 계정에서 발급받은 Client ID
@@ -106,9 +106,9 @@ const Map = () =>{
           loading={<p>Maps Loading...</p>}
         >
         <PolyMap/>
-        </RenderAfterNavermapsLoaded>
+      </RenderAfterNavermapsLoaded>
     )
-    
+    */
    return (<div></div>);
   }
   return (    

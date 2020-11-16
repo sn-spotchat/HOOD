@@ -5,8 +5,20 @@ import * as actionType from '../modules/action';
 
 const NLogin = (props) =>{
     const dispatch = useDispatch();
-    
+    const oldprofile = useSelector(state => state.profilereducer, {});
+    const [profile, setprofile] = useState(oldprofile['profile']);
+    const [login, setlogin] = useState(false);
 
+
+    useEffect(()=>{
+        dispatch(actionType.insertprofile(profile));
+    }, [profile]);
+
+    const Login = (result) =>{
+        setprofile(result);
+        dispatch(actionType.login());
+        dispatch(actionType.sidebarmypage());         
+    }
 
     return (
         <NaverLogin 
@@ -16,12 +28,9 @@ const NLogin = (props) =>{
             clientId="dgwFUqPZTSWhHSO0FkGl" 
             callbackUrl="http://localhost:3000/callback"
             render={(props) => 
-            <div onClick={props.onClick} >
-                <div className = "NavigationIcon">Click</div>
-            </div>
+            <div onClick={props.onClick} >Click</div>
             }
-            onSuccess={(result) => dispatch(actionType.insertprofile(result))}
-            onSuccess={() => dispatch(actionType.sidebarmypageObject)}           
+            onSuccess={(result) => Login(result)}
         />   
     );
 };

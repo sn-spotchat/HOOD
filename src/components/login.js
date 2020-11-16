@@ -53,8 +53,12 @@ const Login = () =>{
   const classes = useStyles(); 
 
   useEffect(()=>{
-
+    console.log('profile has changed! : ');
+    console.log(profile);
+    dispatch(action.insertprofile(profile));
+    dispatch(action.mypageselectermypage());
   }, [profile]);
+
   const changeID = (event) => {
     setID(event.target.value);      
   }
@@ -63,16 +67,19 @@ const Login = () =>{
   }
     
   const GoSignin = ()=>{
-    dispatch(action.mypageselectersigninObject);
+    dispatch(action.mypageselectersignin());
   }
-  const Authenticate = () => {
-    /*
-    database.ref('/user').once('value', () => {
-      value.val().forEach(data=>{
-        console.log(data);
+
+  const Authenticate = () => {    
+    database.ref('/user').once('value', function(snapshot) {
+      snapshot.val().forEach(function(Snap){
+        if(ID == Snap['ID'] && PW == Snap['PW']){
+          setprofile(Snap['profile'])
+          console.log('matches ');
+          console.log(Snap['name'])
+        }
       })
-    });    
-    */
+    });       
   }
     return(
         <form className = 'SigninMain'>

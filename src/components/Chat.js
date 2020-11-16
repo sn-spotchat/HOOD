@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import * as actionType from '../modules/action';
 import { database } from '../firebase';
+import ChatroomBox from './ChatroomBox';
 import './Chat.css';
 
 const Chat = () =>{
@@ -16,11 +17,8 @@ const Chat = () =>{
       const chatroom = database.ref('chatroom/');
       for(var i = 0; i<dataObj.chatroomlist.length; i++){
         const Chatroom_id = dataObj.chatroomlist[i].chatroom_id;
-        var target = chatroom.orderByChild("chatroom_id").equalTo(Chatroom_id);
-        target.once('value', (snapshot)=>{
-          const chatroomdata = snapshot.val();
-          setChatList(oldList => [...oldList, chatroomdata[0].name]);
-        });
+        setChatList(oldList => [...oldList, Chatroom_id]);
+        
       }
     });
   }, []);
@@ -30,15 +28,7 @@ const Chat = () =>{
       {chatList.map((chatRoom,index) => {
         
         return ( 
-          <div className="ChatRaw" key={index} onClick={ () =>{
-            dispatch(actionType.oldchat());
-            dispatch(actionType.sidebartestObject);
-            dispatch(actionType.chatname(chatRoom));
-            }
-            }>
-            {chatRoom}
-            <div className="ActivationNum">n</div>
-          </div>
+          <ChatroomBox key={index} chatRoom={chatRoom} index={index}></ChatroomBox>
         )
       })}
     </div>

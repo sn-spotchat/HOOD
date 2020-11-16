@@ -2,6 +2,8 @@ import * as actionType from './action';
 
 const initialState = {
     sidebarstate: "home",
+    chatid: undefined,
+    mypageselecterstate: 'login',
     loggedin: false,
     chatname: undefined,
     newchat: true,

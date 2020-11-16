@@ -97,6 +97,20 @@ const Map = () =>{
     document.getElementById("sideBar").style.display=sideDisplay;
   }
 
+  const AA = () =>{
+    
+    return (
+      <RenderAfterNavermapsLoaded
+          ncpClientId={'5blqxkrbsw'} // 자신의 네이버 계정에서 발급받은 Client ID
+          error={<p>Maps Load Error</p>}
+          loading={<p>Maps Loading...</p>}
+        >
+        <PolyMap/>
+        </RenderAfterNavermapsLoaded>
+    )
+    
+   return (<div></div>);
+  }
   return (    
         <div className="mapWrap">
       <div id="sideBar" className="sideBar">
@@ -104,6 +118,7 @@ const Map = () =>{
       </div>
       <button onClick={changeDisplay}>Button</button>
       <div className="map">
+        <AA/>
       </div>
     </div>
     

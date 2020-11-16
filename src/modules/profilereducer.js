@@ -6,7 +6,6 @@ const profilereducer = (state = initialState, action) =>{
         case actionType.INSERTPROFILE:
             console.log('inserted?\n');
             return {...state, profile : action.profile};
-
         default:
             return state;
     }

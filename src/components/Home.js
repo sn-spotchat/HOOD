@@ -16,8 +16,6 @@ const Home = () =>{
         loadProfile(profilesaved.profile);        
     });
     const b = profilesaved.profile;
-    console.log('b is : ' + JSON.stringify(b));
-    console.log(b);
 
     return (
         <div>

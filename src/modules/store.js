@@ -2,19 +2,18 @@ import * as actionType from './action';
 
 const initialState = {
     sidebarstate: "home",
-    mypageselecterstate: 'login',
     chatname: undefined,
     newchat: true,
     chatlist: [],
     profile:{
-        age: undefined,
-        birthday: undefined,
-        email: undefined,
-        gender: undefined,
+        age: '',
+        birthday: '',
+        email: '',
+        gender: '',
         id: "-1",
         name: "Guest",
-        nickname: undefined,
-        profile_image: undefined
+        nickname: '',
+        profile_image: ''
     },
 }
 

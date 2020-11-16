@@ -5,6 +5,8 @@ import * as actionType from '../modules/action';
 
 const NLogin = (props) =>{
     const dispatch = useDispatch();
+    
+
 
     return (
         <NaverLogin 
@@ -19,7 +21,7 @@ const NLogin = (props) =>{
             </div>
             }
             onSuccess={(result) => dispatch(actionType.insertprofile(result))}
-            onSuccess={() => dispatch(actionType.mypageselectermypage())}           
+            onSuccess={() => dispatch(actionType.sidebarmypageObject)}           
         />   
     );
 };

@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
         width : '90px',
         color : '#ffffff',
         backgroundColor:'#7ec4eb',
-        onclick : console.log('a'),
     },
     submit2: {
         margin: theme.spacing(1, 1, 1),
@@ -34,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
         width : '198px',
         color : '#ffffff',
         backgroundColor:'#7ec4eb',
-        onclick : console.log('a'),
     },
   })
 );
@@ -53,33 +51,27 @@ const Login = () =>{
   const classes = useStyles(); 
 
   useEffect(()=>{
-    console.log('profile has changed! : ');
-    console.log(profile);
-    dispatch(action.insertprofile(profile));
-    dispatch(action.mypageselectermypage());
+    dispatch(action.insertprofile(profile));     
   }, [profile]);
-
+  
   const changeID = (event) => {
     setID(event.target.value);      
   }
   const changePW = (event) => {
     setPW(event.target.value);      
-  }
-    
-  const GoSignin = ()=>{
-    dispatch(action.mypageselectersignin());
-  }
+  }    
 
   const Authenticate = () => {    
     database.ref('/user').once('value', function(snapshot) {
       snapshot.val().forEach(function(Snap){
         if(ID == Snap['ID'] && PW == Snap['PW']){
           setprofile(Snap['profile'])
+          dispatch(action.sidebarmypage());
           console.log('matches ');
           console.log(Snap['name'])
         }
       })
-    });       
+    }); 
   }
     return(
         <form className = 'SigninMain'>
@@ -91,7 +83,7 @@ const Login = () =>{
             <TextField onChange = {(event) => changePW(event)} variant = 'outlined' label="PW" margin="dense"/>
             <div className = 'SigninRow'>
               <Button onClick = {() => Authenticate()} variant="contained" color="primary" className={classes.submit}>로그인</Button>
-              <Button onClick = {() => GoSignin()} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
+              <Button onClick = {() => dispatch(action.sidebarsigninObject)} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
             </div>    
             <NLogin/>        
         </form>

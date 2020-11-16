@@ -27,12 +27,12 @@ const useStyles = makeStyles((theme) => ({
         color : '#ffffff',
         backgroundColor:'#7ec4eb',
     },
-    submit2: {
+    nsubmit: {
         margin: theme.spacing(1, 1, 1),
         height : '30px',
         width : '198px',
         color : '#ffffff',
-        backgroundColor:'#7ec4eb',
+        backgroundColor:'#4ed48b',
     },
   })
 );
@@ -50,9 +50,13 @@ const Login = () =>{
   const dispatch = useDispatch();
 
   const classes = useStyles(); 
+  var flag = true;
 
   useEffect(()=>{
     dispatch(actionType.insertprofile(profile));  
+    if (flag == false){
+      setERRFLAG(true)
+    }
   }, [profile]);
   
   const changeID = (event) => {
@@ -63,22 +67,22 @@ const Login = () =>{
   }    
 
   const Authenticate = () => {    
-    var flag = false;
     database.ref('/user').once('value', function(snapshot) {
       snapshot.val().forEach(function(Snap){
         if(ID == Snap['ID'] && PW == Snap['PW']){
           setprofile(Snap['profile'])
-          dispatch(actionType.login());
+          dispatch(actionType.loggedinObject);
           dispatch(actionType.sidebarmypage()); 
           console.log('matches ');
           console.log(Snap['name'])
           flag = true;
         }
+        else{             
+          flag = false;
+          setERRFLAG(true)
+        }
       })
     }); 
-    if (flag == false){
-      setERRFLAG(true)
-    }
   }
     return(
         <form className = 'SigninMain'>
@@ -92,7 +96,9 @@ const Login = () =>{
               <Button onClick = {() => Authenticate()} variant="contained" color="primary" className={classes.submit}>로그인</Button>
               <Button onClick = {() => dispatch(actionType.sidebarsigninObject)} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
             </div>    
-            <NLogin/>        
+            <Button variant="contained" color="primary" className={classes.nsubmit}>
+              <NLogin/>
+            </Button>
         </form>
     );  
 };

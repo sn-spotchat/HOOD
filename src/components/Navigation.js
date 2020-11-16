@@ -11,15 +11,14 @@ import NLogin from './NLogin.js';
 */
 const Navigation = () =>{    
     const [NavList, setNavList] = useState([]);
-    const sidebarstate = useSelector(state => state.reducer, []);
-    const profilesaved = useSelector(state => state.profilereducer, {});
+
+    const store_loggedin = useSelector(state => state.profilereducer.loggedin, []);
+
     const dispatch = useDispatch();
     
     useEffect(()=>{
-        //가입되어 있는 사람인지를 확인->user db에 있는 사람인지로 파악.
-        console.log('here');
         setNavList([]);
-        if(profilesaved.loggedin == false){
+        if(store_loggedin == false){
             setNavList(oldList => [...oldList, {id: "Login", func: ()=>dispatch(actionType.sidebarloginObject)}]);
         }
         else{
@@ -27,8 +26,12 @@ const Navigation = () =>{
             setNavList(oldList => [...oldList, {id: "Near", func: ()=>dispatch(actionType.sidebarnearObject)}]);
             setNavList(oldList => [...oldList, {id: "Chat", func: ()=>dispatch(actionType.sidebarchatObject)}]);
         }
-    },[profilesaved, profilesaved.loggedin]);
+    },[store_loggedin]);
  
+
+
+
+
     return (
         <div className="navigation">      
         <div id="home" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarhomeObject)}>Home</div>

@@ -1,12 +1,74 @@
 import React, { useEffect, useState } from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, connect} from 'react-redux';
+import * as actionType from '../modules/action';
+import NLogin from './NLogin';
+import './Login.css';
+import ReactDOM from 'react-dom';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import { database } from '../firebase';
+
+const useStyles = makeStyles((theme) => ({  
+    submit: {
+        margin: theme.spacing(1, 1, 1),
+        height : '30px',
+        width : '90px',
+        color : '#ffffff',
+        backgroundColor:'#7ec4eb',
+    },
+    nsubmit: {
+        margin: theme.spacing(1, 1, 1),
+        height : '30px',
+        width : '198px',
+        color : '#ffffff',
+        backgroundColor:'#4ed48b',
+    },
+  })
+);
 
 const Signin = (props) =>{
     const dispatch = useDispatch();
+    const [ID, setID] = useState('');
+    const [PW, setPW] = useState('');
+    const [ERRFLAG, setERRFLAG] = useState(false);
+    const classes = useStyles(); 
+
+    const changeID = (event) => {
+      setID(event.target.value);      
+    }
+    const changePW = (event) => {
+      setPW(event.target.value);      
+    }    
+
+    const Register = () => {
+        
+    }
+
     return (
-        <div>
-            this is Signin.js
+    <form className = 'SigninMain'>
+        <div className = 'MarginTop'>
+            <img className = 'Icon' src = {require('./HoodIcon.png')}></img>
         </div>
+        <Typography component="h1" variant="h5" >회원가입</Typography>
+        <TextField onChange = {(event) => changeID(event)} error = {ERRFLAG} variant = 'outlined' label='ID' margin="dense"/>
+        <TextField onChange = {(event) => changePW(event)} error = {ERRFLAG} variant = 'outlined' label="PW" margin="dense"/>
+        <div className = 'SigninRow'>        
+        <Button onClick = {() => Register()} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
+        </div>    
+        <Button variant="contained" color="primary" className={classes.nsubmit}>
+            <NLogin/>
+        </Button>        
+    </form>
     );
 };
 

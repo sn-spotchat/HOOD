@@ -2,10 +2,12 @@ import * as actionType from './action';
 
 const initialState = {
     sidebarstate: "home",
-    loggedin:false,
+    loggedin: false,
     chatname: undefined,
     newchat: true,
     chatlist: [],
+    map: undefined,
+    maploaded: false,
     profile:{
         age: '',
         birthday: '',

@@ -38,13 +38,21 @@ export const sidebarloginObject = {type:SIDEBARLOGIN};
 export const sidebarsigninObject = {type:SIDEBARSIGNIN};
 export const sidebarmypageObject = {type:SIDEBARMYPAGE};
 export const chatnameObject = {type:CHATNAME};
-//
+
 
 export const INSERTPROFILE = 'insertprofile';
 export const insertprofile = (profile) =>({type:INSERTPROFILE, profile: profile});
 export const insertprofileObject = {type:INSERTPROFILE};
 
-export const LOGIN = 'login';
-export const login = () =>({type : LOGIN});
-export const loginObject = {type:LOGIN};
+export const LOGGEDIN = 'loggedin';
+export const loggedin = () =>({type : LOGGEDIN});
+export const loggedinObject = {type:LOGGEDIN};
+
+export const MAPLOADED = 'maploaded';
+export const maploaded = () =>({type : MAPLOADED});
+export const maploadedObject = {type:MAPLOADED};
+
+export const MAPSAVE = 'mapsave';
+export const mapsave = (map) =>({type : MAPSAVE, map : map});
+export const mapsaveObject = {type:MAPSAVE};
 

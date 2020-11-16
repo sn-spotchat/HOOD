@@ -33,7 +33,7 @@ const Navigation = () =>{
             <div id="home" className="NavigationIcon" onClick={()=>dispatch(actionType.sidebarhomeObject)}>Home</div>
             {NavList.map((element,index) => {
                 return ( 
-                    <div id={element.id} className="NavigationIcon" onClick={element.func}>{element.id}</div>
+                    <div id={element.id} className="NavigationIcon" onClick={element.func} key={index}>{element.id}</div>
                 )
             })}
         </div>

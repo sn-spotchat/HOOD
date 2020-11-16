@@ -40,7 +40,7 @@ const Near = () =>{
       <div id="nearhead" className="head">Near</div>
       {chatList.map((chatRoom,index) => {
         return ( 
-          <ChatroomBox index={index} chatRoom={chatRoom}></ChatroomBox>
+          <ChatroomBox key={index} chatRoom={chatRoom} index={index}></ChatroomBox>
         )
       })}
     </div>

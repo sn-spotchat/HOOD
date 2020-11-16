@@ -27,20 +27,16 @@ const ChatroomBox = (props) =>{
     });
   }, []);
   useEffect(()=>{
-    //시간을 계산해서 반영해야함.(ex, 오늘인경우 시간을, 어제인 경우 어제, 그외에는 월/날짜로 표기)
     var dateObj = new Date(lastchatTime);
     var todayObj = new Date();
 
     if(todayObj.getDate() === dateObj.getDate()){
-      console.log("today");
       setTime(dateObj.getHours()+":"+dateObj.getMinutes());
     }
     else if(Number(todayObj.getDate()) === (Number(dateObj.getDate()) + 1)){
-      console.log("yesterday");
       setTime("어제");
     }
     else{
-      console.log(dateObj.getDate());
       setTime(dateObj.getFullYear()+"-"+dateObj.getMonth()+"-"+dateObj.getDate());
     }
   },[lastchatTime]);

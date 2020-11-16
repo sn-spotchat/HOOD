@@ -18,11 +18,7 @@ const Chat = () =>{
       for(var i = 0; i<dataObj.chatroomlist.length; i++){
         const Chatroom_id = dataObj.chatroomlist[i].chatroom_id;
         setChatList(oldList => [...oldList, Chatroom_id]);
-        /*var target = chatroom.orderByChild("chatroom_id").equalTo(Chatroom_id);
-        target.once('value', (snapshot)=>{
-          const chatroomdata = snapshot.val();
-          setChatList(oldList => [...oldList, {id: chatroomdata[0].chatroom_id, name: chatroomdata[0].name}]);
-        });*/
+        
       }
     });
   }, []);
@@ -32,16 +28,7 @@ const Chat = () =>{
       {chatList.map((chatRoom,index) => {
         
         return ( 
-          /*<div className="ChatRaw" key={index} onClick={ () =>{
-            dispatch(actionType.oldchat());
-            dispatch(actionType.sidebartestObject);
-            dispatch(actionType.chatname(chatRoom));
-            }
-            }>
-            {chatRoom}
-            <div className="ActivationNum">n</div>
-          </div>*/
-          <ChatroomBox key={index} chatRoom={chatRoom}></ChatroomBox>
+          <ChatroomBox key={index} chatRoom={chatRoom} index={index}></ChatroomBox>
         )
       })}
     </div>

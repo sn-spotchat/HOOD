@@ -41,7 +41,7 @@ const Chat = () =>{
             {chatRoom}
             <div className="ActivationNum">n</div>
           </div>*/
-          <ChatroomBox index={index} chatRoom={chatRoom}></ChatroomBox>
+          <ChatroomBox key={index} chatRoom={chatRoom}></ChatroomBox>
         )
       })}
     </div>

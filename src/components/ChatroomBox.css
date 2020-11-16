@@ -49,7 +49,6 @@
 }
 #message{
     width: 200px;
-    display:flex;
     position: absolute;
     left:20px;
     bottom:15px;

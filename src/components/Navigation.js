@@ -20,7 +20,7 @@ const Navigation = () =>{
         const user = database.ref('user/');
         var my = user.orderByChild("user_id").equalTo(Number(profilesaved.profile.id));
         my.once('value', (data) =>{
-            if(data.val() !== null){
+            if(data.val() !== null && NavList.length === 0){
                 setNavList(oldList => [...oldList, {id: "near", func: ()=>dispatch(actionType.sidebarnearObject)}]);
                 setNavList(oldList => [...oldList, {id: "chat", func: ()=>dispatch(actionType.sidebarchatObject)}]);
             }

@@ -4,17 +4,21 @@ const initialState = {
     sidebarstate: "home",
     chatid: undefined,
     mypageselecterstate: 'login',
+    loggedin: false,
+    chatname: undefined,
     newchat: true,
     chatlist: [],
+    map: undefined,
+    maploaded: false,
     profile:{
-        age: undefined,
-        birthday: undefined,
-        email: undefined,
-        gender: undefined,
+        age: '',
+        birthday: '',
+        email: '',
+        gender: '',
         id: "-1",
         name: "Guest",
-        nickname: undefined,
-        profile_image: undefined
+        nickname: '',
+        profile_image: ''
     },
 }
 

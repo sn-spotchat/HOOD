@@ -6,6 +6,8 @@ import useGeolocation from 'react-hook-geolocation';
 import { RenderAfterNavermapsLoaded, NaverMap, Polygon, Marker } from 'react-naver-maps'; // 패키지 불러오기
 import SeoulDong from "./SeoulDong.json";
 import $, { map } from "jquery";
+import {useSelector, useDispatch } from 'react-redux';
+import * as actionType from '../modules/action';
 
 var flag = false;
 const PolyMap = (props) => {
@@ -84,6 +86,8 @@ const PolyMap = (props) => {
 
 
 const Map = () =>{
+
+
   const [sideType, setSideType] = useState("block"); //사이드바의 타입(지금은 chat, list, 채팅방)
   const [sideDisplay, setSideDisplay] = useState("near"); //사이드바의 display를 none, block 설정
 
@@ -97,6 +101,29 @@ const Map = () =>{
     document.getElementById("sideBar").style.display=sideDisplay;
   }
 
+  const AA = () =>{
+    const store_maploaded = useSelector(state => state.mapreducer.maploaded);
+    const store_map = useSelector(state => state.mapreducer.map);
+
+
+    const [local_maploaded, setflag] = useState(store_maploaded);
+    const [local_map, setmap] = useState(store_map);
+
+    const dispatch = useDispatch();
+
+    useEffect(()=>{ 
+      dispatch(actionType.mapsave(local_map));
+      console.log('dispatch complete!')
+    },[store_maploaded])
+   
+    if(store_maploaded == false){
+      setmap(<RenderAfterNavermapsLoaded ncpClientId={'5blqxkrbsw'}><PolyMap/></RenderAfterNavermapsLoaded>)
+      dispatch(actionType.maploadedObject);
+      setflag(true);
+    }
+
+    return local_map;
+  }
   return (    
         <div className="mapWrap">
       <div id="sideBar" className="sideBar">
@@ -104,6 +131,7 @@ const Map = () =>{
       </div>
       <button onClick={changeDisplay}>Button</button>
       <div className="map">
+        {AA()}
       </div>
     </div>
     

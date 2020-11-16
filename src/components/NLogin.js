@@ -1,11 +1,30 @@
+import { Checkbox } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import NaverLogin from 'react-naver-login';
 import {useSelector, useDispatch} from 'react-redux';
 import * as actionType from '../modules/action';
+import {database} from '../firebase.js';
 
 const NLogin = (props) =>{
     const dispatch = useDispatch();
+    const oldprofile = useSelector(state => state.profilereducer, {});
+    const [profile, setprofile] = useState(oldprofile['profile']);
+    const [ERRFLAG, setERRFLAG] = useState(false);
+    const [login, setlogin] = useState(false);
+    var flag = false;
 
+    useEffect(()=>{
+        dispatch(actionType.insertprofile(profile));
+    }, [profile]);
+
+    const Login = (result) =>{
+        setprofile(result);
+        dispatch(actionType.loggedinObject);
+        dispatch(actionType.sidebarmypage());    
+
+    }
+    console.log(props.text);
+    var text = props.text
     return (
         <NaverLogin 
             //deploy
@@ -13,14 +32,13 @@ const NLogin = (props) =>{
             //callbackUrl="https://hood-sgtmi.web.app/"
             clientId="dgwFUqPZTSWhHSO0FkGl" 
             callbackUrl="http://localhost:3000/callback"
-            render={(props) => 
-            <div onClick={props.onClick} >
-                <div className = "NavigationIcon">Click</div>
+            render = {(props) => 
+            <div onClick={props.onClick}> 
+            네이버 아이디로 로그인
             </div>
             }
-            onSuccess={(result) => dispatch(actionType.insertprofile(result))}
-            onSuccess={() => dispatch(actionType.mypageselectermypage())}           
-        />   
+            onSuccess={(result) => Login(result)}
+        />
     );
 };
 

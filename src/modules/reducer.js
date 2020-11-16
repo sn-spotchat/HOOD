@@ -5,14 +5,18 @@ const sidebarState = (state = initialState, action) =>{
     switch(action.type){
         case actionType.SIDEBARHOME:
             return {...state, sidebarstate: "home"};
-        case actionType.SIDEBARMYPAGESELECTER:
-            return {...state, sidebarstate: "mypageselecter"};
         case actionType.SIDEBARNEAR:
             return {...state, sidebarstate: "near"};
         case actionType.SIDEBARCHAT:
             return {...state, sidebarstate: "chat"};
         case actionType.SIDEBARTEST:
             return {...state, sidebarstate: "test"};
+        case actionType.SIDEBARLOGIN:
+            return {...state, sidebarstate: 'login'};
+        case actionType.SIDEBARSIGNIN:
+            return {...state, sidebarstate: 'signin'};
+        case actionType.SIDEBARMYPAGE:
+            return {...state, sidebarstate: 'mypage'};
         default:
             return state;
     }

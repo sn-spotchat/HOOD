@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {useSelector, useDispatch, connect} from 'react-redux';
-import * as action from '../modules/action';
+import * as actionType from '../modules/action';
 import NLogin from './NLogin';
 import Signin from './Signin';
 import './Login.css';
@@ -26,15 +26,13 @@ const useStyles = makeStyles((theme) => ({
         width : '90px',
         color : '#ffffff',
         backgroundColor:'#7ec4eb',
-        onclick : console.log('a'),
     },
-    submit2: {
+    nsubmit: {
         margin: theme.spacing(1, 1, 1),
         height : '30px',
         width : '198px',
         color : '#ffffff',
-        backgroundColor:'#7ec4eb',
-        onclick : console.log('a'),
+        backgroundColor:'#4ed48b',
     },
   })
 );
@@ -46,54 +44,61 @@ const Login = () =>{
   const oldprofile = useSelector(state => state.profilereducer, {})
   const [profile, setprofile] = useState(oldprofile['profile']);
   const [dbdata, setdbdata] = useState();
+  const [ERRFLAG, setERRFLAG] = useState(false);
   const [ID, setID] = useState('');
   const [PW, setPW] = useState('');
   const dispatch = useDispatch();
 
   const classes = useStyles(); 
+  var flag = true;
 
   useEffect(()=>{
-    console.log('profile has changed! : ');
-    console.log(profile);
-    dispatch(action.insertprofile(profile));
-    dispatch(action.mypageselectermypage());
+    dispatch(actionType.insertprofile(profile));  
+    if (flag == false){
+      setERRFLAG(true)
+    }
   }, [profile]);
-
+  
   const changeID = (event) => {
     setID(event.target.value);      
   }
   const changePW = (event) => {
     setPW(event.target.value);      
-  }
-    
-  const GoSignin = ()=>{
-    dispatch(action.mypageselectersignin());
-  }
+  }    
 
   const Authenticate = () => {    
     database.ref('/user').once('value', function(snapshot) {
       snapshot.val().forEach(function(Snap){
         if(ID == Snap['ID'] && PW == Snap['PW']){
           setprofile(Snap['profile'])
+          dispatch(actionType.loggedinObject);
+          dispatch(actionType.sidebarmypage()); 
           console.log('matches ');
           console.log(Snap['name'])
+          flag = true;
+        }
+        else{             
+          flag = false;
+          setERRFLAG(true)
         }
       })
-    });       
+    }); 
   }
     return(
         <form className = 'SigninMain'>
             <div className = 'MarginTop'>
                 <img className = 'Icon' src = {require('./HoodIcon.png')}></img>
             </div>
-            <Typography component="h1" variant="h5">로그인</Typography>
-            <TextField onChange = {(event) => changeID(event)} variant = 'outlined' label="ID" margin="dense"/>
-            <TextField onChange = {(event) => changePW(event)} variant = 'outlined' label="PW" margin="dense"/>
+            <Typography component="h1" variant="h5" >로그인</Typography>
+            <TextField onChange = {(event) => changeID(event)} error = {ERRFLAG} variant = 'outlined' label='ID' margin="dense"/>
+            <TextField onChange = {(event) => changePW(event)} error = {ERRFLAG} variant = 'outlined' label="PW" margin="dense"/>
             <div className = 'SigninRow'>
               <Button onClick = {() => Authenticate()} variant="contained" color="primary" className={classes.submit}>로그인</Button>
-              <Button onClick = {() => GoSignin()} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
+              <Button onClick = {() => dispatch(actionType.sidebarsigninObject)} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
             </div>    
-            <NLogin/>        
+            <Button variant="contained" color="primary" className={classes.nsubmit}>
+              <NLogin/>
+            </Button>
         </form>
     );  
 };

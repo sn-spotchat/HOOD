@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import NaverLogin from 'react-naver-login';
 import {useSelector, useDispatch} from 'react-redux';
-import * as actionType from '../modules/action';
 
 const Mypage= (props) =>{
     const dispatch = useDispatch();
+    const a = useSelector(state => state.profilereducer, {});
     return (
         <div>
-            this is Mypage.js
+            {JSON.stringify(a)}
         </div>
     );
 };

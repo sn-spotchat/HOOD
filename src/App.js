@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import logo from './logo.svg';
 import Main from './components/Main.js';
-import Login from './components/Login.js';
-
+import NLogin from './components/NLogin';
 import './App.css';
 class App extends Component {
   render() {
@@ -12,7 +10,7 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path='/' component={Main} />
-            <Route path='/callback' component={Login} />
+            <Route path='/callback' component={NLogin} />
           </Switch>
         </Router>
       </div>

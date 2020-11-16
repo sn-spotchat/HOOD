@@ -5,11 +5,9 @@ import './Main.css';
 
 
 class Main extends Component {
-  
     render() {
-      console.log('hoit');
       return (
-        <div className = 'wrap'>          
+        <div className = 'wrap'>
             <Navigation/>
             <Map/>
         </div>

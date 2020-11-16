@@ -5,8 +5,8 @@ const sidebarState = (state = initialState, action) =>{
     switch(action.type){
         case actionType.SIDEBARHOME:
             return {...state, sidebarstate: "home"};
-        case actionType.SIDEBARMYPAGE:
-            return {...state, sidebarstate: "mypage"};
+        case actionType.SIDEBARMYPAGESELECTER:
+            return {...state, sidebarstate: "mypageselecter"};
         case actionType.SIDEBARNEAR:
             return {...state, sidebarstate: "near"};
         case actionType.SIDEBARCHAT:

@@ -7,6 +7,7 @@ import { RenderAfterNavermapsLoaded, NaverMap, Polygon, Marker } from 'react-nav
 import SeoulDong from "./SeoulDong.json";
 import $, { map } from "jquery";
 
+var flag = false;
 const PolyMap = (props) => {
   //현재위치 반환
   const geolocation = useGeolocation({
@@ -26,7 +27,7 @@ const PolyMap = (props) => {
     $.each(data,function(index,val){
       var y = val.geometry.centerXY[1]; var x = val.geometry.centerXY[0];
 
-      var range = 0.015
+      var range = 0.020
       if(Near(x, y, geolocation.latitude, geolocation.longitude, range)){
         var coordinates=val.geometry.coordinates;
         var name=val.properties.adm_nm;
@@ -41,8 +42,8 @@ const PolyMap = (props) => {
       data.forEach(Coordinate =>{
         path.push(new window.naver.maps.LatLng(Coordinate[1],Coordinate[0]))
       })
-    })        
-    polylist.push(path);    
+    })
+    polylist.push(path);
   }
   
 
@@ -53,8 +54,8 @@ const PolyMap = (props) => {
     const Polygonlist = polylist.map(
       (poly)=>( <Polygon 
         paths={poly}
-        fillColor={'#7ec4eb'}
-        fillOpacity={0.4}
+        fillColor={'#7ec4f0'}
+        fillOpacity={0.3}
         strokeColor={'#ffffff'}
         strokeOpacity={0.8}
         strokeWeight={2}
@@ -103,13 +104,6 @@ const Map = () =>{
       </div>
       <button onClick={changeDisplay}>Button</button>
       <div className="map">
-        <RenderAfterNavermapsLoaded
-          ncpClientId={'5blqxkrbsw'} // 자신의 네이버 계정에서 발급받은 Client ID
-          error={<p>Maps Load Error</p>}
-          loading={<p>Maps Loading...</p>}
-        >
-        <PolyMap/>
-        </RenderAfterNavermapsLoaded>
       </div>
     </div>
     

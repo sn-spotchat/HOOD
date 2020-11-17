@@ -148,7 +148,7 @@ const Signin = (props) => {
             <div className='MarginTop'>
                 <img className='Icon' src={require('./HoodIcon.png')}></img>
             </div>
-            <Typography component="h1" variant="h5" >회원가입</Typography>
+            <Typography component="h1" variant="h5" >후드 회원가입</Typography>
             <TextField onChange={(event) => changeNAME(event)} error={NAMEERRFLAG} variant='outlined' label="이름" margin="dense" />
             <TextField onChange={(event) => changeID(event)} error={IDERRFLAG} variant='outlined' label='ID' margin="dense" />
             <TextField onChange={(event) => changePW(event)} error={PWERRFLAG} variant='outlined' label="PW" margin="dense" />

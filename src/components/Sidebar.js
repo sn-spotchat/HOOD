@@ -8,6 +8,7 @@ import Signin from './Signin';
 import Near from './Near';
 import Chat from './Chat';
 import Test from './Test';
+import NSignin from './NSignin';
 import './Sidebar.css';
 
 const Sidebar = ({sidebarstate}) =>{
@@ -26,6 +27,9 @@ const Sidebar = ({sidebarstate}) =>{
     }
     else if(sidebarstate === 'signin'){
       setSidebarType(<Signin></Signin>);
+    }
+    else if(sidebarstate === 'nsignin'){
+      setSidebarType(<NSignin></NSignin>);
     }
     else if(sidebarstate === 'near'){
       setSidebarType(<Near></Near>);

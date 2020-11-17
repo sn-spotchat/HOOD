@@ -5,7 +5,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import * as actionType from '../modules/action';
 import {database} from '../firebase.js';
 
-const NLogin = (props) =>{
+const NLogin = () =>{
     const dispatch = useDispatch();
     const oldprofile = useSelector(state => state.profilereducer, {});
     const [profile, setprofile] = useState(oldprofile['profile']);
@@ -18,13 +18,14 @@ const NLogin = (props) =>{
     }, [profile]);
 
     const Login = (result) =>{
+        //if result matches with an account in DB, user is set and goes to mypage
         setprofile(result);
         dispatch(actionType.loggedinObject);
         dispatch(actionType.sidebarmypage());    
 
+        //else if it doesn't, the page redirects to NSignin, 
     }
-    console.log(props.text);
-    var text = props.text
+    
     return (
         <NaverLogin 
             //deploy

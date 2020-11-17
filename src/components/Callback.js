@@ -11,7 +11,7 @@ const Callback = (props) =>{
             clientId="dgwFUqPZTSWhHSO0FkGl" 
             callbackUrl="http://localhost:3000/callback"
             render={(props) => 
-            <div onClick={props.onClick} >Click</div>
+            <div onClick={props.onClick} >Callback.js</div>
             }
         />   
     );

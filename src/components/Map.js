@@ -131,12 +131,12 @@ const Map = () =>{
       </div>
       <button onClick={changeDisplay}>Button</button>
       <div className="map">
-        {AA()}
+        
       </div>
     </div>
     
   );
 };
-
+//{AA()}
 
 export default Map;

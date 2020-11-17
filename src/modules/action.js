@@ -9,12 +9,14 @@ export const SIDEBARSIGNIN = 'sidebar/signin';
 
 
 export const CHATNAME = 'chat/name';
-export const INSERTCHAT = 'chat/insert';
-export const REMOVECHAT = 'chat/remove';
+export const INSERTCHATROOM = 'chat/insert';
+export const REMOVECHATROOM = 'chat/remove';
 export const NEWCHAT = 'chat/newchat';
 export const OLDCHAT = 'chat/oldchat';
 
-
+export const LOGINID = 'login/id';
+export const LOGINPW = 'login/pw';
+export const LOGINUSERID = 'login/user_id';
 
 export const sidebarhome = () => ({type:SIDEBARHOME});
 export const sidebarnear = () => ({type:SIDEBARNEAR});
@@ -27,10 +29,14 @@ export const sidebarmypage = () => ({type:SIDEBARMYPAGE});
 
 export const chatname = (chatname) => ({type:CHATNAME, name:chatname});
 export const chatid = (chatid) => ({type:CHATNAME, id:chatid});
-export const insertchat = (chatname) =>({type:INSERTCHAT, name:chatname});
-export const removechat = (chatname) =>({type:REMOVECHAT, name:chatname});
+export const insertchatroom = (chatroomid) =>({type:INSERTCHATROOM, id:chatroomid});
+export const removechatroom = (chatroomid) =>({type:REMOVECHATROOM, id:chatroomid});
 export const newchat = ()=>({type:NEWCHAT});
 export const oldchat = ()=>({type:OLDCHAT});
+
+export const loginid = (loginid)=>({type:LOGINID, id:loginid});
+export const loginpw = (loginpw)=>({type:LOGINPW, pw:loginpw});
+export const loginuserid = (loginuserid)=>({type:LOGINUSERID, user_id:loginuserid});
 
 export const sidebarhomeObject = {type:SIDEBARHOME};
 export const sidebarnearObject = {type:SIDEBARNEAR};

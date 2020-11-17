@@ -5,10 +5,10 @@ const chatreducer = (state = initialState, action) =>{
     switch(action.type){
         case actionType.CHATID:
             return {...state, chatid: action.id};
-        case actionType.INSERTCHAT:
-            return {...state, chatlist: [...state.chatlist, {id:action.id}]};
-        case actionType.REMOVECHAT:
-            return {...state, chatlist: state.chatlist.filter((obj)=>{
+        case actionType.INSERTCHATROOM:
+            return {...state, chatroomlist: [...state.chatroomlist, {id:action.id}]};
+        case actionType.REMOVECHATROOM:
+            return {...state, chatroomlist: state.chatroomlist.filter((obj)=>{
                 if(obj.id !== action.id){
                     return obj;
                 }

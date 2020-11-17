@@ -41,12 +41,14 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Login = () =>{
-  const oldprofile = useSelector(state => state.profilereducer, {})
+  const oldprofile = useSelector(state => state.profilereducer, {});
+  const login = useSelector(state => state.loginreducer, {});
   const [profile, setprofile] = useState(oldprofile['profile']);
   const [dbdata, setdbdata] = useState();
   const [ERRFLAG, setERRFLAG] = useState(false);
   const [ID, setID] = useState('');
   const [PW, setPW] = useState('');
+  const [userId, setUserId] = useState();
   const dispatch = useDispatch();
 
   const classes = useStyles(); 
@@ -67,12 +69,46 @@ const Login = () =>{
   }    
 
   const Authenticate = () => {    
-    database.ref('/user').once('value', function(snapshot) {
-      snapshot.val().forEach(function(Snap){
+    /*const user = database.ref('user/');
+    var my = user.orderByChild("ID").equalTo();
+    my.once('value', (data) =>{
+      const dataObj = Object.values(data.val())[0];
+      const chatroom = database.ref('chatroom/');
+      for(var i = 0; i<dataObj.chatroomlist.length; i++){
+        const Chatroom_id = dataObj.chatroomlist[i].chatroom_id;
+        setChatList(oldList => [...oldList, Chatroom_id]);
+        
+      }
+    });*/
+    database.ref('user').once('value', function(snapshot) {
+      Object.values(snapshot.val()).forEach(Snap =>{
+        if(ID == Snap['ID'] && PW == Snap['PW']){
+          setprofile(Snap['profile']);
+          dispatch(actionType.loggedinObject);
+          dispatch(actionType.sidebarmypage()); 
+          dispatch(actionType.loginid(Snap['ID']));
+          dispatch(actionType.loginpw(Snap['PW']));
+          //dispatch(actionType.loginuserid(Snap['user_id']));
+          console.log(Snap['chatroomlist']);
+          Object.values(Snap['chatroomlist']).forEach(data =>{
+            dispatch(actionType.insertchatroom(data['chatroom_id']));
+          });
+          flag = true;
+        }
+        else{             
+          flag = false;
+          setERRFLAG(true)
+        }
+      });
+      /*snapshot.val().forEach(function(Snap){
         if(ID == Snap['ID'] && PW == Snap['PW']){
           setprofile(Snap['profile'])
           dispatch(actionType.loggedinObject);
           dispatch(actionType.sidebarmypage()); 
+          dispatch(actionType.loginid(ID));
+          dispatch(actionType.loginpw(PW));
+          dispatch(actionType.loginuserid(Snap['user_id']));
+          
           console.log('matches ');
           console.log(Snap['name'])
           flag = true;
@@ -81,8 +117,8 @@ const Login = () =>{
           flag = false;
           setERRFLAG(true)
         }
-      })
-    }); 
+      })*/
+    });
   }
     return(
         <form className = 'SigninMain'>

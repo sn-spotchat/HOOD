@@ -15,6 +15,7 @@ const Test = (props) =>{
   const dispatch = useDispatch();
   const chat = useSelector(state => state.chatreducer, []);
   const profilesaved = useSelector(state => state.profilereducer, {});
+  const login = useSelector(state => state.loginreducer, {});
   const date = new Date();
 //
   function writeMsgData(name, msg, chatroom_id) {
@@ -61,33 +62,11 @@ const Test = (props) =>{
       roomName: props.chatRoomName,
     };
 
-    if(chat.newchat === true){//새롭게 들어가는 방인 경우
+    if(chat.newchat === true){
       console.log("new");
-      /*
-      database.ref('user').once('value', (snapshot) =>{
-        var num = snapshot.numChildren();
-        var temp = snapshot.val();
-        var user_index;
-        for(var i = 0; i<num ;i++){
-          if(temp[i].user_id === profilesaved.profile.id){
-            user_index = i;
-            break;
-          }
-        }
-        database.ref('user/' + user_index + '/chatroomlist/' + chatroom_id).once('value', (snapshot) =>{
-          var id = snapshot.numChildren();
-          database.ref('user/' + user_index + '/chatroomlist/' + id).set({
-            chatroom_id: chatroom_id,
-            start_chatg_id: 0,//추가로 적어줘야함.
-            time: date,
-          });
-        });
-      });
-      */
       socketRef.current.emit("join room", dataObject);
     }
     else{//chat목록에 있는 방인 경우
-      console.log("old");
       socketRef.current.emit("rejoin room", dataObject);
       readMsgDate(props.chatRoomName);
     }
@@ -127,7 +106,7 @@ const Test = (props) =>{
       roomName: props.chatRoomName,
     };
     socketRef.current.emit("leave room", dataObject);
-    dispatch(actionType.removechat(chatname));
+    dispatch(actionType.removechatroom(chatname));
   } 
 
   function handleChange(e){

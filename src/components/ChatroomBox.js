@@ -11,6 +11,8 @@ const ChatroomBox = (props) =>{
   const [lastChat, setLastChat] = useState("");
   const dispatch = useDispatch();
   const profilesaved = useSelector(state => state.profilereducer, {});
+  const chat = useSelector(state => state.chatreducer, []);
+  const login = useSelector(state => state.loginreducer, {});
   useEffect(()=>{//정보를 받아와 리스트를 작성한다.
     const chatroom = database.ref('chatroom/');
     var chatroomObj = chatroom.orderByChild("chatroom_id").equalTo(Number(props.chatRoom));
@@ -40,11 +42,42 @@ const ChatroomBox = (props) =>{
       setTime(dateObj.getFullYear()+"-"+dateObj.getMonth()+"-"+dateObj.getDate());
     }
   },[lastchatTime]);
+
+  function insertChat(chatRoom){
+    var exist=false;
+    chat.chatroomlist.forEach(function(data){
+      if(data.id === chatRoom){
+        exist = true;
+      }
+    });
+    if(exist===false){
+      dispatch(actionType.newchat());
+      dispatch(actionType.insertchatroom(chatRoom));
+      database.ref('chatroom').once('value', function(snapshot) {
+        Object.values(snapshot.val()).forEach(Snap =>{
+          if(chatRoom === Snap['chatroom_id']){
+            database.ref('user/').once('value', function(data){
+              Object.entries(data.val()).forEach(entry=>{
+                const [key, value] = entry;
+                if(value['ID'] === login.id){
+                  var date = new Date();
+                  database.ref('user/'+key+'/chatroomlist/').push({chatroom_id: Snap['chatroom_id'], start_chat_id:Snap['lastchat_id'], time: date.toString()});
+                }
+              });
+            });
+          }
+        });
+      });
+    }
+    else{dispatch(actionType.oldchat());}
+  }
+
   return (
     <div className="ChatroomBoxRaw" key={props.index} onClick={ () =>{
         dispatch(actionType.oldchat());
         dispatch(actionType.sidebartestObject);
         dispatch(actionType.chatid(props.chatRoom));
+        insertChat(props.chatRoom);
         }
         }>
       <div className="upper">

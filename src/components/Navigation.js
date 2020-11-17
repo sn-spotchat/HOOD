@@ -11,11 +11,10 @@ import NLogin from './NLogin.js';
 */
 const Navigation = () =>{    
     const [NavList, setNavList] = useState([]);
-
     const store_loggedin = useSelector(state => state.profilereducer.loggedin, []);
-
     const dispatch = useDispatch();
     
+    //the navigation Icons depend on 'bool loggedin' in store.
     useEffect(()=>{
         setNavList([]);
         if(store_loggedin == false){

@@ -6,6 +6,7 @@ export const CHATID = 'chat/id';
 export const SIDEBARMYPAGE = 'sidebar/mypage';
 export const SIDEBARLOGIN = 'sidebar/login';
 export const SIDEBARSIGNIN = 'sidebar/signin';
+export const SIDEBARNSIGNIN = 'sidebar/nsignin';
 
 
 export const CHATNAME = 'chat/name';
@@ -22,6 +23,7 @@ export const sidebarchat = () => ({type:SIDEBARCHAT});
 export const sidebartest = () => ({type:SIDEBARTEST});
 export const sidebarlogin = () => ({type:SIDEBARLOGIN});
 export const sidebarsignin = () => ({type:SIDEBARSIGNIN});
+export const sidebarnsignin = () => ({type:SIDEBARNSIGNIN});
 export const sidebarmypage = () => ({type:SIDEBARMYPAGE});
 
 
@@ -40,6 +42,7 @@ export const chatidObject = {type:CHATID};
 //
 export const sidebarloginObject = {type:SIDEBARLOGIN};
 export const sidebarsigninObject = {type:SIDEBARSIGNIN};
+export const sidebarnsigninObject = {type:SIDEBARNSIGNIN};
 export const sidebarmypageObject = {type:SIDEBARMYPAGE};
 export const chatnameObject = {type:CHATNAME};
 

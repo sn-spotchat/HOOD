@@ -59,7 +59,7 @@ const Test = (props) =>{
 
     const dataObject = {
       user_id: profilesaved.profile.id,
-      roomName: props.chatRoomName,
+      roomId: props.chatRoomId,
     };
 
     if(chat.newchat === true){
@@ -68,7 +68,7 @@ const Test = (props) =>{
     }
     else{//chat목록에 있는 방인 경우
       socketRef.current.emit("rejoin room", dataObject);
-      readMsgDate(props.chatRoomName);
+      readMsgDate(props.chatRoomId);
     }
 
     socketRef.current.on("your id", id =>{
@@ -91,10 +91,10 @@ const Test = (props) =>{
       message: message,
       user_id: profilesaved.profile.id,
       user_name: profilesaved.profile.name,
-      roomName: props.chatRoomName,
+      roomId: props.chatRoomId,
       time: date.getHours()+':'+date.getMinutes(),
     };
-    writeMsgData(profilesaved.profile.id, message, props.chatRoomName);
+    writeMsgData(profilesaved.profile.id, message, props.chatRoomId);
     
     setMessage("");
     socketRef.current.emit("send message", messageObject);
@@ -103,7 +103,7 @@ const Test = (props) =>{
   function leaveRoom(chatname){
     const dataObject = {
       user_id: profilesaved.profile.id,
-      roomName: props.chatRoomName,
+      roomId: props.chatRoomId,
     };
     socketRef.current.emit("leave room", dataObject);
     dispatch(actionType.removechatroom(chatname));
@@ -116,8 +116,8 @@ const Test = (props) =>{
     <div className="chat">
       <div className="chatHead">
         <button id="backBtn" onClick={()=>dispatch(actionType.sidebarchatObject)}>back</button>
-        {props.chatRoomName}
-        <button id="exitChatroomBtn" onClick={() =>{leaveRoom(props.chatRoomName); dispatch(actionType.sidebarnearObject);}}>exit</button>
+        {props.chatRoomId}
+        <button id="exitChatroomBtn" onClick={() =>{leaveRoom(props.chatRoomId); dispatch(actionType.sidebarnearObject);}}>exit</button>
       </div>
       <div className="chatBody">
         {messages.map((message, index) => {

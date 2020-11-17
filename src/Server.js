@@ -6,21 +6,21 @@ io.on("connection", socket => {
   socket.emit("your id", socket.id);
   
   socket.on("join room", data =>{
-    socket.join(data.roomName);
-    io.to(data.roomName).emit("enter room",data.user);
-    console.log("join"+data.roomName);
+    socket.join(data.roomId);
+    io.to(data.roomId).emit("enter room",data.user);
+    console.log("join"+data.roomId);
   })
   socket.on("rejoin room", data =>{
-    socket.join(data.roomName);
+    socket.join(data.roomId);
   })
   socket.on("leave room", data =>{
-    socket.leave(data.roomName);
-    io.to(data.roomName).emit("leaved room", data.user);
-    console.log("leave"+data.roomName);
+    socket.leave(data.roomId);
+    io.to(data.roomId).emit("leaved room", data.user);
+    console.log("leave"+data.roomId);
   })
 
   socket.on("send message", data=>{
-    io.to(data.roomName).emit("message", data)
+    io.to(data.roomId).emit("message", data)
     console.log("received msg");
   })
 })

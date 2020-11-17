@@ -34,7 +34,7 @@ const Sidebar = ({sidebarstate}) =>{
       setSidebarType(<Chat></Chat>);
     }
     else if(sidebarstate === 'test'){
-      setSidebarType(<Test chatRoomName={chat.chatname}></Test>);
+      setSidebarType(<Test chatRoomId={chat.chatid}></Test>);
     }
   },[sidebarstate]);
     

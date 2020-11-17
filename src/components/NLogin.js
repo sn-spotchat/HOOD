@@ -18,9 +18,12 @@ const NLogin = () =>{
     }, [profile]);
 
     const Login = (result) =>{
+        //if result matches with an account in DB, user is set and goes to mypage
         setprofile(result);
         dispatch(actionType.loggedinObject);
         dispatch(actionType.sidebarmypage());    
+
+        //else if it doesn't, the page redirects to NSignin, 
     }
     
     return (

@@ -58,14 +58,7 @@ const Signin = (props) => {
     useEffect(()=>{        
         if(flag == true) { 
             setprofile({
-                age : '',                
-                birthday:'',
-                email:'',
-                gender:'',
-                id:'',
                 name : NAME,
-                nickname:'',
-                profile_image:'',                
             });
         }
     },[flag])
@@ -75,8 +68,6 @@ const Signin = (props) => {
             setUser({
                 ID : ID,
                 PW : PW,
-                chatlist : [null],
-                chatroomlist : [null],
                 profile : profile,
             });                       
         }

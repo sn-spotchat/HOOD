@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {useSelector, useDispatch, connect} from 'react-redux';
 import * as actionType from '../modules/action';
 import NLogin from './NLogin';
-import Signin from './Signin';
+import Signin from './Signup';
 import './Login.css';
 import ReactDOM from 'react-dom';
 //import Avatar from '@material-ui/core/Avatar';

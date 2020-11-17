@@ -4,11 +4,11 @@ import io from 'socket.io-client';
 import Home from './Home';
 import Mypage from './Mypage';
 import Login from './Login';
-import Signin from './Signin';
+import Signin from './Signup';
 import Near from './Near';
 import Chat from './Chat';
 import Test from './Test';
-import NSignin from './NSignin';
+import NSignin from './NSignup';
 import './Sidebar.css';
 
 const Sidebar = ({sidebarstate}) =>{

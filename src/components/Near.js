@@ -17,30 +17,16 @@ const Near = () =>{
     setChatList(oldList => [...oldList, 0]);//신촌
     setChatList(oldList => [...oldList, 1]);//대흥
     setChatList(oldList => [...oldList]);
-  }, []);
 
-  function insertChat(chatRoom){
-    var exist = false;
-    for(var i = 0; i < chat.chatlist.length; i++){
-      const temp = chat.chatlist[i].id;
-      if(temp === chatRoom){
-        exist = true;
-        break;
-      }
-    }
-    if(exist===false){
-      dispatch(actionType.newchat());
-      dispatch(actionType.insertchat(chatRoom));
-    }
-    else{dispatch(actionType.oldchat());}
-  }
+    
+  }, []);
 
   return (
     <div className="Near">
       <div id="nearhead" className="head">Near</div>
       {chatList.map((chatRoom,index) => {
         return ( 
-          <ChatroomBox key={index} chatRoom={chatRoom} index={index}></ChatroomBox>
+          <ChatroomBox key={index} chatRoom={chatRoom} index={index} ></ChatroomBox>
         )
       })}
     </div>

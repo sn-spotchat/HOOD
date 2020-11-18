@@ -34,6 +34,7 @@ const Login = () => {
   const [ERROR, setERROR] = useState(false);
   const [ID, setID] = useState('');
   const [PW, setPW] = useState('');
+  const [userId, setUserId] = useState();
   const dispatch = useDispatch();
 
   const classes = useStyles();
@@ -62,6 +63,13 @@ const Login = () => {
         if (Accounts[key]['ID'] == ID && Accounts[key]['PW'] == PW) {
           setMATCHFOUND(true);
           setprofile(Accounts[key]['profile']);
+          dispatch(actionType.loginid(ID));
+          dispatch(actionType.loginpw(PW));
+          if(Accounts[key]['chatroomlist'] !== null && Accounts[key]['chatroomlist'] !== undefined){
+            Object.values(Accounts[key]['chatroomlist']).forEach(data =>{
+              dispatch(actionType.insertchatroom(data['chatroom_id']));
+            });
+          }
         }
         else {
           setERROR(true);

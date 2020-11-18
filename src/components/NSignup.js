@@ -9,19 +9,6 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
-    submit: {
-        margin: theme.spacing(1, 1, 1),
-        height: '30px',
-        width: '90px',
-        color: '#ffffff',
-        backgroundColor: '#7ec4eb',
-    },
-    name: {
-        borderColor: '#22bb55',
-    },
-})
-);
 
 const Signin = (props) => {
     const dispatch = useDispatch();
@@ -33,9 +20,22 @@ const Signin = (props) => {
     const profile = useSelector(state => state.profilereducer.profile)
     const NAME = useSelector(state => state.profilereducer.profile.name)
     const [User, setUser] = useState();
-    const classes = useStyles();
     const [flag, setflag] = useState(false);
 
+    const useStyles = makeStyles((theme) => ({
+        submit: {
+            margin: theme.spacing(1, 1, 1),
+            height: '30px',
+            width: '90px',
+            color: '#ffffff',
+            backgroundColor: '#7ec4eb',
+        },
+        name: {
+            borderColor: '#22bb55',
+        },
+    })
+    );
+    const classes = useStyles();
     //setUser
     //DB.push
     //the above cycle must be done in order and made the code messy
@@ -110,10 +110,8 @@ const Signin = (props) => {
         });
     }
     return (
-        <form className='SigninMain'>
-            <div className='MarginTop'>
-                <img className='Icon' src={require('./HoodIcon.png')}></img>
-            </div>
+        <div className='SidebarContent'>
+            <img className='Icon' src={require('./HoodIcon.png')}></img>
             <Typography component="h1" variant="h5" >네이버-후드 회원가입</Typography>
             <TextField InputProps={{ readOnly: true }} error={NAMEERRFLAG} variant='outlined' label={NAME} margin="dense" />
             <TextField onChange={(event) => changeID(event)} error={IDERRFLAG} variant='outlined' label='ID' margin="dense" />
@@ -121,7 +119,7 @@ const Signin = (props) => {
             <div className='SigninRow'>
                 <Button onClick={() => SigninProcess()} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
             </div>
-        </form>
+        </div>
     );
 };
 

@@ -1,8 +1,11 @@
-.sidebar{
-    width: 340px;
-    height:100%;
-    background: white;
+.Sidebar{
+    width: 100%;
+    height: 100vh;
+    background: rgb(231, 255, 233);
     display: flex;
+    border-right-style:solid;
+    border-right-width:1px;
+    margin:0px;
 }
 .head{
     width:340px;

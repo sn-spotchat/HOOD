@@ -1,22 +1,19 @@
-.navigation{
+.Navigation{
     width: 60px;
     height:100vh;
     background-color: lightgray;
-    align-items: center;
+    display:flex;
+    flex-direction: column;
 }
-
 .NavigationIcon{
     width: 50px;
     height:50px;
-    margin-top: 3px;
-    margin-left: 3px;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right:0px;
     color: white;
-    margin-right: 5px;
     text-align: center;
     cursor: pointer;
     background-color: #606060;
-    border-radius: 10px;
-    
-    border-width : 1px;
-    border-color : black;
+    border-radius: 10px;    
 }

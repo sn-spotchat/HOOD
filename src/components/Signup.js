@@ -134,10 +134,8 @@ const Signin = (props) => {
         });
     }
     return (
-        <form className='SigninMain'>
-            <div className='MarginTop'>
-                <img className='Icon' src={require('./HoodIcon.png')}></img>
-            </div>
+        <div className='SidebarContent'>
+            <img className='Icon' src={require('./HoodIcon.png')}></img>
             <Typography component="h1" variant="h5" >후드 회원가입</Typography>
             <TextField onChange={(event) => changeNAME(event)} error={NAMEERRFLAG} variant='outlined' label="이름" margin="dense" />
             <TextField onChange={(event) => changeID(event)} error={IDERRFLAG} variant='outlined' label='ID' margin="dense" />
@@ -148,7 +146,7 @@ const Signin = (props) => {
             <Button variant="contained" color="primary" className={classes.nsubmit}>
                 <NLogin />
             </Button>
-        </form>
+        </div>
     );
 };
 

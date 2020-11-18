@@ -1,22 +1,24 @@
 import * as actionType from './action';
 import initialState from './store';
 
-const sidebarState = (state = initialState, action) =>{
-    switch(action.type){
+const sidebarState = (state = initialState, action) => {
+    switch (action.type) {
         case actionType.SIDEBARHOME:
-            return {...state, sidebarstate: "home"};
+            return { ...state, sidebarstate: "home" };
         case actionType.SIDEBARNEAR:
-            return {...state, sidebarstate: "near"};
+            return { ...state, sidebarstate: "near" };
         case actionType.SIDEBARCHAT:
-            return {...state, sidebarstate: "chat"};
+            return { ...state, sidebarstate: "chat" };
         case actionType.SIDEBARTEST:
-            return {...state, sidebarstate: "test"};
+            return { ...state, sidebarstate: "test" };
         case actionType.SIDEBARLOGIN:
-            return {...state, sidebarstate: 'login'};
+            return { ...state, sidebarstate: 'login' };
         case actionType.SIDEBARSIGNIN:
-            return {...state, sidebarstate: 'signin'};
+            return { ...state, sidebarstate: 'signin' };
+        case actionType.SIDEBARNSIGNIN:
+            return { ...state, sidebarstate: 'nsignin' };
         case actionType.SIDEBARMYPAGE:
-            return {...state, sidebarstate: 'mypage'};
+            return { ...state, sidebarstate: 'mypage' };
         default:
             return state;
     }

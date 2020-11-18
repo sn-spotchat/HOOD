@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@dohyeon/react-naver-login": "^0.1.1-1",
     "@material-ui/core": "^4.11.0",
     "@react-firebase/database": "^0.3.11",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "@types/react-redux": "^7.1.11",
     "@types/react-router-dom": "^5.1.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -27,7 +29,8 @@
     "redux-devtools-extension": "^2.13.8",
     "socket.io": "^2.3.0",
     "socketio": "^1.0.0",
-    "styled-components": "^5.2.0"
+    "styled-components": "^5.2.1",
+    "typescript": "^4.0.5"
   },
   "scripts": {
     "start": "react-scripts start",

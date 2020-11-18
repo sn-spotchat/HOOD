@@ -1,4 +1,4 @@
-import React, { Component,useState, useEffect, useRef} from 'react';
+ import React, { Component,useState, useEffect, useRef} from 'react';
 import './Map.css';
 import Sidebar from './Sidebar';
 import SidebarContainer from '../containers/SidebarContainer';
@@ -33,37 +33,38 @@ const PolyMap = (props) => {
       if(Near(x, y, geolocation.latitude, geolocation.longitude, range)){
         var coordinates=val.geometry.coordinates;
         var name=val.properties.adm_nm;
-        DisplayArea(coordinates, polylist);
+        DisplayArea(coordinates, polylist, name);
       }
     })
   }
 
-  function DisplayArea(coordinates, polylist){
+  function DisplayArea(coordinates, polylist, name){
     var path=[];
     coordinates[0].forEach(data =>{
-      data.forEach(Coordinate =>{
+      data.forEach(Coordinate =>{        
         path.push(new window.naver.maps.LatLng(Coordinate[1],Coordinate[0]))
       })
     })
-    polylist.push(path);
-  }
-  
-
-  function NaverMapAPI() {     
-    var polylist=[];
-    makepolygon(SeoulDong, polylist)
-    const navermaps = window.naver.maps;
-    const Polygonlist = polylist.map(
-      (poly)=>( <Polygon 
-        paths={poly}
+    //<Polygon>s need own keys for each.
+    //added keys as its name for now.
+    polylist.push(
+      <Polygon 
+        key = {name}
+        paths={path}
         fillColor={'#7ec4f0'}
         fillOpacity={0.3}
         strokeColor={'#ffffff'}
         strokeOpacity={0.8}
         strokeWeight={2}
-      />)
-    )
+        path/>
+      );
+  }
+  
 
+  function NaverMapAPI() {     
+    var polylist=[];        
+    makepolygon(SeoulDong, polylist)
+    //the code was optimized.
     return (
       <NaverMap
         mapDivId={'maps-getting-started-uncontrolled'} // default: react-naver-map
@@ -73,9 +74,8 @@ const PolyMap = (props) => {
         }}
         defaultCenter={{ lat: geolocation.latitude, lng: geolocation.longitude }} // 지도 초기 위치
         defaultZoom={16} // 지도 초기 확대 배율
-        polygons={polylist}
       >
-        {Polygonlist}
+        {polylist}
       </NaverMap>
     );
   }
@@ -86,7 +86,6 @@ const PolyMap = (props) => {
 
 
 const Map = () =>{
-
 
   const [sideType, setSideType] = useState("block"); //사이드바의 타입(지금은 chat, list, 채팅방)
   const [sideDisplay, setSideDisplay] = useState("near"); //사이드바의 display를 none, block 설정
@@ -101,7 +100,9 @@ const Map = () =>{
     document.getElementById("sideBar").style.display=sideDisplay;
   }
 
-  const AA = () =>{
+  //after solving naver-login-map conflict, 
+  //LoadMapfromStore function is still needed since the page is rendered so many time for no reason.
+  const LoadMapfromStore = () =>{
     const store_maploaded = useSelector(state => state.mapreducer.maploaded);
     const store_map = useSelector(state => state.mapreducer.map);
 
@@ -113,7 +114,6 @@ const Map = () =>{
 
     useEffect(()=>{ 
       dispatch(actionType.mapsave(local_map));
-      console.log('dispatch complete!')
     },[store_maploaded])
    
     if(store_maploaded == false){
@@ -124,6 +124,7 @@ const Map = () =>{
 
     return local_map;
   }
+  
   return (    
         <div className="mapWrap">
       <div id="sideBar" className="sideBar">
@@ -131,7 +132,7 @@ const Map = () =>{
       </div>
       <button onClick={changeDisplay}>Button</button>
       <div className="map">
-        
+        {LoadMapfromStore()}
       </div>
     </div>
     

@@ -1,4 +1,4 @@
-import React, { Component,useState, useEffect, useRef} from 'react';
+ import React, { Component,useState, useEffect, useRef} from 'react';
 import './Map.css';
 import Sidebar from './Sidebar';
 import SidebarContainer from '../containers/SidebarContainer';
@@ -62,8 +62,7 @@ const PolyMap = (props) => {
   
 
   function NaverMapAPI() {     
-    var polylist=[];    
-    
+    var polylist=[];        
     makepolygon(SeoulDong, polylist)
     //the code was optimized.
     return (
@@ -101,10 +100,9 @@ const Map = () =>{
     document.getElementById("sideBar").style.display=sideDisplay;
   }
 
-  const AA = () =>{
-    //below return makes the map disabled. 
-    //the map still conflicts with naver-login and resolution is on progress
-    return <div></div>
+  //after solving naver-login-map conflict, 
+  //LoadMapfromStore function is still needed since the page is rendered so many time for no reason.
+  const LoadMapfromStore = () =>{
     const store_maploaded = useSelector(state => state.mapreducer.maploaded);
     const store_map = useSelector(state => state.mapreducer.map);
 
@@ -134,7 +132,7 @@ const Map = () =>{
       </div>
       <button onClick={changeDisplay}>Button</button>
       <div className="map">
-        {AA()}
+        {LoadMapfromStore()}
       </div>
     </div>
     

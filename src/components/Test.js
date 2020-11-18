@@ -19,27 +19,6 @@ const Test = (props) =>{
   const date = new Date();
 //
   function writeMsgData(id, msg, chatroom_id) {
-    /*var chatID;
-    database.ref('chat').once('value', (snapshot) =>{
-      chatID = snapshot.numChildren();
-      database.ref('chat/' + chatroomname + '/' + chatID).set({
-        chat_id: chatID,
-        chatroom_id: chatroom_id,
-        message: msg,
-        time: date,
-        user_id: profilesaved.profile.id,
-      });
-    });
-    database.ref('chatroom/' + chatroom_id + '/chatlist').once('value', (snapshot) =>{
-      var id = snapshot.numChildren();
-      database.ref('chatroom/' + chatroom_id + '/chatlist/' + id).set({
-        chat_id: chatID,
-      });
-      database.ref('chatroom/' + chatroom_id + '/chatlastlist/' + id).update({
-        chat_id: chatID,
-      });
-    });
-    */
     //chat db에 저장하는 부분
     var date = new Date();
     database.ref('chat').push({chatroom_id: chatroom_id, message: msg, time: date.toString(), user_id: id});
@@ -72,16 +51,6 @@ const Test = (props) =>{
     });
   }
   function readMsgDate(chatroomid){
-    /*수정해야함
-    database.ref('chatdata/').child(chatroomname).once('value', (snapshot) =>{
-      const msgdata = snapshot.val();
-      for(var i = 0; i<snapshot.numChildren(); i++){
-        console.log(msgdata[i]);
-        setMessages(oldMsgs => [...oldMsgs, msgdata[i]]);
-      }
-    });
-    */
-   //해당 채팅방의 메시지를 읽어와야함. 기준은 userdb의 time기준
     database.ref('user').once('value', function(snapshot) {
       Object.values(snapshot.val()).forEach(Snap =>{
         if(login.id === Snap['ID'] && login.pw === Snap['PW']){

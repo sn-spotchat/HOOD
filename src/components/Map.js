@@ -18,11 +18,8 @@ const PolyMap = (props) => {
     timeout:  12000
   })
 
-
   function Near(ax, ay, bx, by, range){
-    if(Math.abs(ax - bx) <= range && Math.abs(ay - by) <= range)
-      return true;
-    return false;
+    return (Math.abs(ax - bx) <= range && Math.abs(ay - by) <= range)
   }
   function makepolygon(geojson, polylist){
     var data=geojson.features;
@@ -47,19 +44,44 @@ const PolyMap = (props) => {
     })
     //<Polygon>s need own keys for each.
     //added keys as its name for now.
+
+    const [color,setcolor]=useState('#7ec4f0')
+    const [scolor,setscolor]=useState('#ffffff')
+    const [opacity,setopacity]=useState(0.6)
+
+    //일단 간단한 이벤트로 정의해둠, 기능 변경필요함.
+    const polyClick=()=>{
+      setcolor('#ff2400')
+      alert("폴리곤을 클릭했습니다.")
+    }
+
+    const polyover=()=>{
+      setscolor('#E51D1A')
+      setopacity(1)
+    }
+
+    const polyout=()=>{
+      setscolor('#ffffff')
+      setopacity(0.6)
+    }
+
     polylist.push(
       <Polygon 
         key = {name}
         paths={path}
-        fillColor={'#7ec4f0'}
+        fillColor={color}
         fillOpacity={0.3}
-        strokeColor={'#ffffff'}
-        strokeOpacity={0.8}
+        strokeColor={scolor}
+        strokeOpacity={opacity}
         strokeWeight={2}
-        path/>
+        clickable={true}
+        onClick={polyClick}
+        onMouseover={polyover}
+        onMouseout={polyout}
+        />
       );
   }
-  
+
 
   function NaverMapAPI() {     
     var polylist=[];        

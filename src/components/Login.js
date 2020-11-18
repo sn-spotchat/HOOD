@@ -68,7 +68,7 @@ const Login = () =>{
 
   const Authenticate = () => {    
     database.ref('/user').once('value', function(snapshot) {
-      snapshot.val().forEach(function(Snap){
+      Object.values(snapshot.val()).forEach(function(Snap){
         if(ID == Snap['ID'] && PW == Snap['PW']){
           setprofile(Snap['profile'])
           dispatch(actionType.loggedinObject);

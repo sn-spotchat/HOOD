@@ -28,7 +28,7 @@ export const sidebarmypage = () => ({type:SIDEBARMYPAGE});
 
 
 export const chatname = (chatname) => ({type:CHATNAME, name:chatname});
-export const chatid = (chatid) => ({type:CHATNAME, id:chatid});
+export const chatid = (chatid) => ({type:CHATID, id:chatid});
 export const insertchatroom = (chatroomid) =>({type:INSERTCHATROOM, id:chatroomid});
 export const removechatroom = (chatroomid) =>({type:REMOVECHATROOM, id:chatroomid});
 export const newchat = ()=>({type:NEWCHAT});

@@ -14,6 +14,7 @@ const ChatroomBox = (props) =>{
   const chat = useSelector(state => state.chatreducer, []);
   const login = useSelector(state => state.loginreducer, {});
   useEffect(()=>{//정보를 받아와 리스트를 작성한다.
+    console.log("inchatroombox", props.chatRoom);
     const chatroom = database.ref('chatroom/');
     var chatroomObj = chatroom.orderByChild("chatroom_id").equalTo(Number(props.chatRoom));
     chatroomObj.once('value', (data) =>{

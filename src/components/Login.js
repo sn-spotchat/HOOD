@@ -1,106 +1,97 @@
 import React, { useEffect, useState } from 'react';
-import {useSelector, useDispatch, connect} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as actionType from '../modules/action';
+import { database } from '../firebase';
 import NLogin from './NLogin';
-import Signin from './Signup';
 import './Login.css';
-import ReactDOM from 'react-dom';
-//import Avatar from '@material-ui/core/Avatar';
+
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-//import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { database } from '../firebase';
-
-const useStyles = makeStyles((theme) => ({  
-    submit: {
-        margin: theme.spacing(1, 1, 1),
-        height : '30px',
-        width : '90px',
-        color : '#ffffff',
-        backgroundColor:'#7ec4eb',
-    },
-    nsubmit: {
-        margin: theme.spacing(1, 1, 1),
-        height : '30px',
-        width : '198px',
-        color : '#ffffff',
-        backgroundColor:'#4ed48b',
-    },
-  })
-);
 
 
 
-
-const Login = () =>{
-  const oldprofile = useSelector(state => state.profilereducer, {})
-  const [profile, setprofile] = useState(oldprofile['profile']);
-  const [dbdata, setdbdata] = useState();
-  const [ERRFLAG, setERRFLAG] = useState(false);
+const Login = () => {
+  const [profile, setprofile] = useState({});
+  const [MATCHFOUND, setMATCHFOUND] = useState(false);
+  const [ERROR, setERROR] = useState(false);
   const [ID, setID] = useState('');
   const [PW, setPW] = useState('');
+  const [userId, setUserId] = useState();
   const dispatch = useDispatch();
+  const useStyles = makeStyles((theme) => ({
+    submit: {
+      margin: theme.spacing(1, 1, 1),
+      height: '30px',
+      width: '90px',
+      color: '#ffffff',
+      backgroundColor: '#7ec4eb',
+    },
+    nsubmit: {
+      margin: theme.spacing(1, 1, 1),
+      height: '30px',
+      width: '196px',
+      color: '#ffffff',
+      backgroundColor: '#4ed48b',
+    },
+  })
+  );
+  const classes =useStyles();
 
-  const classes = useStyles(); 
-  var flag = true;
-
-  useEffect(()=>{
-    dispatch(actionType.insertprofile(profile));  
-    if (flag == false){
-      setERRFLAG(true)
+  useEffect(() => {
+    if (MATCHFOUND == true) {
+      dispatch(actionType.insertprofile(profile));
+      dispatch(actionType.loggedinObject);
+      dispatch(actionType.sidebarmypage());
     }
   }, [profile]);
-  
+
   const changeID = (event) => {
-    setID(event.target.value);      
+    setID(event.target.value);
   }
   const changePW = (event) => {
-    setPW(event.target.value);      
-  }    
+    setPW(event.target.value);
+  }
 
-  const Authenticate = () => {    
-    database.ref('/user').once('value', function(snapshot) {
-      Object.values(snapshot.val()).forEach(function(Snap){
-        if(ID == Snap['ID'] && PW == Snap['PW']){
-          setprofile(Snap['profile'])
-          dispatch(actionType.loggedinObject);
-          dispatch(actionType.sidebarmypage()); 
-          console.log('matches ');
-          console.log(Snap['name'])
-          flag = true;
+  const Authenticate = async () => {
+    setERROR(false);
+    await database.ref('/user').once('value').then((Snap) => {
+      const Accounts = Snap.val();
+      const Arr = Object.keys(Snap.val());
+      Arr.forEach(key => {
+        if (Accounts[key]['ID'] == ID && Accounts[key]['PW'] == PW) {
+          setMATCHFOUND(true);
+          setprofile(Accounts[key]['profile']);
+          dispatch(actionType.loginid(ID));
+          dispatch(actionType.loginpw(PW));
+          if(Accounts[key]['chatroomlist'] !== null && Accounts[key]['chatroomlist'] !== undefined){
+            Object.values(Accounts[key]['chatroomlist']).forEach(data =>{
+              dispatch(actionType.insertchatroom(data['chatroom_id']));
+            });
+          }
         }
-        else{             
-          flag = false;
-          setERRFLAG(true)
+        else {
+          setERROR(true);
         }
       })
-    }); 
+    });
   }
-    return(
-        <form className = 'SigninMain'>
-            <div className = 'MarginTop'>
-                <img className = 'Icon' src = {require('./HoodIcon.png')}></img>
-            </div>
-            <Typography component="h1" variant="h5" >로그인</Typography>
-            <TextField onChange = {(event) => changeID(event)} error = {ERRFLAG} variant = 'outlined' label='ID' margin="dense"/>
-            <TextField onChange = {(event) => changePW(event)} error = {ERRFLAG} variant = 'outlined' label="PW" margin="dense"/>
-            <div className = 'SigninRow'>
-              <Button onClick = {() => Authenticate()} variant="contained" color="primary" className={classes.submit}>로그인</Button>
-              <Button onClick = {() => dispatch(actionType.sidebarsigninObject)} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
-            </div>    
-            <Button variant="contained" color="primary" className={classes.nsubmit}>
-              <NLogin/>
-            </Button>
-        </form>
-    );  
+  return (
+    <div className='SidebarContent'>
+      <img className='Icon' src={require('./HoodIcon.png')}/>
+      <Typography component="h1" variant="h5" >로그인</Typography>
+      <TextField onChange={(event) => changeID(event)} error={ERROR} variant='outlined' label='ID' margin="dense" />
+      <TextField onChange={(event) => changePW(event)} error={ERROR} variant='outlined' label="PW" margin="dense" />
+      <div className='SigninRow'>
+        <Button onClick={() => Authenticate()} variant="contained" color="primary" className={classes.submit}>로그인</Button>
+        <Button onClick={() => dispatch(actionType.sidebarsigninObject)} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
+      </div>
+      <Button variant="contained" color="primary" className={classes.nsubmit}>
+        <NLogin />
+      </Button>
+    </div>
+  );
 };
 
 export default Login;

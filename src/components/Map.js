@@ -51,8 +51,8 @@ const PolyMap = (props) => {
       <Polygon 
         key = {name}
         paths={path}
-        fillColor={'#7ec4f0'}
-        fillOpacity={0.3}
+        fillColor={'#7ea4f0'}
+        fillOpacity={0.4}
         strokeColor={'#ffffff'}
         strokeOpacity={0.8}
         strokeWeight={2}

@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch, connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as actionType from '../modules/action';
+import { database } from '../firebase';
 import NLogin from './NLogin';
 import './Login.css';
-import ReactDOM from 'react-dom';
-import Avatar from '@material-ui/core/Avatar';
+
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { database } from '../firebase';
 
 const useStyles = makeStyles((theme) => ({
     submit: {
@@ -48,48 +40,48 @@ const Signin = (props) => {
     const [User, setUser] = useState();
     const classes = useStyles();
     const [flag, setflag] = useState(false);
-    
+
 
     //setprofile
     //setUser
     //DB.push
     //the above cycle must be done in order and made the code messy
     //optimization is needed
-    useEffect(()=>{        
-        if(flag == true) { 
+    useEffect(() => {
+        if (flag == true) {
             setprofile({
-                age : '',                
-                birthday:'',
-                email:'',
-                gender:'',
-                id:'',
-                name : NAME,
-                nickname:'',
-                profile_image:'',                
+                age: '',
+                birthday: '',
+                email: '',
+                gender: '',
+                id: '',
+                name: NAME,
+                nickname: '',
+                profile_image: '',
             });
         }
-    },[flag])
+    }, [flag])
 
-    useEffect(()=>{        
-        if(flag == true) {             
+    useEffect(() => {
+        if (flag == true) {
             setUser({
-                ID : ID,
-                PW : PW,
-                chatlist : [null],
-                chatroomlist : [null],
-                profile : profile,
-            });                       
+                ID: ID,
+                PW: PW,
+                chatlist: [null],
+                chatroomlist: [null],
+                profile: profile,
+            });
         }
-    },[profile])
-    
-    useEffect(()=>{        
-        if(flag == true) {  
-            database.ref('/user').push(User); 
+    }, [profile])
+
+    useEffect(() => {
+        if (flag == true) {
+            database.ref('/user').push(User);
             dispatch(actionType.insertprofile(profile));
             dispatch(actionType.loggedinObject);
             dispatch(actionType.sidebarmypageObject);
         }
-    },[User])
+    }, [User])
 
     const changeID = (event) => {
         setID(event.target.value);
@@ -116,16 +108,16 @@ const Signin = (props) => {
         else if (PW.length < 6) { MSG = '비밀번호는 6글자 이상이어야합니다.'; valid = false; setPWERRFLAG(true); }
         else {
             var exists = false;
-            await database.ref('/user').once('value', (Snap) =>{
+            await database.ref('/user').once('value', (Snap) => {
                 const Accounts = Snap.val();
                 const Arr = Object.keys(Accounts);
                 Arr.forEach(key => {
-                    if(Accounts[key]['ID'] == ID) exists = true;
+                    if (Accounts[key]['ID'] == ID) exists = true;
                 })
                 if (exists == true) {
                     MSG = '이미 사용중인 아이디입니다.'; valid = false; setIDERRFLAG(true);
-                }                
-            });            
+                }
+            });
         }
         return [MSG, valid]
     }
@@ -133,8 +125,8 @@ const Signin = (props) => {
     //SigninProcess is the function called when Signinbutton is Clicked
     const SigninProcess = () => {
         Checkvalid().then(([MSG, valid]) => {
-             if (valid) {           
-               setflag(true);
+            if (valid) {
+                setflag(true);
             }
             else {
                 alert(MSG)

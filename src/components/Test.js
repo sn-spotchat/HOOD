@@ -62,11 +62,8 @@ const Test = (props) =>{
           Object.values(Snap['chatroomlist']).forEach(data =>{
             if(data['chatroom_id'] === chatroomid){
               const chatRef = database.ref('chat/');
-              console.log(data['time']);
               chatRef.orderByChild('time').startAt(data['time']).once('value', function(data){
-                console.log(data.val());
                 Object.values(data.val()).forEach(function(messageObj){
-                  console.log(messageObj);
                   setMessages(oldMsgs => [...oldMsgs, messageObj]);
                 });
               });

@@ -63,8 +63,10 @@ const Login = () => {
         if (Accounts[key]['ID'] == ID && Accounts[key]['PW'] == PW) {
           setMATCHFOUND(true);
           setprofile(Accounts[key]['profile']);
+          dispatch(actionType.loginid(ID));
+          dispatch(actionType.loginpw(PW));
           if(Accounts[key]['chatroomlist'] !== null && Accounts[key]['chatroomlist'] !== undefined){
-            Object.values(Snap['chatroomlist']).forEach(data =>{
+            Object.values(Accounts[key]['chatroomlist']).forEach(data =>{
               dispatch(actionType.insertchatroom(data['chatroom_id']));
             });
           }

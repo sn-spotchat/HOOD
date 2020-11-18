@@ -57,19 +57,22 @@ const Test = (props) =>{
     });
   }
   function readMsgDate(chatroomid){
+    var time;
     database.ref('user').once('value', function(snapshot) {
       Object.values(snapshot.val()).forEach(Snap =>{
-        if(login.id === Snap['ID'] && login.pw === Snap['PW']){
+        if(login.id === Snap['ID']){
           Object.values(Snap['chatroomlist']).forEach(data =>{
-            if(data['chatroom_id'] === chatroomid){
-              const chatRef = database.ref('chat/');
-              chatRef.orderByChild('time').startAt(data['time']).once('value', function(data){
-                Object.values(data.val()).forEach(function(messageObj){
-                  setMessages(oldMsgs => [...oldMsgs, messageObj]);
-                });
-              });
+            if(String(data['chatroom_id']) === String(chatroomid)){
+              time = data['time'];
             }
           });
+        }
+      });
+    });
+    database.ref('chat').orderByChild('chatroom_id').equalTo(chatroomid).once('value', function(data){
+      Object.values(data.val()).forEach(Snap =>{
+        if(time <= Snap['time']){
+          setMessages(oldMsgs => [...oldMsgs, Snap]);
         }
       });
     });

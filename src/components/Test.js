@@ -10,6 +10,7 @@ const Test = (props) =>{
   const [socketID, setSocketID] = useState();
   const [messages, setMessages] = useState([]);//모든 메시지(server로부터 받은 모든 메시지)
   const [message, setMessage] = useState("");//내가 입력한 메시지
+  const [chatroomName, setChatroomName] = useState("");
   
   const socketRef = useRef();
   const dispatch = useDispatch();
@@ -92,6 +93,15 @@ const Test = (props) =>{
       readMsgDate(props.chatRoomId);
     }
 
+    database.ref('chatroom').once('value', function(snapshot) {
+      Object.entries(snapshot.val()).forEach(entry =>{
+        const [key, value] = entry;
+        if(String(value['chatroom_id']) === String(props.chatRoomId)){
+          setChatroomName(value['name']);
+        }
+      });
+    });
+
     socketRef.current.on("your id", id =>{
       setYourID(login.id);
       setSocketID(id);
@@ -137,7 +147,7 @@ const Test = (props) =>{
     <div className="chat">
       <div className="chatHead">
         <button id="backBtn" onClick={()=>dispatch(actionType.sidebarchatObject)}>back</button>
-        {props.chatRoomId}
+        {chatroomName}
         <button id="exitChatroomBtn" onClick={() =>{leaveRoom(props.chatRoomId); dispatch(actionType.sidebarnearObject);}}>exit</button>
       </div>
       <div className="chatBody">

@@ -1,24 +1,17 @@
-.SigninMain{
+.SidebarContent{
     display: flex;
     flex-direction: column;
-    align-content: relative;
-    height : 600px;
-    width : 314px;    
-    margin: 10px;
+    height : 100vh;
+    width : 318px;    
+    margin-left: 10px;
     border-style: solid;
     border-width : 1px;
     border-radius: 5px;
     border-color : gray;
     align-items: center;
-  }
-.MarginTop{
-    margin-top : 50px;    
 }
 .Icon{
-    max-width: 100px;    
-    max-height: 100px;
-}
-.SigninRow{
-    display: flex;
-    flex-direction: row;
+    margin-top : calc(50vh - 300px);    
+    max-width: 150px;    
+    max-height: 150px;
 }

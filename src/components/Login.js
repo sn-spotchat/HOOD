@@ -10,23 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
-  submit: {
-    margin: theme.spacing(1, 1, 1),
-    height: '30px',
-    width: '90px',
-    color: '#ffffff',
-    backgroundColor: '#7ec4eb',
-  },
-  nsubmit: {
-    margin: theme.spacing(1, 1, 1),
-    height: '30px',
-    width: '196px',
-    color: '#ffffff',
-    backgroundColor: '#4ed48b',
-  },
-})
-);
+
 
 const Login = () => {
   const [profile, setprofile] = useState({});
@@ -35,8 +19,24 @@ const Login = () => {
   const [ID, setID] = useState('');
   const [PW, setPW] = useState('');
   const dispatch = useDispatch();
-
-  const classes = useStyles();
+  const useStyles = makeStyles((theme) => ({
+    submit: {
+      margin: theme.spacing(1, 1, 1),
+      height: '30px',
+      width: '90px',
+      color: '#ffffff',
+      backgroundColor: '#7ec4eb',
+    },
+    nsubmit: {
+      margin: theme.spacing(1, 1, 1),
+      height: '30px',
+      width: '196px',
+      color: '#ffffff',
+      backgroundColor: '#4ed48b',
+    },
+  })
+  );
+  const classes =useStyles();
 
   useEffect(() => {
     if (MATCHFOUND == true) {
@@ -70,10 +70,8 @@ const Login = () => {
     });
   }
   return (
-    <form className='SigninMain'>
-      <div className='MarginTop'>
-        <img className='Icon' src={require('./HoodIcon.png')}></img>
-      </div>
+    <div className='SidebarContent'>
+      <img className='Icon' src={require('./HoodIcon.png')}/>
       <Typography component="h1" variant="h5" >로그인</Typography>
       <TextField onChange={(event) => changeID(event)} error={ERROR} variant='outlined' label='ID' margin="dense" />
       <TextField onChange={(event) => changePW(event)} error={ERROR} variant='outlined' label="PW" margin="dense" />
@@ -84,7 +82,7 @@ const Login = () => {
       <Button variant="contained" color="primary" className={classes.nsubmit}>
         <NLogin />
       </Button>
-    </form>
+    </div>
   );
 };
 

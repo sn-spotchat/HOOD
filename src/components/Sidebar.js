@@ -43,7 +43,7 @@ const Sidebar = ({sidebarstate}) =>{
   },[sidebarstate]);
     
   return (
-    <div className="sidebar">
+    <div id = 'Sidebar' className="Sidebar">
       {sidebarType}
     </div>
   );

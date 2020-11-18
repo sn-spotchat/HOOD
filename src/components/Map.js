@@ -1,7 +1,5 @@
  import React, { Component,useState, useEffect, useRef} from 'react';
 import './Map.css';
-import Sidebar from './Sidebar';
-import SidebarContainer from '../containers/SidebarContainer';
 import useGeolocation from 'react-hook-geolocation';
 import { RenderAfterNavermapsLoaded, NaverMap, Polygon, Marker } from 'react-naver-maps'; // 패키지 불러오기
 import SeoulDong from "./SeoulDong.json";
@@ -90,15 +88,6 @@ const Map = () =>{
   const [sideType, setSideType] = useState("block"); //사이드바의 타입(지금은 chat, list, 채팅방)
   const [sideDisplay, setSideDisplay] = useState("near"); //사이드바의 display를 none, block 설정
 
-  function changeDisplay(){
-    if(sideDisplay === "none"){
-      setSideDisplay("block");
-    }
-    else{
-      setSideDisplay("none");
-    }
-    document.getElementById("sideBar").style.display=sideDisplay;
-  }
 
   //after solving naver-login-map conflict, 
   //LoadMapfromStore function is still needed since the page is rendered so many time for no reason.
@@ -125,17 +114,10 @@ const Map = () =>{
     return local_map;
   }
   
-  return (    
-        <div className="mapWrap">
-      <div id="sideBar" className="sideBar">
-        <SidebarContainer></SidebarContainer>
-      </div>
-      <button onClick={changeDisplay}>Button</button>
-      <div className="map">
+  return (     
+      <div className="Map">
         {LoadMapfromStore()}
-      </div>
-    </div>
-    
+      </div>    
   );
 };
 

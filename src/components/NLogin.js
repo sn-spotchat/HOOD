@@ -1,11 +1,11 @@
 import { Checkbox } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import NaverLogin from 'react-naver-login';
+import NaverLogin from './RNL';
 import {useSelector, useDispatch} from 'react-redux';
 import * as actionType from '../modules/action';
 import {database} from '../firebase.js';
 
-const NLogin = () =>{
+const NLogin = (props) =>{
     const dispatch = useDispatch();
     const oldprofile = useSelector(state => state.profilereducer, {});
     const [profile, setprofile] = useState({});
@@ -55,21 +55,8 @@ const NLogin = () =>{
         })
         //else if it doesn't, the page redirects to NSignin, 
     }
-    
-    return (
-        <NaverLogin 
-            //deploy
-            //clientId="IiiApimgTUwcBWT8GLsw"            
-            //callbackUrl="https://hood-sgtmi.web.app/"
-            clientId="dgwFUqPZTSWhHSO0FkGl" 
-            callbackUrl="http://localhost:3000/callback"
-            render = {(props) => 
-            <div onClick={props.onClick}> 
-            네이버 아이디로 로그인
-            </div>
-            }
-            onSuccess={(result) => Login(result)}
-        />
+    return (        
+        <NaverLogin onSuccess={(result) => Login(result)}/>
     );
 };
 

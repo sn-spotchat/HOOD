@@ -1,12 +1,17 @@
-import React, {Component, useEffect} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Main from './components/Main.js';
 import Callback from './components/Callback';
 import './App.css';
+import { useDispatch } from 'react-redux';
+import * as actionTypes from './modules/action';
+import Init from './Init'
 
-const App = () => {
-   
 
+
+const App = () => {  
+  //Init() is called only the first time.  
+  Init();
   return (
     <div className="App">
       <Router>

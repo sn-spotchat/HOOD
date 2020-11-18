@@ -141,8 +141,6 @@ const Signin = (props) => {
             }
         });
     }
-    //the user with NLogin has to create one's own account for hood and map with NLogin
-    //after this commit, the above function will be added
     return (
         <form className='SigninMain'>
             <div className='MarginTop'>

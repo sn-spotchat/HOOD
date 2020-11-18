@@ -90,9 +90,11 @@ const Login = () =>{
           dispatch(actionType.loginpw(Snap['PW']));
           //dispatch(actionType.loginuserid(Snap['user_id']));
           console.log(Snap['chatroomlist']);
-          Object.values(Snap['chatroomlist']).forEach(data =>{
-            dispatch(actionType.insertchatroom(data['chatroom_id']));
-          });
+          if(Snap['chatroomlist'] !== null && Snap['chatroomlist'] !== undefined){
+            Object.values(Snap['chatroomlist']).forEach(data =>{
+              dispatch(actionType.insertchatroom(data['chatroom_id']));
+            });
+          }
           flag = true;
         }
         else{             

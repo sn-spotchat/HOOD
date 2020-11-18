@@ -18,6 +18,11 @@ const Test = (props) =>{
   const login = useSelector(state => state.loginreducer, {});
   const date = new Date();
 //
+  function getTime(time){
+    var dateObj = new Date(time);
+    return dateObj.getHours()+":"+dateObj.getMinutes();
+  }
+
   function writeMsgData(id, msg, chatroom_id) {
     //chat db에 저장하는 부분
     var date = new Date();
@@ -57,9 +62,11 @@ const Test = (props) =>{
           Object.values(Snap['chatroomlist']).forEach(data =>{
             if(data['chatroom_id'] === chatroomid){
               const chatRef = database.ref('chat/');
-              chatRef.orderByChild('time').startAt(Date(data['time'])).once('value', function(data){
+              console.log(data['time']);
+              chatRef.orderByChild('time').startAt(data['time']).once('value', function(data){
                 console.log(data.val());
-                Object.values(data).forEach(function(messageObj){
+                Object.values(data.val()).forEach(function(messageObj){
+                  console.log(messageObj);
                   setMessages(oldMsgs => [...oldMsgs, messageObj]);
                 });
               });
@@ -141,7 +148,7 @@ const Test = (props) =>{
             if(message.user_id === login.id){
               return ( 
                 <div className="MyRow" key={index}>
-                  <div className="MyTime">{message.time}</div>
+                  <div className="MyTime">{getTime(message.time)}</div>
                   <div className="MyMsg">
                     {message.message}
                   </div>
@@ -157,7 +164,7 @@ const Test = (props) =>{
                   <div className="PeerMsg">
                     {message.message}
                   </div>
-                  <div className="PeerTime">{message.time}</div>
+                  <div className="PeerTime">{getTime(message.time)}</div>
                 </div>
               </div>
             )

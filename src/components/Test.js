@@ -53,7 +53,7 @@ const Test = (props) =>{
       chatroom_id: props.chatRoomId,
       type: "text",
       time: date.toString(),
-      user_id: login.ID,
+      user_id: login.id,
       content: message
     };
     
@@ -126,7 +126,7 @@ const Test = (props) =>{
                 <div className="MyRow" key={index}>
                   <div className="MyTime">{getTime(message.time)}</div>
                   <div className="MyMsg">
-                    {message.message}
+                    {message.content}
                   </div>
                 </div>
               )
@@ -134,11 +134,11 @@ const Test = (props) =>{
             return (
               <div className="PeerRow" key={index}>
                 <div className="PeerInfo">
-                  <div className="PeerName">{message.user_name}</div>
+                  <div className="PeerName">{message.user_id}</div>
                 </div>
                 <div className="PeerMsgInfo">
                   <div className="PeerMsg">
-                    {message.message}
+                    {message.content}
                   </div>
                   <div className="PeerTime">{getTime(message.time)}</div>
                 </div>

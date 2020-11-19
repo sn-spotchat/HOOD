@@ -1,4 +1,4 @@
- import React, { Component,useState, useEffect, useRef} from 'react';
+import React, { Component,useState, useEffect, useRef} from 'react';
 import './Map.css';
 import useGeolocation from 'react-hook-geolocation';
 import { RenderAfterNavermapsLoaded, NaverMap, Polygon, Marker } from 'react-naver-maps'; // 패키지 불러오기
@@ -16,18 +16,15 @@ const PolyMap = (props) => {
     timeout:  12000
   })
 
-
   function Near(ax, ay, bx, by, range){
-    if(Math.abs(ax - bx) <= range && Math.abs(ay - by) <= range)
-      return true;
-    return false;
+    return (Math.abs(ax - bx) <= range && Math.abs(ay - by) <= range)
   }
   function makepolygon(geojson, polylist){
     var data=geojson.features;
     $.each(data,function(index,val){
       var y = val.geometry.centerXY[1]; var x = val.geometry.centerXY[0];
 
-      var range = 0.020
+      var range = 0.020;
       if(Near(x, y, geolocation.latitude, geolocation.longitude, range)){
         var coordinates=val.geometry.coordinates;
         var name=val.properties.adm_nm;
@@ -45,19 +42,44 @@ const PolyMap = (props) => {
     })
     //<Polygon>s need own keys for each.
     //added keys as its name for now.
+
+    const [color,setcolor]=useState('#7ea4f0')
+    const [scolor,setscolor]=useState('#ffffff')
+    const [opacity,setopacity]=useState(0.6)
+
+    //일단 간단한 이벤트로 정의해둠, 기능 변경필요함.
+    const polyClick=()=>{
+      setcolor('#ff2400')
+      console.log("폴리곤을 클릭했습니다.")
+    }
+
+    const polyover=()=>{
+      setcolor('#E51D1A')
+      //setopacity(1)
+    }
+
+    const polyout=()=>{
+      setcolor('#7ea4f0')
+     // setopacity(0.6)
+    }
+
     polylist.push(
       <Polygon 
         key = {name}
         paths={path}
-        fillColor={'#7ea4f0'}
-        fillOpacity={0.4}
-        strokeColor={'#ffffff'}
-        strokeOpacity={0.8}
+        fillColor={color}
+        fillOpacity={0.3}
+        strokeColor={scolor}
+        strokeOpacity={opacity}
         strokeWeight={2}
-        path/>
+        clickable={true}
+        onClick={polyClick}
+        onMouseover={polyover}
+        onMouseout={polyout}
+        />
       );
   }
-  
+
 
   function NaverMapAPI() {     
     var polylist=[];        
@@ -71,7 +93,7 @@ const PolyMap = (props) => {
           height: '100%' // 네이버지도 세로 길이
         }}
         defaultCenter={{ lat: geolocation.latitude, lng: geolocation.longitude }} // 지도 초기 위치
-        defaultZoom={16} // 지도 초기 확대 배율
+        defaultZoom={15} // 지도 초기 확대 배율
       >
         {polylist}
       </NaverMap>

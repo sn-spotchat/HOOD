@@ -4,7 +4,26 @@ import io from 'socket.io-client';
 import { database } from '../firebase';
 import "./Test.css";
 import * as actionType from '../modules/action';
-//지금은 채팅방이 1개인 임시지만, 후에 socket.join을 이용해서 여러개의 방을 만들 생각임 
+/*
+*chat DB
+*messageObj
+* - chat_id     (string): 채팅 메시지의 고유값
+* - chatroom_id (string): 채팅 메시지가 사용된 채팅방의 고유값
+* - type        (string): 메시지의 타입 (text, image(아직 미반영)) 
+* - time        (string): 메시지가 전송된 시간, (형식: Wed Nov 14 2020 13:30:00 GMT+0900 (대한민국 표준시))
+* - user_id     (string): 메시지를 보낸 사람의 고유값
+* - content     (string?): 메시지의 내용
+*
+*function
+*getTime(time)          : Date.toString()의 값을 인자로 전달받아 HH:MM형태로 반환해준다.
+*                       : 과거 메시지의 시간을 표시하기 위해 사용된다.
+*sendMessage(e)         : event trigger을 인자로 받으며, 채팅창에 입력된 메시지를 socketio를 통해 전송한다.
+*receiveMessage(messageObj): messageObj를 인자로 받으며, messages state에 Object를 배열의 형태로 저장한다. 
+*handleChange(e)        : 채팅창에 입력된 내용이 message state에 string형태로 저장된다.
+*
+*
+*
+*/
 const Test = (props) =>{
   const [yourID, setYourID] = useState();//나의 아이디
   const [socketID, setSocketID] = useState();
@@ -23,8 +42,125 @@ const Test = (props) =>{
     var dateObj = new Date(time);
     return dateObj.getHours()+":"+dateObj.getMinutes();
   }
+  
+  function receivedMessage(messageObj){
+    setMessages(oldMsgs => [...oldMsgs, messageObj]);
+  }
 
-  function writeMsgData(id, msg, chatroom_id) {
+  function sendMessage(e){
+    e.preventDefault();
+    const messageObject = {
+      chatroom_id: props.chatRoomId,
+      type: "text",
+      time: date.toString(),
+      user_id: login.ID,
+      content: message
+    };
+    
+    setMessage("");
+    socketRef.current.emit("send message", messageObject);
+  }
+
+  function leaveRoom(userid, chatroomid){
+    const dataObject = {
+      user_id: userid,
+      chatroom_id: chatroomid,
+    };
+    socketRef.current.emit("leave room", dataObject);
+    dispatch(actionType.removechatroom(chatroomid));
+  } 
+
+  function handleChange(e){
+    setMessage(e.target.value);
+  }
+//
+  useEffect(() => {
+    socketRef.current = io.connect("http://localhost:3001");  //나중에 서버에 Server.js를 올리게 되면 바꿔야함.
+
+    const dataObject = {
+      user_id: login.id,
+      chatroom_id: props.chatRoomId,
+    };
+
+    if(chat.newchat === true){
+      console.log("new");
+      socketRef.current.emit("join room", dataObject);
+    }
+    else{//chat목록에 있는 방인 경우
+      console.log("old");
+      socketRef.current.emit("rejoin room", dataObject);
+      //readMsgDate(props.chatRoomId);
+    }
+
+    database.ref('chatroom').once('value', function(snapshot) {
+      Object.entries(snapshot.val()).forEach(entry =>{
+        const [key, value] = entry;
+        if(String(value['chatroom_id']) === String(props.chatRoomId)){
+          setChatroomName(value['name']);
+        }
+      });
+    });
+
+    socketRef.current.on("your id", id =>{
+      setYourID(login.id);
+      setSocketID(id);
+    })
+    socketRef.current.on("message", (message) =>{
+      console.log(message.user_id);
+      receivedMessage(message);
+    })
+  }, []);
+
+  
+  return (
+    <div className="chat">
+      <div className="chatHead">
+        <button id="backBtn" onClick={()=>dispatch(actionType.sidebarchatObject)}>back</button>
+        {chatroomName}
+        <button id="exitChatroomBtn" onClick={() =>{leaveRoom(login.ID, props.chatRoomId); dispatch(actionType.sidebarnearObject);}}>exit</button>
+      </div>
+      <div className="chatBody">
+        {messages.map((message, index) => {
+            if(message.user_id === login.id){
+              return ( 
+                <div className="MyRow" key={index}>
+                  <div className="MyTime">{getTime(message.time)}</div>
+                  <div className="MyMsg">
+                    {message.message}
+                  </div>
+                </div>
+              )
+            }
+            return (
+              <div className="PeerRow" key={index}>
+                <div className="PeerInfo">
+                  <div className="PeerName">{message.user_name}</div>
+                </div>
+                <div className="PeerMsgInfo">
+                  <div className="PeerMsg">
+                    {message.message}
+                  </div>
+                  <div className="PeerTime">{getTime(message.time)}</div>
+                </div>
+              </div>
+            )
+          }
+        )}
+      </div>
+      <div className="chatUnder">
+        <form onSubmit={sendMessage}>
+          <textarea value={message} onChange={handleChange} placeholder="메시지 입력"></textarea>
+          <button>전송</button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default Test;
+
+/*
+function writeMsgData(id, msg, chatroom_id) {
     //chat db에 저장하는 부분
     var date = new Date();
     database.ref('chat').push({chatroom_id: chatroom_id, message: msg, time: date.toString(), user_id: id});
@@ -77,118 +213,4 @@ const Test = (props) =>{
       });
     });
   }
-//
-  useEffect(() => {
-    socketRef.current = io.connect("http://localhost:3001");  //나중에 서버에 Server.js를 올리게 되면 바꿔야함.
-
-    const dataObject = {
-      user_id: login.id,
-      roomId: props.chatRoomId,
-    };
-
-    if(chat.newchat === true){
-      console.log("new");
-      socketRef.current.emit("join room", dataObject);
-    }
-    else{//chat목록에 있는 방인 경우
-      console.log("old");
-      socketRef.current.emit("rejoin room", dataObject);
-      readMsgDate(props.chatRoomId);
-    }
-
-    database.ref('chatroom').once('value', function(snapshot) {
-      Object.entries(snapshot.val()).forEach(entry =>{
-        const [key, value] = entry;
-        if(String(value['chatroom_id']) === String(props.chatRoomId)){
-          setChatroomName(value['name']);
-        }
-      });
-    });
-
-    socketRef.current.on("your id", id =>{
-      setYourID(login.id);
-      setSocketID(id);
-    })
-    socketRef.current.on("message", (message) =>{
-      console.log(message.user_id);
-      receivedMessage(message);
-    })
-  }, []);
-
-  function receivedMessage(message){
-    setMessages(oldMsgs => [...oldMsgs, message]);
-  }
-
-  function sendMessage(e){
-    e.preventDefault();
-    const messageObject = {
-      message: message,
-      user_id: login.id,
-      user_name: profilesaved.profile.name,
-      roomId: props.chatRoomId,
-      time: date.getHours()+':'+date.getMinutes(),
-    };
-    writeMsgData(login.id, message, props.chatRoomId);
-    
-    setMessage("");
-    socketRef.current.emit("send message", messageObject);
-  }
-
-  function leaveRoom(chatname){
-    const dataObject = {
-      user_id: login.id,
-      roomId: props.chatRoomId,
-    };
-    socketRef.current.emit("leave room", dataObject);
-    dispatch(actionType.removechatroom(chatname));
-  } 
-
-  function handleChange(e){
-    setMessage(e.target.value);
-  }
-  return (
-    <div className="chat">
-      <div className="chatHead">
-        <button id="backBtn" onClick={()=>dispatch(actionType.sidebarchatObject)}>back</button>
-        {chatroomName}
-        <button id="exitChatroomBtn" onClick={() =>{leaveRoom(props.chatRoomId); dispatch(actionType.sidebarnearObject);}}>exit</button>
-      </div>
-      <div className="chatBody">
-        {messages.map((message, index) => {
-            if(message.user_id === login.id){
-              return ( 
-                <div className="MyRow" key={index}>
-                  <div className="MyTime">{getTime(message.time)}</div>
-                  <div className="MyMsg">
-                    {message.message}
-                  </div>
-                </div>
-              )
-            }
-            return (
-              <div className="PeerRow" key={index}>
-                <div className="PeerInfo">
-                  <div className="PeerName">{message.user_name}</div>
-                </div>
-                <div className="PeerMsgInfo">
-                  <div className="PeerMsg">
-                    {message.message}
-                  </div>
-                  <div className="PeerTime">{getTime(message.time)}</div>
-                </div>
-              </div>
-            )
-          }
-        )}
-      </div>
-      <div className="chatUnder">
-        <form onSubmit={sendMessage}>
-          <textarea value={message} onChange={handleChange} placeholder="메시지 입력"></textarea>
-          <button>전송</button>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-export default Test;
+*/

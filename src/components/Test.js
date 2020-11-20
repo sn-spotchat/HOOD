@@ -87,9 +87,9 @@ const Test = (props) =>{
         }
       });
     });
-    database.ref('chat').orderByChild('chatroom_id').equalTo(chatroomid).once('value', function(data){
+    database.ref('chat').once('value', function(data){
       Object.values(data.val()).forEach(Snap =>{
-        if(time <= Snap['time']){
+        if(time <= Snap['time'] && String(chatroomid) === Snap['chatroom_id']){
           setMessages(oldMsgs => [...oldMsgs, Snap]);
         }
       });

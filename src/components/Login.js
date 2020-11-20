@@ -62,7 +62,7 @@ const Login = () => {
       const Accounts = Snap.val();
       const Arr = Object.keys(Snap.val());
       Arr.forEach(key => {
-        if (Accounts[key]['ID'] == ID && Accounts[key]['PW'] == PW) {
+        if (Accounts[key]['ID'] === ID && Accounts[key]['PW'] === PW) {
           setprofile(Accounts[key]['profile']);
           setnickname(Accounts[key]['nickname']);
           dispatch(actionType.loginid(ID));

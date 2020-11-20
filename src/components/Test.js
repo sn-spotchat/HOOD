@@ -12,6 +12,7 @@ import * as actionType from '../modules/action';
 * - type        (string): 메시지의 타입 (text, image(아직 미반영)) 
 * - time        (string): 메시지가 전송된 시간, (형식: Wed Nov 14 2020 13:30:00 GMT+0900 (대한민국 표준시))
 * - user_id     (string): 메시지를 보낸 사람의 고유값
+* - nickname    (string): user의 nickname
 * - content     (string?): 메시지의 내용
 *
 *function
@@ -54,6 +55,7 @@ const Test = (props) =>{
       type: "text",
       time: date.toString(),
       user_id: login.id,
+      nickname: profilesaved.nickname,
       content: message
     };
     
@@ -134,7 +136,7 @@ const Test = (props) =>{
             return (
               <div className="PeerRow" key={index}>
                 <div className="PeerInfo">
-                  <div className="PeerName">{message.user_id}</div>
+                  <div className="PeerName">{message.nickname}</div>
                 </div>
                 <div className="PeerMsgInfo">
                   <div className="PeerMsg">

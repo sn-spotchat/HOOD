@@ -142,6 +142,5 @@ const Map = () =>{
       </div>    
   );
 };
-//{AA()}
 
 export default Map;

@@ -30,15 +30,22 @@ const useStyles = makeStyles((theme) => ({
 
 const Signin = (props) => {
     const dispatch = useDispatch();
+    const [NAME, setNAME] = useState('');
+    const [NICKNAME, setNICKNAME] = useState('');
     const [ID, setID] = useState('');
     const [PW, setPW] = useState('');
-    const [NAME, setNAME] = useState('');
+    const [PWCONFIRM, setPWCONFIRM] = useState('');
+
+    const [NAMEERRFLAG, setNAMEERRFLAG] = useState(false);
+    const [NICKNAMEERRFLAG, setNICKNAMEERRFLAG] = useState(false);
     const [IDERRFLAG, setIDERRFLAG] = useState(false);
     const [PWERRFLAG, setPWERRFLAG] = useState(false);
-    const [NAMEERRFLAG, setNAMEERRFLAG] = useState(false);
+    const [PWCONFIRMERRFLAG, setPWCONFIRMERRFLAG] = useState(false);
+
     const [profile, setprofile] = useState({});
     const [User, setUser] = useState();
     const classes = useStyles();
+
     const [flag, setflag] = useState(false);
 
 
@@ -67,6 +74,7 @@ const Signin = (props) => {
             setUser({
                 ID: ID,
                 PW: PW,
+                nickname: NICKNAME,
                 chatlist: [null],
                 chatroomlist: [null],
                 profile: profile,
@@ -78,19 +86,26 @@ const Signin = (props) => {
         if (flag == true) {
             database.ref('/user').push(User);
             dispatch(actionType.insertprofile(profile));
+            dispatch(actionType.insertnickname(NICKNAME));
             dispatch(actionType.loggedinObject);
             dispatch(actionType.sidebarmypageObject);
         }
     }, [User])
 
+    const changeNAME = (event) => {
+        setNAME(event.target.value);
+    }
+    const changeNICKNAME = (event) => {
+        setNICKNAME(event.target.value);
+    }
     const changeID = (event) => {
         setID(event.target.value);
     }
     const changePW = (event) => {
         setPW(event.target.value);
     }
-    const changeNAME = (event) => {
-        setNAME(event.target.value);
+    const changePWCONFIRM = (event) => {
+        setPWCONFIRM(event.target.value);
     }
 
     //Checkvalid is a function that checks whether given inputs are valid.
@@ -99,13 +114,14 @@ const Signin = (props) => {
         var valid = true;
         var MSG = '';
         setNAMEERRFLAG(false);
+        setNICKNAMEERRFLAG(false);
         setIDERRFLAG(false);
         setPWERRFLAG(false);
         if (NAME.length == 0) { MSG = '이름을 입력하세요'; valid = false; setNAMEERRFLAG(true); }
-        else if (ID.length == 0) { MSG = '아이디를 입력하세요'; valid = false; setIDERRFLAG(true); }
-        else if (PW.length == 0) { MSG = '비밀번호를 입력하세요'; valid = false; setPWERRFLAG(true); }
+        else if (NICKNAME.length < 2) { MSG = '닉네임은 2글자 이상이어야 합니다.'; valid = false; setNICKNAMEERRFLAG(true);}
         else if (ID.length < 6) { MSG = '아이디는 6글자 이상이어야합니다'; valid = false; setIDERRFLAG(true); }
         else if (PW.length < 6) { MSG = '비밀번호는 6글자 이상이어야합니다.'; valid = false; setPWERRFLAG(true); }
+        else if (PW != PWCONFIRM) { MSG = '비밀번호 확인이 일치하지 않습니다.'; valid = false; setPWCONFIRMERRFLAG(true); }
         else {
             var exists = false;
             await database.ref('/user').once('value', (Snap) => {
@@ -138,8 +154,10 @@ const Signin = (props) => {
             <img className='Icon' src={require('./HoodIcon.png')}></img>
             <Typography component="h1" variant="h5" >후드 회원가입</Typography>
             <TextField onChange={(event) => changeNAME(event)} error={NAMEERRFLAG} variant='outlined' label="이름" margin="dense" />
+            <TextField onChange={(event) => changeNICKNAME(event)} error={NICKNAMEERRFLAG} variant='outlined' label="닉네임" margin="dense" />
             <TextField onChange={(event) => changeID(event)} error={IDERRFLAG} variant='outlined' label='ID' margin="dense" />
-            <TextField onChange={(event) => changePW(event)} error={PWERRFLAG} variant='outlined' label="PW" margin="dense" />
+            <TextField onChange={(event) => changePW(event)} error={PWERRFLAG} variant='outlined' type="password" label="Password" margin="dense" />
+            <TextField onChange={(event) => changePWCONFIRM(event)} error={PWCONFIRMERRFLAG} variant='outlined' type="password" label="Password Confirm" margin="dense" />
             <div className='SigninRow'>
                 <Button onClick={() => SigninProcess()} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
             </div>

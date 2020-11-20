@@ -48,11 +48,13 @@ const Test = (props) =>{
     database.ref('chat').once('value', function(snapshot) {
       Object.entries(snapshot.val()).forEach(entry =>{
         const [key, value] = entry;
-        if(value['user_id'] === login.id && value['time'] === date.toString()){
+        if(value['user_id'] === login.id && value['time'] === messageObject.time){
           chat_id = key;
           database.ref('chatroom').once('value', function(snapshot) {
             Object.entries(snapshot.val()).forEach(entry =>{
               const [key, value] = entry;
+              console.log(value['chatroom_id']);
+              console.log(messageObject.chatroom_id);
               if(String(value['chatroom_id']) === String(messageObject.chatroom_id)){
                 database.ref('chatroom/'+messageObject.chatroom_id+'/chatlist').push({chat_id: chat_id});
                 database.ref('chatroom/'+messageObject.chatroom_id).update({lastchat_id: chat_id});
@@ -67,7 +69,7 @@ const Test = (props) =>{
       Object.entries(snapshot.val()).forEach(entry =>{
         const [key, value] = entry;
         if(value['ID'] === login.id){
-          database.ref('user/'+key+'/chatlist/').push({chat_id: chat_id});
+          database.ref('user/'+key+'/chatlist').push({chat_id: chat_id});//문제
         }
       });
     });
@@ -126,6 +128,27 @@ const Test = (props) =>{
     };
     socketRef.current.emit("leave room", dataObject);
     dispatch(actionType.removechatroom(chatroomid));
+    //방을 나갔으므로 user db에 있는 chatroom list에서 해당 채팅방을 지운다.
+    database.ref('user').once('value', function(snapshot) {
+      Object.entries(snapshot.val()).forEach(entry =>{
+        const [key, value] = entry;
+        var userid_key;
+        if(value['ID'] === userid){
+          userid_key = key;
+          database.ref('user/'+userid_key+'/chatroomlist').once('value', function(Snap) {
+            Object.entries(Snap.val()).forEach(entry =>{
+              const [key, value] = entry;
+              if(value['chatroom_id'] === String(chatroomid)){
+                database.ref('user/'+userid_key+'/chatroomlist/'+key).set(null);
+                chat.chatroomlist.filter(function(chatroom_id){
+                  if(chatroom_id !== chatroomid) return true;
+                });
+              }
+            });
+          });
+        }
+      });
+    });
   } 
 
   function handleChange(e){
@@ -175,7 +198,7 @@ const Test = (props) =>{
       <div className="chatHead">
         <button id="backBtn" onClick={()=>dispatch(actionType.sidebarchatObject)}>back</button>
         {chatroomName}
-        <button id="exitChatroomBtn" onClick={() =>{leaveRoom(login.ID, props.chatRoomId); dispatch(actionType.sidebarnearObject);}}>exit</button>
+        <button id="exitChatroomBtn" onClick={() =>{leaveRoom(login.id, props.chatRoomId); dispatch(actionType.sidebarnearObject);}}>exit</button>
       </div>
       <div className="chatBody">
         {messages.map((message, index) => {

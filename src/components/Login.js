@@ -69,6 +69,7 @@ const Login = () => {
           dispatch(actionType.loginpw(PW));
           if(Accounts[key]['chatroomlist'] !== null && Accounts[key]['chatroomlist'] !== undefined){
             Object.values(Accounts[key]['chatroomlist']).forEach(data =>{
+              console.log("fucking");
               dispatch(actionType.insertchatroom(data['chatroom_id']));
             });
           }

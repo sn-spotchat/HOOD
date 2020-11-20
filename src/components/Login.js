@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const Login = () => {
   const [profile, setprofile] = useState({});
+  const [nickname, setnickname] = useState();
   const [MATCHFOUND, setMATCHFOUND] = useState(false);
   const [ERROR, setERROR] = useState(false);
   const [ID, setID] = useState('');
@@ -42,6 +43,7 @@ const Login = () => {
   useEffect(() => {
     if (MATCHFOUND == true) {
       dispatch(actionType.insertprofile(profile));
+      dispatch(actionType.insertnickname(nickname));
       dispatch(actionType.loggedinObject);
       dispatch(actionType.sidebarmypage());
     }
@@ -61,8 +63,8 @@ const Login = () => {
       const Arr = Object.keys(Snap.val());
       Arr.forEach(key => {
         if (Accounts[key]['ID'] == ID && Accounts[key]['PW'] == PW) {
-          setMATCHFOUND(true);
           setprofile(Accounts[key]['profile']);
+          setnickname(Accounts[key]['nickname']);
           dispatch(actionType.loginid(ID));
           dispatch(actionType.loginpw(PW));
           if(Accounts[key]['chatroomlist'] !== null && Accounts[key]['chatroomlist'] !== undefined){
@@ -70,6 +72,7 @@ const Login = () => {
               dispatch(actionType.insertchatroom(data['chatroom_id']));
             });
           }
+          setMATCHFOUND(true);
         }
         else {
           setERROR(true);
@@ -82,7 +85,7 @@ const Login = () => {
       <img className='Icon' src={require('./HoodIcon.png')}/>
       <Typography component="h1" variant="h5" >로그인</Typography>
       <TextField onChange={(event) => changeID(event)} error={ERROR} variant='outlined' label='ID' margin="dense" />
-      <TextField onChange={(event) => changePW(event)} error={ERROR} variant='outlined' label="PW" margin="dense" />
+      <TextField onChange={(event) => changePW(event)} error={ERROR} variant='outlined' type = 'password' label="Password" margin="dense" />
       <div className='SigninRow'>
         <Button onClick={() => Authenticate()} variant="contained" color="primary" className={classes.submit}>로그인</Button>
         <Button onClick={() => dispatch(actionType.sidebarsigninObject)} variant="contained" color="primary" className={classes.submit}>회원가입</Button>

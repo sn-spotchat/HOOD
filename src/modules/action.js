@@ -57,6 +57,10 @@ export const INSERTPROFILE = 'insertprofile';
 export const insertprofile = (profile) =>({type:INSERTPROFILE, profile: profile});
 export const insertprofileObject = {type:INSERTPROFILE};
 
+export const INSERTNICKNAME = 'insertnickname';
+export const insertnickname = (NICKNAME) =>({type : INSERTNICKNAME, nickname : NICKNAME});
+export const insertnicknameObject = {type:INSERTNICKNAME};
+
 export const LOGGEDIN = 'loggedin';
 export const loggedin = () =>({type : LOGGEDIN});
 export const loggedinObject = {type:LOGGEDIN};
@@ -68,4 +72,3 @@ export const maploadedObject = {type:MAPLOADED};
 export const MAPSAVE = 'mapsave';
 export const mapsave = (map) =>({type : MAPSAVE, map : map});
 export const mapsaveObject = {type:MAPSAVE};
-

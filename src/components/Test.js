@@ -39,6 +39,63 @@ const Test = (props) =>{
   const login = useSelector(state => state.loginreducer, {});
   const date = new Date();
 //
+  function writeMsgData(messageObject) {
+    //chat db에 저장하는 부분
+    var date = new Date();
+    database.ref('chat').push(messageObject);
+    //chatroom db에 저장하는 부분 //여기부터 다시 수정 user에 저장하는데 오류 
+    var chat_id;
+    database.ref('chat').once('value', function(snapshot) {
+      Object.entries(snapshot.val()).forEach(entry =>{
+        const [key, value] = entry;
+        if(value['user_id'] === login.id && value['time'] === messageObject.time){
+          chat_id = key;
+          database.ref('chatroom').once('value', function(snapshot) {
+            Object.entries(snapshot.val()).forEach(entry =>{
+              const [key, value] = entry;
+              console.log(value['chatroom_id']);
+              console.log(messageObject.chatroom_id);
+              if(String(value['chatroom_id']) === String(messageObject.chatroom_id)){
+                database.ref('chatroom/'+messageObject.chatroom_id+'/chatlist').push({chat_id: chat_id});
+                database.ref('chatroom/'+messageObject.chatroom_id).update({lastchat_id: chat_id});
+              }
+            });
+          });
+        }
+      });
+    });
+    //user db에 저장하는 부분
+    database.ref('user').once('value', function(snapshot) {
+      Object.entries(snapshot.val()).forEach(entry =>{
+        const [key, value] = entry;
+        if(value['ID'] === login.id){
+          database.ref('user/'+key+'/chatlist').push({chat_id: chat_id});//문제
+        }
+      });
+    });
+  }
+  function readMsgDate(chatroomid){
+    var time;
+    database.ref('user').once('value', function(snapshot) {
+      Object.values(snapshot.val()).forEach(Snap =>{
+        if(login.id === Snap['ID']){
+          Object.values(Snap['chatroomlist']).forEach(data =>{
+            if(String(data['chatroom_id']) === String(chatroomid)){
+              time = data['time'];
+            }
+          });
+        }
+      });
+    });
+    database.ref('chat').once('value', function(data){
+      Object.values(data.val()).forEach(Snap =>{
+        if(time <= Snap['time'] && String(chatroomid) === Snap['chatroom_id']){
+          setMessages(oldMsgs => [...oldMsgs, Snap]);
+        }
+      });
+    });
+  }
+
   function getTime(time){
     var dateObj = new Date(time);
     return dateObj.getHours()+":"+dateObj.getMinutes();
@@ -61,6 +118,7 @@ const Test = (props) =>{
     
     setMessage("");
     socketRef.current.emit("send message", messageObject);
+    writeMsgData(messageObject);
   }
 
   function leaveRoom(userid, chatroomid){
@@ -70,6 +128,27 @@ const Test = (props) =>{
     };
     socketRef.current.emit("leave room", dataObject);
     dispatch(actionType.removechatroom(chatroomid));
+    //방을 나갔으므로 user db에 있는 chatroom list에서 해당 채팅방을 지운다.
+    database.ref('user').once('value', function(snapshot) {
+      Object.entries(snapshot.val()).forEach(entry =>{
+        const [key, value] = entry;
+        var userid_key;
+        if(value['ID'] === userid){
+          userid_key = key;
+          database.ref('user/'+userid_key+'/chatroomlist').once('value', function(Snap) {
+            Object.entries(Snap.val()).forEach(entry =>{
+              const [key, value] = entry;
+              if(value['chatroom_id'] === String(chatroomid)){
+                database.ref('user/'+userid_key+'/chatroomlist/'+key).set(null);
+                chat.chatroomlist.filter(function(chatroom_id){
+                  if(chatroom_id !== chatroomid) return true;
+                });
+              }
+            });
+          });
+        }
+      });
+    });
   } 
 
   function handleChange(e){
@@ -91,7 +170,7 @@ const Test = (props) =>{
     else{//chat목록에 있는 방인 경우
       console.log("old");
       socketRef.current.emit("rejoin room", dataObject);
-      //readMsgDate(props.chatRoomId);
+      readMsgDate(props.chatRoomId);
     }
 
     database.ref('chatroom').once('value', function(snapshot) {
@@ -119,7 +198,7 @@ const Test = (props) =>{
       <div className="chatHead">
         <button id="backBtn" onClick={()=>dispatch(actionType.sidebarchatObject)}>back</button>
         {chatroomName}
-        <button id="exitChatroomBtn" onClick={() =>{leaveRoom(login.ID, props.chatRoomId); dispatch(actionType.sidebarnearObject);}}>exit</button>
+        <button id="exitChatroomBtn" onClick={() =>{leaveRoom(login.id, props.chatRoomId); dispatch(actionType.sidebarnearObject);}}>exit</button>
       </div>
       <div className="chatBody">
         {messages.map((message, index) => {

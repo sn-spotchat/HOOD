@@ -11,6 +11,7 @@ const Chat = () =>{
   const profilesaved = useSelector(state => state.profilereducer, {});
   const chat = useSelector(state => state.chatreducer, {});
   useEffect(()=>{//정보를 받아와 리스트를 작성한다.
+    console.log(chat.chatroomlist);
     chat.chatroomlist.forEach(function(data){
       setChatList(oldList => [...oldList, data['id']]);
     });
@@ -19,7 +20,6 @@ const Chat = () =>{
     <div className="Chat">
       <div id="chathead" className="head">Chat</div>
       {chatList.map((chatRoom,index) => {
-        
         return ( 
           <ChatroomBox key={index} chatRoom={chatRoom} index={index}></ChatroomBox>
         )

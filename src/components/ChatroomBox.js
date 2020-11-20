@@ -7,25 +7,24 @@ import './ChatroomBox.css';
 const ChatroomBox = (props) =>{
   const [chatroomName, setChatroomName] = useState();
   const [lastchatTime, setLastChatTime] = useState();
-  const [Time, setTime] = useState();
+  const [Time, setTime] = useState("");
   const [lastChat, setLastChat] = useState("");
   const dispatch = useDispatch();
   const profilesaved = useSelector(state => state.profilereducer, {});
   const chat = useSelector(state => state.chatreducer, []);
   const login = useSelector(state => state.loginreducer, {});
-  useEffect(()=>{//정보를 받아와 리스트를 작성한다.
-    console.log("inchatroombox", props.chatRoom);
+  useEffect(()=>{//채팅방의 정보를 받아와 box에 채울 정보를 저장한다..
     const chatroom = database.ref('chatroom/');
-    var chatroomObj = chatroom.orderByChild("chatroom_id").equalTo(Number(props.chatRoom));
-    chatroomObj.once('value', (data) =>{
-      var dataObj = Object.values(data.val())[0];
-      setChatroomName(dataObj.name);
-      const chat = database.ref('chat/');
-      var chatObj = chat.orderByChild("chat_id").equalTo(Number(dataObj.lastchat_id));
-      chatObj.once('value', (data) =>{
-        var dataObj = Object.values(data.val())[0];
-        setLastChat(dataObj.message);
-        setLastChatTime(dataObj.time);
+    chatroom.orderByChild("chatroom_id").equalTo(String(props.chatRoom)).once('value', function(snapshot){
+      Object.values(snapshot.val()).forEach(entry =>{
+        setChatroomName(entry["name"]);
+        if(entry["lastchat_id"] !== ""){
+          database.ref('chat/'+entry["lastchat_id"]).once('value', function(Snap){
+            const dataObj = Snap.val();
+            setLastChat(dataObj.content);
+            setLastChatTime(dataObj.time);
+          });
+        }
       });
     });
   }, []);
@@ -46,9 +45,14 @@ const ChatroomBox = (props) =>{
 
   function insertChat(chatRoom){
     var exist=false;
+    console.log(chat.chatroomlist);
     chat.chatroomlist.forEach(function(data){
-      if(data.id === chatRoom){
+      console.log(data.id, chatRoom);
+      if(String(data.id) === String(chatRoom)){
+        console.log("true");
         exist = true;
+      }else{
+        console.log("false");
       }
     });
     if(exist===false){
@@ -56,13 +60,21 @@ const ChatroomBox = (props) =>{
       dispatch(actionType.insertchatroom(chatRoom));
       database.ref('chatroom').once('value', function(snapshot) {
         Object.values(snapshot.val()).forEach(Snap =>{
-          if(chatRoom === Snap['chatroom_id']){
+          if(String(chatRoom) === Snap['chatroom_id']){
             database.ref('user/').once('value', function(data){
               Object.entries(data.val()).forEach(entry=>{
                 const [key, value] = entry;
                 if(value['ID'] === login.id){
                   var date = new Date();
                   database.ref('user/'+key+'/chatroomlist/').push({chatroom_id: Snap['chatroom_id'], start_chat_id:Snap['lastchat_id'], time: date.toString()});
+                  /*database.ref('user/'+key).once('value', function(mychild){
+                    if(mychild.hasChild('chatroomlist')){
+                      database.ref('user/'+key+'/chatroomlist/').push({chatroom_id: Snap['chatroom_id'], start_chat_id:Snap['lastchat_id'], time: date.toString()});
+                    }
+                    else{
+                      database.ref('user/'+key+'/chatroomlist/').set({chatroom_id: Snap['chatroom_id'], start_chat_id:Snap['lastchat_id'], time: date.toString()});
+                    }
+                  });*/
                 }
               });
             });

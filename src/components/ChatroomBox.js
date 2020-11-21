@@ -42,7 +42,12 @@ const ChatroomBox = (props) =>{
       setTime("어제");
     }
     else{
-      setTime(dateObj.getFullYear()+"-"+dateObj.getMonth()+"-"+dateObj.getDate());
+      if(String(lastchatTime) === "" || lastchatTime === undefined || lastchatTime === null){
+        setTime("");
+      }
+      else{
+        setTime(dateObj.getFullYear()+"-"+dateObj.getMonth()+"-"+dateObj.getDate());
+      }
     }
   },[lastchatTime]);
 

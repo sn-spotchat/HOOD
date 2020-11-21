@@ -46,6 +46,13 @@ button{
     flex-direction: column;
     margin-top: auto;
 }
+::-webkit-scrollbar {
+    width: 4px;
+}
+::-webkit-scrollbar-thumb {
+background-color: #4c4c6a;
+border-radius: 2px;
+}
 .MyRow{
     width:100%;
     display:flex;

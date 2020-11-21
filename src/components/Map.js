@@ -46,11 +46,13 @@ const PolyMap = (props) => {
 
     const [color,setcolor]=useState('#7ea4f0')
     const [scolor,setscolor]=useState('#ffffff')
-    const [opacity,setopacity]=useState(0.6)
+    const [sopacity,setsopacity]=useState(0.6)
+    const [opacity,setopacity]=useState(0.7)
 
     //일단 간단한 이벤트로 정의해둠, 기능 변경필요함.
     const polyClick=()=>{
       setcolor('#ff2400')
+      setopacity(0.8)
       confirmAlert({
         title: '채팅방입장',
         message: `${name} 채팅방에 입장하시겠습니까?`,
@@ -61,7 +63,10 @@ const PolyMap = (props) => {
           },
           {
             label: 'NO',
-            onClick: () => alert('Click No')
+            onClick: () =>{ alert('Click No')
+            setcolor('#7ea4f0')
+            setsopacity(0.6)
+            }
           }
         ]
       })
@@ -70,14 +75,14 @@ const PolyMap = (props) => {
     const polyover=()=>{
       if(color!=="#ff2400"){
         setcolor('#999999')
-        setopacity(1)
+        setsopacity(1)
       }
     }
 
     const polyout=()=>{
       if(color!=="#ff2400"){
         setcolor('#7ea4f0')
-        setopacity(0.6)
+        setsopacity(0.6)
       }
     }
 
@@ -86,9 +91,9 @@ const PolyMap = (props) => {
         key = {name}
         paths={path}
         fillColor={color}
-        fillOpacity={0.3}
+        fillOpacity={opacity}
         strokeColor={scolor}
-        strokeOpacity={opacity}
+        strokeOpacity={sopacity}
         strokeWeight={2}
         clickable={true}
         onClick={polyClick}

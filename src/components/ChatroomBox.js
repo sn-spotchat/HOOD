@@ -63,26 +63,19 @@ const ChatroomBox = (props) =>{
         console.log("false");
       }
     });
-    if(exist===false){
+    console.log(exist);
+    if(!exist){
       dispatch(actionType.newchat());
       dispatch(actionType.insertchatroom(chatRoom));
       database.ref('chatroom').once('value', function(snapshot) {
         Object.values(snapshot.val()).forEach(Snap =>{
-          if(String(chatRoom) === Snap['chatroom_id']){
+          if(String(chatRoom) === String(Snap['chatroom_id'])){
             database.ref('user/').once('value', function(data){
               Object.entries(data.val()).forEach(entry=>{
                 const [key, value] = entry;
                 if(value['ID'] === login.id){
                   var date = new Date();
                   database.ref('user/'+key+'/chatroomlist/').push({chatroom_id: Snap['chatroom_id'], start_chat_id:Snap['lastchat_id'], time: date.toString()});
-                  /*database.ref('user/'+key).once('value', function(mychild){
-                    if(mychild.hasChild('chatroomlist')){
-                      database.ref('user/'+key+'/chatroomlist/').push({chatroom_id: Snap['chatroom_id'], start_chat_id:Snap['lastchat_id'], time: date.toString()});
-                    }
-                    else{
-                      database.ref('user/'+key+'/chatroomlist/').set({chatroom_id: Snap['chatroom_id'], start_chat_id:Snap['lastchat_id'], time: date.toString()});
-                    }
-                  });*/
                 }
               });
             });

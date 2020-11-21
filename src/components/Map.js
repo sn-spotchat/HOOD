@@ -6,6 +6,9 @@ import SeoulDong from "./SeoulDong.json";
 import $, { map } from "jquery";
 import {useSelector, useDispatch } from 'react-redux';
 import * as actionType from '../modules/action';
+import { database } from '../firebase';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' 
 
 var flag = false;
 const PolyMap = (props) => {
@@ -22,7 +25,7 @@ const PolyMap = (props) => {
   function makepolygon(geojson, polylist){
     var data=geojson.features;
     $.each(data,function(index,val){
-      var y = val.geometry.centerXY[1]; var x = val.geometry.centerXY[0];
+      var y = val.geometry.centerXY[1],x = val.geometry.centerXY[0];
 
       var range = 0.020;
       if(Near(x, y, geolocation.latitude, geolocation.longitude, range)){
@@ -40,8 +43,6 @@ const PolyMap = (props) => {
         path.push(new window.naver.maps.LatLng(Coordinate[1],Coordinate[0]))
       })
     })
-    //<Polygon>s need own keys for each.
-    //added keys as its name for now.
 
     const [color,setcolor]=useState('#7ea4f0')
     const [scolor,setscolor]=useState('#ffffff')
@@ -50,17 +51,34 @@ const PolyMap = (props) => {
     //일단 간단한 이벤트로 정의해둠, 기능 변경필요함.
     const polyClick=()=>{
       setcolor('#ff2400')
-      console.log("폴리곤을 클릭했습니다.")
+      confirmAlert({
+        title: '채팅방입장',
+        message: `${name} 채팅방에 입장하시겠습니까?`,
+        buttons: [
+          {
+            label: 'YES',
+            onClick: () => alert('Click Yes')
+          },
+          {
+            label: 'NO',
+            onClick: () => alert('Click No')
+          }
+        ]
+      })
     }
 
     const polyover=()=>{
-      setcolor('#E51D1A')
-      //setopacity(1)
+      if(color!=="#ff2400"){
+        setcolor('#999999')
+        setopacity(1)
+      }
     }
 
     const polyout=()=>{
-      setcolor('#7ea4f0')
-     // setopacity(0.6)
+      if(color!=="#ff2400"){
+        setcolor('#7ea4f0')
+        setopacity(0.6)
+      }
     }
 
     polylist.push(

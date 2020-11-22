@@ -4,6 +4,13 @@ import io from 'socket.io-client';
 import { database } from '../firebase';
 import "./Test.css";
 import * as actionType from '../modules/action';
+
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
+import Icon from '@material-ui/core/Icon';
+import Close from '@material-ui/icons/Close';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 /*
 *chat DB
 *messageObj
@@ -38,7 +45,31 @@ const Test = (props) =>{
   const profilesaved = useSelector(state => state.profilereducer, {});
   const login = useSelector(state => state.loginreducer, {});
   const date = new Date();
+  const useStyles = makeStyles((theme) => ({
+    submit: {
+      height: '100px',
+      width: '50px',
+      color: '#ffffff',
+      backgroundColor: '#7ec4eb',
+    },
+    nsubmit: {
+      height: '100px',
+      width: '50px',
+      color: '#ffffff',
+      backgroundColor: '#4ed48b',
+    },
+  })
+  );
+  const classes =useStyles();
 //
+
+  function submitOnEnter(event){
+    if(event.which === 13 && !event.shiftKey){
+        event.target.form.dispatchEvent(new Event("submit", {cancelable: true}));
+        event.preventDefault();
+    }
+  }
+
   function writeMsgData(messageObject) {
     //chat db에 저장하는 부분
     var date = new Date();
@@ -78,19 +109,19 @@ const Test = (props) =>{
     var time;
     database.ref('user').once('value', function(snapshot) {
       Object.values(snapshot.val()).forEach(Snap =>{
-        if(login.id === Snap['ID']){
+        if(String(login.id) === String(Snap['ID'])){
           Object.values(Snap['chatroomlist']).forEach(data =>{
             if(String(data['chatroom_id']) === String(chatroomid)){
               time = data['time'];
+              database.ref('chat').once('value', function(chatdata){
+                Object.values(chatdata.val()).forEach(chatSnap =>{
+                  if(time <= chatSnap['time'] && String(chatroomid) === String(chatSnap['chatroom_id'])){
+                    setMessages(oldMsgs => [...oldMsgs, chatSnap]);
+                  }
+                });
+              });
             }
           });
-        }
-      });
-    });
-    database.ref('chat').once('value', function(data){
-      Object.values(data.val()).forEach(Snap =>{
-        if(time <= Snap['time'] && String(chatroomid) === Snap['chatroom_id']){
-          setMessages(oldMsgs => [...oldMsgs, Snap]);
         }
       });
     });
@@ -191,14 +222,14 @@ const Test = (props) =>{
       receivedMessage(message);
     })
   }, []);
-
+  const SubmitButton = (props) => ( <button {...props} type='submit' />);
   
   return (
     <div className="chat">
       <div className="chatHead">
-        <button id="backBtn" onClick={()=>dispatch(actionType.sidebarchatObject)}>back</button>
+        <button id="backBtn" className="upperbutton" onClick={()=>dispatch(actionType.sidebarchatObject)}><ArrowBack></ArrowBack></button>
         {chatroomName}
-        <button id="exitChatroomBtn" onClick={() =>{leaveRoom(login.id, props.chatRoomId); dispatch(actionType.sidebarnearObject);}}>exit</button>
+        <button id="exitChatroomBtn" className="upperbutton" onClick={() =>{leaveRoom(login.id, props.chatRoomId); dispatch(actionType.sidebarnearObject);}}><Close></Close></button>
       </div>
       <div className="chatBody">
         {messages.map((message, index) => {
@@ -230,8 +261,8 @@ const Test = (props) =>{
       </div>
       <div className="chatUnder">
         <form onSubmit={sendMessage}>
-          <textarea value={message} onChange={handleChange} placeholder="메시지 입력"></textarea>
-          <button>전송</button>
+          <textarea name="inputtext" value={message} onChange={handleChange} placeholder="메시지 입력" onKeyPress={submitOnEnter}></textarea>
+          <Button variant="contained" color="primary" className={classes.nsubmit} onClick={sendMessage}>전송</Button>
         </form>
       </div>
     </div>
@@ -239,59 +270,3 @@ const Test = (props) =>{
 };
 
 export default Test;
-
-/*
-function writeMsgData(id, msg, chatroom_id) {
-    //chat db에 저장하는 부분
-    var date = new Date();
-    database.ref('chat').push({chatroom_id: chatroom_id, message: msg, time: date.toString(), user_id: id});
-    //chatroom db에 저장하는 부분 //여기부터 다시 수정 user에 저장하는데 오류 
-    var chat_id;
-    database.ref('chat').once('value', function(snapshot) {
-      Object.entries(snapshot.val()).forEach(entry =>{
-        const [key, value] = entry;
-        if(value['user_id'] === login.id && value['time'] === date.toString()){
-          chat_id = key;
-          database.ref('chatroom').once('value', function(snapshot) {
-            Object.entries(snapshot.val()).forEach(entry =>{
-              const [key, value] = entry;
-              if(String(value['chatroom_id']) === String(chatroom_id)){
-                database.ref('chatroom/'+chatroom_id+'/chatlist').push({chat_id: chat_id});
-              }
-            });
-          });
-        }
-      });
-    });
-    //user db에 저장하는 부분
-    database.ref('user').once('value', function(snapshot) {
-      Object.entries(snapshot.val()).forEach(entry =>{
-        const [key, value] = entry;
-        if(value['ID'] === login.id){
-          database.ref('user/'+key+'/chatlist/').push({chat_id: chat_id});
-        }
-      });
-    });
-  }
-  function readMsgDate(chatroomid){
-    var time;
-    database.ref('user').once('value', function(snapshot) {
-      Object.values(snapshot.val()).forEach(Snap =>{
-        if(login.id === Snap['ID']){
-          Object.values(Snap['chatroomlist']).forEach(data =>{
-            if(String(data['chatroom_id']) === String(chatroomid)){
-              time = data['time'];
-            }
-          });
-        }
-      });
-    });
-    database.ref('chat').orderByChild('chatroom_id').equalTo(chatroomid).once('value', function(data){
-      Object.values(data.val()).forEach(Snap =>{
-        if(time <= Snap['time']){
-          setMessages(oldMsgs => [...oldMsgs, Snap]);
-        }
-      });
-    });
-  }
-*/

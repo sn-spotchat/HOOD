@@ -4,6 +4,16 @@ import * as actionType from '../modules/action';
 import './Navigation.css';
 import { database } from '../firebase';
 import NLogin from './NLogin.js';
+import { AccessAlarm, ThreeDRotation } from '@material-ui/icons';
+import SvgIcon from '@material-ui/core/SvgIcon';
+
+import Button from '@material-ui/core/Button';
+import Home from '@material-ui/icons/Home';
+import Person from '@material-ui/icons/Person';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Forum from '@material-ui/icons/Forum';
+import PinDrop from '@material-ui/icons/PinDrop';
+
 
 /*
 추가해야 할 사항:
@@ -13,20 +23,22 @@ const Navigation = () => {
     const [NavList, setNavList] = useState([]);
     const store_loggedin = useSelector(state => state.profilereducer.loggedin, []);
     const dispatch = useDispatch();
+    const initialState = useSelector(state => state.mapreducer)
+    console.log(initialState)
     
-  const initialState = useSelector(state => state.mapreducer)
-  console.log(initialState)
 
     //the navigation Icons depend on 'bool loggedin' in store.
     useEffect(() => {
         setNavList([]);
         if (store_loggedin == false) {
-            setNavList(oldList => [...oldList, { id: "Login", func: () => dispatch(actionType.sidebarloginObject) }]);
+            setNavList(oldList => [...oldList, { id: "Login", func: () => dispatch(actionType.sidebarloginObject), icon: <Person></Person>}]);
+            setNavList(oldList => [...oldList, { id: "Home", func: () => dispatch(actionType.sidebarhomeObject), icon: <Home></Home>}]);
         }
         else {
-            setNavList(oldList => [...oldList, { id: "Mypage", func: () => dispatch(actionType.sidebarmypageObject) }]);
-            setNavList(oldList => [...oldList, { id: "Near", func: () => dispatch(actionType.sidebarnearObject) }]);
-            setNavList(oldList => [...oldList, { id: "Chat", func: () => dispatch(actionType.sidebarchatObject) }]);
+            setNavList(oldList => [...oldList, { id: "Mypage", func: () => dispatch(actionType.sidebarmypageObject), icon:<AccountCircle></AccountCircle> }]);
+            setNavList(oldList => [...oldList, { id: "Home", func: () => dispatch(actionType.sidebarhomeObject), icon: <Home></Home>}]);
+            setNavList(oldList => [...oldList, { id: "Near", func: () => dispatch(actionType.sidebarnearObject), icon: <PinDrop></PinDrop>}]);
+            setNavList(oldList => [...oldList, { id: "Chat", func: () => dispatch(actionType.sidebarchatObject), icon: <Forum></Forum>}]);
         }
     }, [store_loggedin]);
 
@@ -36,10 +48,9 @@ const Navigation = () => {
 
     return (
         <div className="Navigation">
-            <div id="home" className="NavigationIcon" onClick={() => dispatch(actionType.sidebarhomeObject)}>Home</div>
             {NavList.map((element, index) => {
                 return (
-                    <div id={element.id} className="NavigationIcon" onClick={element.func} key={index}>{element.id}</div>
+                    <div id={element.id} className="NavigationIcon" onClick={element.func} key={index}>{element.icon}</div>
                 )
             })}
         </div>

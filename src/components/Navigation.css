@@ -1,7 +1,10 @@
 .Navigation{
     width: 60px;
     height:100vh;
-    background-color: lightgray;
+    border-right-color: black;
+    border-right-style:solid;
+    border-right-width:1px;
+    background-color: white;
     display:flex;
     flex-direction: column;
 }
@@ -12,8 +15,11 @@
     margin-left: 5px;
     margin-right:0px;
     color: white;
+    display: flex;
     text-align: center;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    background-color: #606060;
+    background-color:black;
     border-radius: 10px;    
 }

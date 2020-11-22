@@ -75,11 +75,11 @@ border-radius: 2px;
 }
 .MyMsg{
     width:45%;
-    background-color: wheat;
+    background-color:#c2f598;
     padding:10px;
     margin-right:5px;
     text-align:center;
-    border-radius:10%;
+    border-radius: 10px;
     word-break: break-all;
 }
 .PeerRow{
@@ -113,7 +113,7 @@ border-radius: 2px;
     padding:10px;
     margin-right:5px;
     text-align:center;
-    border-radius:10%;
+    border-radius:10px;
     word-break: break-all;
 }
 .PeerTime{

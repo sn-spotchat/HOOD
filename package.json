@@ -17,6 +17,7 @@
     "global": "^4.4.0",
     "jquery": "^3.5.1",
     "react": "^16.13.1",
+    "react-confirm-alert": "^2.6.2",
     "react-dom": "^16.13.1",
     "react-firebase": "^2.2.8",
     "react-hook-geolocation": "^1.0.6",

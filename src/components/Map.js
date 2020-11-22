@@ -6,6 +6,9 @@ import SeoulDong from "./SeoulDong.json";
 import $, { map } from "jquery";
 import {useSelector, useDispatch } from 'react-redux';
 import * as actionType from '../modules/action';
+import { database } from '../firebase';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' 
 
 var flag = false;
 const PolyMap = (props) => {
@@ -25,27 +28,47 @@ const PolyMap = (props) => {
         path.push(new window.naver.maps.LatLng(Coordinate[1],Coordinate[0]))
       })
     })
-    //<Polygon>s need own keys for each.
-    //added keys as its name for now.
 
     const [color,setcolor]=useState('#7ea4f0')
     const [scolor,setscolor]=useState('#ffffff')
-    const [opacity,setopacity]=useState(0.6)
+    const [sopacity,setsopacity]=useState(0.6)
+    const [opacity,setopacity]=useState(0.7)
 
     //일단 간단한 이벤트로 정의해둠, 기능 변경필요함.
     const polyClick=()=>{
       setcolor('#ff2400')
-      console.log("폴리곤을 클릭했습니다.")
+      setopacity(0.8)
+      confirmAlert({
+        title: '채팅방입장',
+        message: `${name} 채팅방에 입장하시겠습니까?`,
+        buttons: [
+          {
+            label: 'YES',
+            onClick: () => alert('Click Yes')
+          },
+          {
+            label: 'NO',
+            onClick: () =>{ alert('Click No')
+            setcolor('#7ea4f0')
+            setsopacity(0.6)
+            }
+          }
+        ]
+      })
     }
 
     const polyover=()=>{
-      setcolor('#E51D1A')
-      //setopacity(1)
+      if(color!=="#ff2400"){
+        setcolor('#999999')
+        setsopacity(1)
+      }
     }
 
     const polyout=()=>{
-      setcolor('#7ea4f0')
-     // setopacity(0.6)
+      if(color!=="#ff2400"){
+        setcolor('#7ea4f0')
+        setsopacity(0.6)
+      }
     }
 
     polylist.push(
@@ -53,9 +76,9 @@ const PolyMap = (props) => {
         key = {name}
         paths={path}
         fillColor={color}
-        fillOpacity={0.3}
+        fillOpacity={opacity}
         strokeColor={scolor}
-        strokeOpacity={opacity}
+        strokeOpacity={sopacity}
         strokeWeight={2}
         clickable={true}
         onClick={polyClick}

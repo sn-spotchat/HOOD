@@ -15,6 +15,8 @@ const Navigation = () => {
     const [NavList, setNavList] = useState([]);
     const store_loggedin = useSelector(state => state.profilereducer.loggedin, []);
     const dispatch = useDispatch();
+    const initialState = useSelector(state => state.mapreducer)
+    console.log(initialState)
     function HomeIcon(props) {
         return (
           <SvgIcon {...props}>
@@ -22,6 +24,8 @@ const Navigation = () => {
           </SvgIcon>
         );
       }
+    
+
     //the navigation Icons depend on 'bool loggedin' in store.
     useEffect(() => {
         setNavList([]);

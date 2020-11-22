@@ -109,19 +109,19 @@ const Test = (props) =>{
     var time;
     database.ref('user').once('value', function(snapshot) {
       Object.values(snapshot.val()).forEach(Snap =>{
-        if(login.id === Snap['ID']){
+        if(String(login.id) === String(Snap['ID'])){
           Object.values(Snap['chatroomlist']).forEach(data =>{
             if(String(data['chatroom_id']) === String(chatroomid)){
               time = data['time'];
+              database.ref('chat').once('value', function(chatdata){
+                Object.values(chatdata.val()).forEach(chatSnap =>{
+                  if(time <= chatSnap['time'] && String(chatroomid) === String(chatSnap['chatroom_id'])){
+                    setMessages(oldMsgs => [...oldMsgs, chatSnap]);
+                  }
+                });
+              });
             }
           });
-        }
-      });
-    });
-    database.ref('chat').once('value', function(data){
-      Object.values(data.val()).forEach(Snap =>{
-        if(time <= Snap['time'] && String(chatroomid) === Snap['chatroom_id']){
-          setMessages(oldMsgs => [...oldMsgs, Snap]);
         }
       });
     });

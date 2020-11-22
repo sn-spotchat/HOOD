@@ -72,3 +72,11 @@ export const maploadedObject = {type:MAPLOADED};
 export const MAPSAVE = 'mapsave';
 export const mapsave = (map) =>({type : MAPSAVE, map : map});
 export const mapsaveObject = {type:MAPSAVE};
+
+export const ADDNEAR = 'addnear';
+export const addnear = (feature) =>({type : ADDNEAR, coordinates : feature.coordinates, name : feature.name, chatroom_id : feature.chatroom_id });
+export const addnearObject = {type : ADDNEAR};
+
+export const RESETNEAR = 'resetnear';
+export const resetnear = () =>({type : RESETNEAR});
+export const resetnearObject = {type : RESETNEAR};

@@ -9,29 +9,14 @@ import * as actionType from '../modules/action';
 
 var flag = false;
 const PolyMap = (props) => {
-  //현재위치 반환
-  const geolocation = useGeolocation({
-    enableHighAccuracy: true,
-    maximumAge: 15000,
-    timeout:  12000
-  })
-
-  function Near(ax, ay, bx, by, range){
-    return (Math.abs(ax - bx) <= range && Math.abs(ay - by) <= range)
-  }
   function makepolygon(geojson, polylist){
-    var data=geojson.features;
-    $.each(data,function(index,val){
-      var y = val.geometry.centerXY[1]; var x = val.geometry.centerXY[0];
-
-      var range = 0.020;
-      if(Near(x, y, geolocation.latitude, geolocation.longitude, range)){
-        var coordinates=val.geometry.coordinates;
-        var name=val.properties.adm_nm;
-        DisplayArea(coordinates, polylist, name);
-      }
-    })
-  }
+    var data = props.nearlist;
+    console.log(data);
+    data.forEach(feature =>{
+      let coordinates = feature.coordinates;
+      let name = feature.name;
+      DisplayArea(coordinates, polylist, name);})
+  } 
 
   function DisplayArea(coordinates, polylist, name){
     var path=[];
@@ -81,7 +66,7 @@ const PolyMap = (props) => {
   }
 
 
-  function NaverMapAPI() {     
+  function NaverMapAPI() {  
     var polylist=[];        
     makepolygon(SeoulDong, polylist)
     //the code was optimized.
@@ -92,7 +77,7 @@ const PolyMap = (props) => {
           width: '100%', // 네이버지도 가로 길이
           height: '100%' // 네이버지도 세로 길이
         }}
-        defaultCenter={{ lat: geolocation.latitude, lng: geolocation.longitude }} // 지도 초기 위치
+        defaultCenter={{ lat:  props.Geo['latitude'], lng : props.Geo['longitude'] }} // 지도 초기 위치        
         defaultZoom={15} // 지도 초기 확대 배율
       >
         {polylist}
@@ -114,25 +99,21 @@ const Map = () =>{
   //after solving naver-login-map conflict, 
   //LoadMapfromStore function is still needed since the page is rendered so many time for no reason.
   const LoadMapfromStore = () =>{
-    const store_maploaded = useSelector(state => state.mapreducer.maploaded);
-    const store_map = useSelector(state => state.mapreducer.map);
-
-
-    const [local_maploaded, setflag] = useState(store_maploaded);
-    const [local_map, setmap] = useState(store_map);
+    const nears = useSelector(state => state.mapreducer.nearlist);
+    const [local_map, setmap] = useState();   
+    const Geo = useGeolocation({
+      enableHighAccuracy: true,
+      maximumAge: 15000,
+      timeout: 12000
+    })
 
     const dispatch = useDispatch();
 
-    useEffect(()=>{ 
-      dispatch(actionType.mapsave(local_map));
-    },[store_maploaded])
-   
-    if(store_maploaded == false){
-      setmap(<RenderAfterNavermapsLoaded ncpClientId={'5blqxkrbsw'}><PolyMap/></RenderAfterNavermapsLoaded>)
-      dispatch(actionType.maploadedObject);
-      setflag(true);
-    }
-
+    useEffect(()=>{       
+        setmap(<RenderAfterNavermapsLoaded ncpClientId={'5blqxkrbsw'}><PolyMap nearlist = {nears} Geo = {Geo}/></RenderAfterNavermapsLoaded>)                
+        //dispatch(actionType.maploadedObject);      
+    },[nears, Geo])   
+    
     return local_map;
   }
   

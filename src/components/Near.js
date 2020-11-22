@@ -11,12 +11,13 @@ import * as actionType from '../modules/action';
  */
 const Near = () =>{
   const [chatList, setChatList] = useState([]);
-  const chat = useSelector(state => state.chatreducer, []);
+  const nearlist = useSelector(state => state.mapreducer.nearlist, []);
   const dispatch = useDispatch();
+  console.log(nearlist);
   useEffect(()=>{//정보를 받아와 리스트를 작성한다. 지금은 하드코딩이지만 후에 위치기반으로 수정
-    setChatList(oldList => [...oldList, 0]);//신촌
-    setChatList(oldList => [...oldList, 1]);//대흥
-    setChatList(oldList => [...oldList]);
+    nearlist.forEach(near =>{
+      setChatList(oldList => [...oldList, near.chatroom_id])
+    })
     
   }, []);
 

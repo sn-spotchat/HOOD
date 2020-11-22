@@ -15,12 +15,15 @@ const ChatroomBox = (props) =>{
   const login = useSelector(state => state.loginreducer, {});
   useEffect(()=>{//채팅방의 정보를 받아와 box에 채울 정보를 저장한다..
     const chatroom = database.ref('chatroom/');
-    chatroom.orderByChild("chatroom_id").equalTo(String(props.chatRoom)).once('value', function(snapshot){
+    console.log(props)
+    chatroom.orderByChild("chatroom_id").equalTo(props.chatRoom).once('value', function(snapshot){
+      console.log(snapshot.val())
       Object.values(snapshot.val()).forEach(entry =>{
         setChatroomName(entry["name"]);
         if(entry["lastchat_id"] !== ""){
           database.ref('chat/'+entry["lastchat_id"]).once('value', function(Snap){
             const dataObj = Snap.val();
+            console.log(dataObj)
             setLastChat(dataObj.content);
             setLastChatTime(dataObj.time);
           });

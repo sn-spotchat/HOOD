@@ -13,7 +13,7 @@ textarea{
 }
 button{
     width: 50px;
-    background-color: yellowgreen;
+    background-color:#4ed48b;
     border: none;
     border-radius: 10px;
 }
@@ -33,7 +33,7 @@ button{
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: yellowgreen;
+    background-color:#4ed48b;
 }
 .chatBody{
     width:100%;

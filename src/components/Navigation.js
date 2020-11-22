@@ -4,6 +4,8 @@ import * as actionType from '../modules/action';
 import './Navigation.css';
 import { database } from '../firebase';
 import NLogin from './NLogin.js';
+import { AccessAlarm, ThreeDRotation } from '@material-ui/icons';
+import SvgIcon from '@material-ui/core/SvgIcon';
 
 /*
 추가해야 할 사항:
@@ -13,7 +15,13 @@ const Navigation = () => {
     const [NavList, setNavList] = useState([]);
     const store_loggedin = useSelector(state => state.profilereducer.loggedin, []);
     const dispatch = useDispatch();
-
+    function HomeIcon(props) {
+        return (
+          <SvgIcon {...props}>
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+          </SvgIcon>
+        );
+      }
     //the navigation Icons depend on 'bool loggedin' in store.
     useEffect(() => {
         setNavList([]);
@@ -33,7 +41,9 @@ const Navigation = () => {
 
     return (
         <div className="Navigation">
-            <div id="home" className="NavigationIcon" onClick={() => dispatch(actionType.sidebarhomeObject)}>Home</div>
+            <div id="home" className="NavigationIcon" onClick={() => dispatch(actionType.sidebarhomeObject)}><SvgIcon>
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+          </SvgIcon></div>
             {NavList.map((element, index) => {
                 return (
                     <div id={element.id} className="NavigationIcon" onClick={element.func} key={index}>{element.id}</div>

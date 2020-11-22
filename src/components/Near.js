@@ -17,7 +17,6 @@ const Near = () =>{
     setChatList(oldList => [...oldList, 0]);//신촌
     setChatList(oldList => [...oldList, 1]);//대흥
     setChatList(oldList => [...oldList]);
-
     
   }, []);
 

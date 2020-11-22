@@ -5,6 +5,7 @@ const initialState = {
     nickname: undefined,
     id: undefined,
     pw: undefined,
+
     profileimage : './profile.png',
     user_id: -1,
     sidebarstate: "home",
@@ -13,9 +14,11 @@ const initialState = {
     loggedin: false,
     chatname: undefined,
     newchat: true,
+    nearlist: [],
     chatroomlist: [],
     map: undefined,
     maploaded: false,
+    location : undefined,
     profile:{
         age: '',
         birthday: '',

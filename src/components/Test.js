@@ -62,6 +62,14 @@ const Test = (props) =>{
   );
   const classes =useStyles();
 //
+
+  function submitOnEnter(event){
+    if(event.which === 13 && !event.shiftKey){
+        event.target.form.dispatchEvent(new Event("submit", {cancelable: true}));
+        event.preventDefault();
+    }
+  }
+
   function writeMsgData(messageObject) {
     //chat db에 저장하는 부분
     var date = new Date();
@@ -214,14 +222,14 @@ const Test = (props) =>{
       receivedMessage(message);
     })
   }, []);
-
+  const SubmitButton = (props) => ( <button {...props} type='submit' />);
   
   return (
     <div className="chat">
       <div className="chatHead">
-        <button id="backBtn" onClick={()=>dispatch(actionType.sidebarchatObject)}><ArrowBack></ArrowBack></button>
+        <button id="backBtn" className="upperbutton" onClick={()=>dispatch(actionType.sidebarchatObject)}><ArrowBack></ArrowBack></button>
         {chatroomName}
-        <button id="exitChatroomBtn" onClick={() =>{leaveRoom(login.id, props.chatRoomId); dispatch(actionType.sidebarnearObject);}}><Close></Close></button>
+        <button id="exitChatroomBtn" className="upperbutton" onClick={() =>{leaveRoom(login.id, props.chatRoomId); dispatch(actionType.sidebarnearObject);}}><Close></Close></button>
       </div>
       <div className="chatBody">
         {messages.map((message, index) => {
@@ -253,9 +261,8 @@ const Test = (props) =>{
       </div>
       <div className="chatUnder">
         <form onSubmit={sendMessage}>
-          <textarea value={message} onChange={handleChange} placeholder="메시지 입력"></textarea>
-          <Button variant="contained" color="primary" className={classes.nsubmit}>전송</Button>
-          
+          <textarea name="inputtext" value={message} onChange={handleChange} placeholder="메시지 입력" onKeyPress={submitOnEnter}></textarea>
+          <Button variant="contained" color="primary" className={classes.nsubmit} onClick={sendMessage}>전송</Button>
         </form>
       </div>
     </div>

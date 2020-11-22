@@ -11,11 +11,13 @@ textarea{
     outline:none;
     resize:none;
 }
-button{
+.upperbutton{
     width: 50px;
     background-color:#4ed48b;
     border: none;
-    border-radius: 10px;
+}
+#sendbutton{
+    border: none;
 }
 .chat{
     width: 100%;

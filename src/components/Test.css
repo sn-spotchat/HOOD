@@ -81,6 +81,7 @@ border-radius: 2px;
     text-align:center;
     border-radius: 10px;
     word-break: break-all;
+    white-space:pre;
 }
 .PeerRow{
     width:100%;
@@ -115,6 +116,7 @@ border-radius: 2px;
     text-align:center;
     border-radius:10px;
     word-break: break-all;
+    white-space:pre;
 }
 .PeerTime{
     width: 10%;

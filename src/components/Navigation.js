@@ -21,36 +21,43 @@ import PinDrop from '@material-ui/icons/PinDrop';
 */
 const Navigation = () => {
     const [NavList, setNavList] = useState([]);
+    const [NavState, setNavState] = useState("");
     const store_loggedin = useSelector(state => state.profilereducer.loggedin, []);
+    const sidebarstate = useSelector(state => state.reducer.sidebarstate, []);
     const dispatch = useDispatch();
     const initialState = useSelector(state => state.mapreducer)
     console.log(initialState)
-    
-
+    console.log(initialState.sidebarstate)
     //the navigation Icons depend on 'bool loggedin' in store.
     useEffect(() => {
         setNavList([]);
+        setNavState(sidebarstate);
         if (store_loggedin == false) {
-            setNavList(oldList => [...oldList, { id: "Login", func: () => dispatch(actionType.sidebarloginObject), icon: <Person></Person>}]);
-            setNavList(oldList => [...oldList, { id: "Home", func: () => dispatch(actionType.sidebarhomeObject), icon: <Home></Home>}]);
+            setNavList(oldList => [...oldList, { id: "login", func: () => dispatch(actionType.sidebarloginObject), icon: <Person></Person>}]);
+            setNavList(oldList => [...oldList, { id: "home", func: () => dispatch(actionType.sidebarhomeObject), icon: <Home></Home>}]);
         }
         else {
-            setNavList(oldList => [...oldList, { id: "Mypage", func: () => dispatch(actionType.sidebarmypageObject), icon:<AccountCircle></AccountCircle> }]);
-            setNavList(oldList => [...oldList, { id: "Home", func: () => dispatch(actionType.sidebarhomeObject), icon: <Home></Home>}]);
-            setNavList(oldList => [...oldList, { id: "Near", func: () => dispatch(actionType.sidebarnearObject), icon: <PinDrop></PinDrop>}]);
-            setNavList(oldList => [...oldList, { id: "Chat", func: () => dispatch(actionType.sidebarchatObject), icon: <Forum></Forum>}]);
+            setNavList(oldList => [...oldList, { id: "mypage", func: () => dispatch(actionType.sidebarmypageObject), icon:<AccountCircle></AccountCircle> }]);
+            setNavList(oldList => [...oldList, { id: "home", func: () => dispatch(actionType.sidebarhomeObject), icon: <Home></Home>}]);
+            setNavList(oldList => [...oldList, { id: "near", func: () => dispatch(actionType.sidebarnearObject), icon: <PinDrop></PinDrop>}]);
+            setNavList(oldList => [...oldList, { id: "chat", func: () => dispatch(actionType.sidebarchatObject), icon: <Forum></Forum>}]);
         }
-    }, [store_loggedin]);
+    }, [store_loggedin, sidebarstate]);
 
-
-
-
+    function navigation_present(element, index){//현재 sidebarstate에 따라 색깔을 달리 표시
+        if(element.id === NavState){
+            return <div id={element.id} className="NavigationIcon" onClick={element.func} key={index} style={{color:'white', backgroundColor:'#5555ff'}}>{element.icon}</div>
+        }
+        else{
+            return <div id={element.id} className="NavigationIcon" onClick={element.func} key={index}>{element.icon}</div>
+        }
+    }
 
     return (
         <div className="Navigation">
             {NavList.map((element, index) => {
                 return (
-                    <div id={element.id} className="NavigationIcon" onClick={element.func} key={index}>{element.icon}</div>
+                    navigation_present(element, index)
                 )
             })}
         </div>

@@ -30,9 +30,6 @@ const Init = () => {
             dispatch(actionType.addnear({coordinates : coordinates, name : name, chatroom_id : index}));            
         }
     })
-
-
-
     console.log('Init.js');
 
     return;

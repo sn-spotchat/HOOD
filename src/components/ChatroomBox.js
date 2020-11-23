@@ -26,8 +26,7 @@ const ChatroomBox = (props) =>{
               setLastChatTime(dataObj.time);
             });
           }
-        }
-        
+        }        
       });
     });
   }, []);
@@ -52,8 +51,10 @@ const ChatroomBox = (props) =>{
   },[lastchatTime]);
 
   function insertChat(chatRoom){
+    console.log('insertchat')
     var exist=false;
     console.log(chat.chatroomlist);
+    console.log(chat);
     chat.chatroomlist.forEach(function(data){
       console.log(data.id, chatRoom);
       if(String(data.id) === String(chatRoom)){

@@ -80,3 +80,7 @@ export const addnearObject = {type : ADDNEAR};
 export const RESETNEAR = 'resetnear';
 export const resetnear = () =>({type : RESETNEAR});
 export const resetnearObject = {type : RESETNEAR};
+
+export const SETUSERID = 'setuserid';
+export const setuserid = (userid) =>({type : SETUSERID, userid : userid});
+export const setuseridObject = {type : SETUSERID};

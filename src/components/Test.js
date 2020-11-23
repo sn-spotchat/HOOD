@@ -165,6 +165,7 @@ const Test = (props) =>{
 
     if(chat.newchat === true){
       console.log("new");
+      console.log(dataObject);
       socketRef.current.emit("join room", dataObject);
     }
     else{//chat목록에 있는 방인 경우

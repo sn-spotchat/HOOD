@@ -17,9 +17,9 @@ const Login = () => {
   const [nickname, setnickname] = useState();
   const [MATCHFOUND, setMATCHFOUND] = useState(false);
   const [ERROR, setERROR] = useState(false);
+  const [userid, setuserid] = useState();
   const [ID, setID] = useState('');
   const [PW, setPW] = useState('');
-  const [userId, setUserId] = useState();
   const dispatch = useDispatch();
   const useStyles = makeStyles((theme) => ({
     submit: {
@@ -44,6 +44,7 @@ const Login = () => {
     if (MATCHFOUND == true) {
       dispatch(actionType.insertprofile(profile));
       dispatch(actionType.insertnickname(nickname));
+      dispatch(actionType.setuserid(userid));
       dispatch(actionType.loggedinObject);
       dispatch(actionType.sidebarmypage());
     }
@@ -65,6 +66,7 @@ const Login = () => {
         if (Accounts[key]['ID'] === ID && Accounts[key]['PW'] === PW) {
           setprofile(Accounts[key]['profile']);
           setnickname(Accounts[key]['nickname']);
+          setuserid(key);
           dispatch(actionType.loginid(ID));
           dispatch(actionType.loginpw(PW));
           if(Accounts[key]['chatroomlist'] !== null && Accounts[key]['chatroomlist'] !== undefined){

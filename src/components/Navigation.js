@@ -25,14 +25,6 @@ const Navigation = () => {
     const store_loggedin = useSelector(state => state.profilereducer.loggedin, []);
     const sidebarstate = useSelector(state => state.reducer.sidebarstate, []);
     const dispatch = useDispatch();
-<<<<<<< HEAD
-    
-
-=======
-    const initialState = useSelector(state => state.mapreducer)
-    console.log(initialState)
-    console.log(initialState.sidebarstate)
->>>>>>> 2d4d2db7dafe9b00f7a01e4eb4d5642374ba7d23
     //the navigation Icons depend on 'bool loggedin' in store.
     useEffect(() => {
         setNavList([]);

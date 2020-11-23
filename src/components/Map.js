@@ -12,17 +12,17 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 
 var flag = false;
 const PolyMap = (props) => {
-  function makepolygon(geojson, polylist) {
+  function MakePolygon(geojson, polyList) {
     var data = props.nearlist;
     data.forEach((feature,index) => {
       let coordinates = feature.coordinates;
       let name = feature.name;
-      DisplayArea(coordinates, polylist, name, feature.chatroom_id);
+      DisplayArea(coordinates, polyList, name, feature.chatroom_id);
       
     })
   }
 
-  function DisplayArea(coordinates, polylist, name, index) {
+  function DisplayArea(coordinates, polyList, name, index) {
     var path = [];
     coordinates[0].forEach(data => {
       data.forEach(Coordinate => {
@@ -33,10 +33,10 @@ const PolyMap = (props) => {
     const color1 = '#7ea4f0'; const opacity1 = 0.4;
     const color2 = '#F51D1A'; const opacity2 = 0.3;
     const color3 = '#10E040'; const opacity3 = 0.4;
-    const [color, setcolor] = useState(color1);
-    const [opacity, setopacity] = useState(opacity1);
-    const [scolor, setscolor] = useState('#FFFFFF');
-    const [sopacity, setsopacity] = useState(1.0);
+    const [color, setColor] = useState(color1);
+    const [opacity, setOpacity] = useState(opacity1);
+    const [scolor, setScolor] = useState('#FFFFFF');
+    const [sopacity, setSopacity] = useState(1.0);
     const dispatch = useDispatch();
 
     const initialstate = useSelector(state => state.profilereducer);
@@ -94,30 +94,30 @@ const PolyMap = (props) => {
       }
     }
 
-    const polyover = () => {
+    const polyOver = () => {
       if (color === color3) return;
-      setcolor(color2)
-      setopacity(opacity2)
+      setColor(color2)
+      setOpacity(opacity2)
     }
 
-    const polyout = () => {
+    const polyOut = () => {
       if (color === color3) return;
-        setcolor(color1)
-        setopacity(opacity1)
+        setColor(color1)
+        setOpacity(opacity1)
     }
 
     useEffect(()=>{
       if(chatid === index){
-        setcolor(color3);
-        setopacity(opacity3);
+        setColor(color3);
+        setOpacity(opacity3);
       }    
       else{
-        setcolor(color1)
-        setopacity(opacity1)
+        setColor(color1)
+        setOpacity(opacity1)
       }
     },[chatid])
 
-    polylist.push(
+    polyList.push(
       <Polygon
         id = {name}
         key = {name}
@@ -129,16 +129,16 @@ const PolyMap = (props) => {
         strokeWeight={2}
         clickable={true}
         onClick={polyClick}
-        onMouseover={polyover}
-        onMouseout={polyout}
+        onMouseover={polyOver}
+        onMouseout={polyOut}
       />
     );
   }
 
 
   function NaverMapAPI() {
-    var polylist = [];
-    makepolygon(SeoulDong, polylist)
+    var polyList = [];
+    MakePolygon(SeoulDong, polyList)
     return (
       <NaverMap
         mapDivId={'maps-getting-started-uncontrolled'} // default: react-naver-map
@@ -151,7 +151,7 @@ const PolyMap = (props) => {
         minZoom={13}
         maxZoom={19}
       >
-        {polylist}
+        {polyList}
       </NaverMap>
     );
   }

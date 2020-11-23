@@ -5,9 +5,10 @@ const initialState = {
     nickname: undefined,
     id: undefined,
     pw: undefined,
+    user_id: -1,
+
 
     profileimage : './profile.png',
-    user_id: -1,
     sidebarstate: "home",
     chatid: undefined,
     mypageselecterstate: 'login',

@@ -39,13 +39,12 @@ const PolyMap = (props) => {
     const [sopacity, setsopacity] = useState(1.0);
     const dispatch = useDispatch();
 
-    const initialstate = useSelector(state => state.profilereducer)
+    const initialstate = useSelector(state => state.profilereducer);
+    const chatid = useSelector(state => state.chatreducer.chatid);
 
     //일단 간단한 이벤트로 정의해둠, 기능 변경필요함.
     const polyClick = () => {
       if (initialstate.loggedin === true) {
-        setcolor(color3)
-        setopacity(opacity3)
         confirmAlert({
           title: '채팅방입장',
           message: `${name} 채팅방에 입장하시겠습니까?`,
@@ -116,6 +115,18 @@ const PolyMap = (props) => {
         setopacity(opacity1)
       }
     }
+
+    
+    useEffect(()=>{
+      if(chatid === index){
+        setcolor(color3);
+        setopacity(opacity3);
+      }    
+      else{
+        setcolor(color1)
+        setopacity(opacity1)
+      }
+    },[chatid])
 
     polylist.push(
       <Polygon

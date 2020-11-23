@@ -42,7 +42,33 @@ const PolyMap = (props) => {
     const initialstate = useSelector(state => state.profilereducer);
     const chatid = useSelector(state => state.chatreducer.chatid);
 
-    //일단 간단한 이벤트로 정의해둠, 기능 변경필요함.
+    const YesClick=()=>{
+      dispatch(actionType.oldchat());
+      dispatch(actionType.sidebartestObject);
+      dispatch(actionType.chatid(index));
+      let exist = false;
+      initialstate.chatroomlist.forEach(chatroomid =>{
+        if(index === chatroomid){
+          exist = true;
+        }
+      })
+      if(exist) return;
+      dispatch(actionType.newchat());
+      dispatch(actionType.insertchatroom(index));
+      database.ref('chatroom').once('value', snapshot => {
+        Object.values(snapshot.val()).forEach(Snap => {
+          if(String(index)!==String(Snap['chatroom_id'])) return;
+          database.ref('user/').once('value', data => {
+            Object.entries(data.val()).forEach(entry => {
+              const [key, value] = entry;
+              if(value['ID']!== initialstate.id) return;
+              var date = new Date();
+              database.ref('user/'+key+'/chatroomlist/').push({chatroom_id: Snap['chatroom_id'], start_chat_id:Snap['lastchat_id'], time: date.toString()});
+            });
+          });
+        });
+      });
+    }
     const polyClick = () => {
       if (initialstate.loggedin === true) {
         confirmAlert({
@@ -51,44 +77,10 @@ const PolyMap = (props) => {
           buttons: [
             {
               label: 'YES',
-              onClick: () => {
-                dispatch(actionType.oldchat());
-                dispatch(actionType.sidebartestObject);
-                dispatch(actionType.chatid(index));
-                let exist = false;
-                initialstate.chatroomlist.forEach(chatroomid =>{
-                  if(index === chatroomid){
-                    exist = true;
-                  }
-                })
-                if(!exist){
-                  console.log('insertchat');
-                  dispatch(actionType.newchat());
-                  dispatch(actionType.insertchatroom(index));
-                  database.ref('chatroom').once('value', snapshot => {
-                    Object.values(snapshot.val()).forEach(Snap => {
-                      if(String(index) === String(Snap['chatroom_id'])){
-                        database.ref('user/').once('value', data => {
-                          Object.entries(data.val()).forEach(entry => {
-                            const [key, value] = entry;
-                            if(value['ID'] ===  initialstate.id){
-                              var date = new Date();
-                              database.ref('user/'+key+'/chatroomlist/').push({chatroom_id: Snap['chatroom_id'], start_chat_id:Snap['lastchat_id'], time: date.toString()});
-                            }
-                          });
-                        });
-                      }
-                    });
-                  });
-                }
-              }
+              onClick :YesClick()
             },
             {
-              label: 'NO',
-              onClick: () => {
-                setcolor(color1)
-                setopacity(opacity1)
-              }
+              label: 'NO'
             }
           ]
         })
@@ -103,20 +95,17 @@ const PolyMap = (props) => {
     }
 
     const polyover = () => {
-      if (color !== color3) {
-        setcolor(color2)
-        setopacity(opacity2)
-      }
+      if (color === color3) return;
+      setcolor(color2)
+      setopacity(opacity2)
     }
 
     const polyout = () => {
-      if (color !== color3) {
+      if (color === color3) return;
         setcolor(color1)
         setopacity(opacity1)
-      }
     }
 
-    
     useEffect(()=>{
       if(chatid === index){
         setcolor(color3);
@@ -150,7 +139,6 @@ const PolyMap = (props) => {
   function NaverMapAPI() {
     var polylist = [];
     makepolygon(SeoulDong, polylist)
-    //the code was optimized.
     return (
       <NaverMap
         mapDivId={'maps-getting-started-uncontrolled'} // default: react-naver-map
@@ -159,7 +147,9 @@ const PolyMap = (props) => {
           height: '100%' // 네이버지도 세로 길이
         }}
         defaultCenter={{ lat: props.Geo['latitude'], lng: props.Geo['longitude'] }} // 지도 초기 위치        
-        defaultZoom={15} // 지도 초기 확대 배율
+        defaultZoom={14} // 지도 초기 확대 배율
+        minZoom={13}
+        maxZoom={19}
       >
         {polylist}
       </NaverMap>

@@ -7,14 +7,20 @@ import { setEmitFlags } from 'typescript';
 
 const NLogin = (props) => {
     const dispatch = useDispatch();
-    const [profile, setprofile] = useState({});
     const [nickname, setnickname] = useState();
+    const [profile, setprofile] = useState({});
+    const [userid, setuserid] = useState();
     const [flag, setflag] = useState(false);
+    const [ID, setID] = useState('');
+    const [PW, setPW] = useState('');
 
     useEffect(() => {
-        if (flag == true) {
+        if (flag === true) {
             dispatch(actionType.insertprofile(profile));
             dispatch(actionType.insertnickname(nickname));
+            dispatch(actionType.setuserid(userid));
+            dispatch(actionType.loginid(ID));
+            dispatch(actionType.loginpw(PW));
             dispatch(actionType.sidebarmypageObject);
             dispatch(actionType.loggedinObject);
         }
@@ -24,30 +30,38 @@ const NLogin = (props) => {
         let exist = false;
         let user = null;
         let nickname = null;
+        let retkey = null;
+        let ID = '';
+        let PW = '';
         await database.ref('/user').once('value').then((Snap) => {
             const Accounts = Snap.val();
             const Arr = Object.keys(Accounts);
             Arr.forEach(key => {
                 if (Accounts[key]['profile']['id'] == Nuser['id']) {
+                    console.log(Accounts[key]);
+                    retkey = key;
                     exist = true;
                     user = Accounts[key]['profile'];
                     nickname = Accounts[key]['nickname'];
+                    ID = Accounts[key]['ID'];
+                    PW = Accounts[key]['PW'];
                 }
             })
         })
-        return [exist, user, nickname];
+        return [exist, user, nickname, retkey, ID, PW];
     }
     const Login = (User) => {
         //if result matches with an account in DB, user is set and goes to mypage
         CheckExist(User).then((ret) => {
             if (ret[0]) { // ret[0] = exist
-                console.log('exists!');
                 setprofile(ret[1]); //ret[1] = user;
                 setnickname(ret[2]); //ret[2] = nickname;
+                setuserid(ret[3]); // ret[3] = userid
+                setID(ret[4]); // ret[4] = ID
+                setPW(ret[5]); //ret[5] = PW
                 setflag(true);
             }
             else {
-                console.log('no match!')
                 const Arr = Object.keys(User);
                 Arr.forEach(key => {
                     if (User[key] == undefined) {

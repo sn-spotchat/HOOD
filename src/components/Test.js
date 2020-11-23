@@ -196,6 +196,7 @@ const Test = (props) =>{
 
     if(chat.newchat === true){
       console.log("new");
+      console.log(dataObject);
       socketRef.current.emit("join room", dataObject);
     }
     else{//chat목록에 있는 방인 경우
@@ -224,12 +225,22 @@ const Test = (props) =>{
   }, []);
   const SubmitButton = (props) => ( <button {...props} type='submit' />);
   
+  const ClickExit = ()=>{
+    leaveRoom(login.id, props.chatRoomId);
+    dispatch(actionType.sidebarnearObject);   
+    dispatch(actionType.chatid(-1)); 
+  }
+
+  const ClickBack = () =>{
+    dispatch(actionType.sidebarchatObject);
+    dispatch(actionType.chatid(-1));
+  }
   return (
     <div className="chat">
       <div className="chatHead">
-        <button id="backBtn" className="upperbutton" onClick={()=>dispatch(actionType.sidebarchatObject)}><ArrowBack></ArrowBack></button>
+        <button id="backBtn" className="upperbutton" onClick={()=>{ClickBack()}}><ArrowBack></ArrowBack></button>
         {chatroomName}
-        <button id="exitChatroomBtn" className="upperbutton" onClick={() =>{leaveRoom(login.id, props.chatRoomId); dispatch(actionType.sidebarnearObject);}}><Close></Close></button>
+        <button id="exitChatroomBtn" className="upperbutton" onClick={() =>{ClickExit()}}><Close></Close></button>
       </div>
       <div className="chatBody">
         {messages.map((message, index) => {

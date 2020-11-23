@@ -9,6 +9,8 @@ const profilereducer = (state = initialState, action) =>{
             return {...state, loggedin : true};
         case actionType.INSERTNICKNAME:
             return {...state, nickname : action.nickname};
+        case actionType.SETUSERID:
+            return {...state, user_id : action.userid};
         default:
             return state;
     }

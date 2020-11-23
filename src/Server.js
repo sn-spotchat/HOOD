@@ -9,7 +9,7 @@ io.on("connection", socket => {
     //새로운 방에 들어갈 때
     socket.join(data.chatroom_id);
     io.to(data.chatroom_id).emit("enter room",data.user_id);
-    console.log("join"+data.roomId);
+    console.log("join"+data.chatroom_id);
   })
   socket.on("rejoin room", data =>{
     //기존에 등록된 채팅방에 들어갈 때

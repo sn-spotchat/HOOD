@@ -1,78 +1,136 @@
-import React, { Component,useState, useEffect, useRef} from 'react';
+import React, { Component, useState, useEffect, useRef } from 'react';
 import './Map.css';
 import useGeolocation from 'react-hook-geolocation';
 import { RenderAfterNavermapsLoaded, NaverMap, Polygon, Marker } from 'react-naver-maps'; // 패키지 불러오기
 import SeoulDong from "./SeoulDong.json";
 import $, { map } from "jquery";
-import {useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as actionType from '../modules/action';
 import { database } from '../firebase';
 import { confirmAlert } from 'react-confirm-alert'; // Import
-import 'react-confirm-alert/src/react-confirm-alert.css' 
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 var flag = false;
 const PolyMap = (props) => {
-  function makepolygon(geojson, polylist){
+  function makepolygon(geojson, polylist) {
     var data = props.nearlist;
-    console.log(data);
-    data.forEach(feature =>{
+    data.forEach((feature,index) => {
       let coordinates = feature.coordinates;
       let name = feature.name;
-      DisplayArea(coordinates, polylist, name);})
-  } 
+      DisplayArea(coordinates, polylist, name, feature.chatroom_id);
+      
+    })
+  }
 
-  function DisplayArea(coordinates, polylist, name){
-    var path=[];
-    coordinates[0].forEach(data =>{
-      data.forEach(Coordinate =>{        
-        path.push(new window.naver.maps.LatLng(Coordinate[1],Coordinate[0]))
+  function DisplayArea(coordinates, polylist, name, index) {
+    var path = [];
+    coordinates[0].forEach(data => {
+      data.forEach(Coordinate => {
+        path.push(new window.naver.maps.LatLng(Coordinate[1], Coordinate[0]))
       })
     })
 
-    const [color,setcolor]=useState('#7ea4f0')
-    const [scolor,setscolor]=useState('#ffffff')
-    const [sopacity,setsopacity]=useState(0.6)
-    const [opacity,setopacity]=useState(0.7)
+    const color1 = '#7ea4f0'; const opacity1 = 0.4;
+    const color2 = '#F51D1A'; const opacity2 = 0.3;
+    const color3 = '#10E040'; const opacity3 = 0.4;
+    const [color, setcolor] = useState(color1);
+    const [opacity, setopacity] = useState(opacity1);
+    const [scolor, setscolor] = useState('#FFFFFF');
+    const [sopacity, setsopacity] = useState(1.0);
+    const dispatch = useDispatch();
+
+    const initialstate = useSelector(state => state.profilereducer);
+    const chatid = useSelector(state => state.chatreducer.chatid);
 
     //일단 간단한 이벤트로 정의해둠, 기능 변경필요함.
-    const polyClick=()=>{
-      setcolor('#ff2400')
-      setopacity(0.8)
-      confirmAlert({
-        title: '채팅방입장',
-        message: `${name} 채팅방에 입장하시겠습니까?`,
-        buttons: [
-          {
-            label: 'YES',
-            onClick: () => alert('Click Yes')
-          },
-          {
-            label: 'NO',
-            onClick: () =>{ alert('Click No')
-            setcolor('#7ea4f0')
-            setsopacity(0.6)
+    const polyClick = () => {
+      if (initialstate.loggedin === true) {
+        confirmAlert({
+          title: '채팅방입장',
+          message: `${name} 채팅방에 입장하시겠습니까?`,
+          buttons: [
+            {
+              label: 'YES',
+              onClick: () => {
+                dispatch(actionType.oldchat());
+                dispatch(actionType.sidebartestObject);
+                dispatch(actionType.chatid(index));
+                let exist = false;
+                initialstate.chatroomlist.forEach(chatroomid =>{
+                  if(index === chatroomid){
+                    exist = true;
+                  }
+                })
+                if(!exist){
+                  console.log('insertchat');
+                  dispatch(actionType.newchat());
+                  dispatch(actionType.insertchatroom(index));
+                  database.ref('chatroom').once('value', snapshot => {
+                    Object.values(snapshot.val()).forEach(Snap => {
+                      if(String(index) === String(Snap['chatroom_id'])){
+                        database.ref('user/').once('value', data => {
+                          Object.entries(data.val()).forEach(entry => {
+                            const [key, value] = entry;
+                            if(value['ID'] ===  initialstate.id){
+                              var date = new Date();
+                              database.ref('user/'+key+'/chatroomlist/').push({chatroom_id: Snap['chatroom_id'], start_chat_id:Snap['lastchat_id'], time: date.toString()});
+                            }
+                          });
+                        });
+                      }
+                    });
+                  });
+                }
+              }
+            },
+            {
+              label: 'NO',
+              onClick: () => {
+                setcolor(color1)
+                setopacity(opacity1)
+              }
             }
-          }
-        ]
-      })
-    }
-
-    const polyover=()=>{
-      if(color!=="#ff2400"){
-        setcolor('#999999')
-        setsopacity(1)
+          ]
+        })
+      }
+      else{
+        confirmAlert({
+          title: '채팅방입장',
+          message: '로그인 후 입장가능합니다.',
+          buttons: [{ label: 'OK', }]
+        })
       }
     }
 
-    const polyout=()=>{
-      if(color!=="#ff2400"){
-        setcolor('#7ea4f0')
-        setsopacity(0.6)
+    const polyover = () => {
+      if (color !== color3) {
+        setcolor(color2)
+        setopacity(opacity2)
       }
     }
+
+    const polyout = () => {
+      if (color !== color3) {
+        setcolor(color1)
+        setopacity(opacity1)
+      }
+    }
+
+    
+    useEffect(()=>{
+      if(chatid === index){
+        setcolor(color3);
+        setopacity(opacity3);
+      }    
+      else{
+        setcolor(color1)
+        setopacity(opacity1)
+      }
+    },[chatid])
 
     polylist.push(
-      <Polygon 
+      <Polygon
+        id = {name}
         key = {name}
         paths={path}
         fillColor={color}
@@ -84,13 +142,13 @@ const PolyMap = (props) => {
         onClick={polyClick}
         onMouseover={polyover}
         onMouseout={polyout}
-        />
-      );
+      />
+    );
   }
 
 
-  function NaverMapAPI() {  
-    var polylist=[];        
+  function NaverMapAPI() {
+    var polylist = [];
     makepolygon(SeoulDong, polylist)
     //the code was optimized.
     return (
@@ -100,20 +158,20 @@ const PolyMap = (props) => {
           width: '100%', // 네이버지도 가로 길이
           height: '100%' // 네이버지도 세로 길이
         }}
-        defaultCenter={{ lat:  props.Geo['latitude'], lng : props.Geo['longitude'] }} // 지도 초기 위치        
+        defaultCenter={{ lat: props.Geo['latitude'], lng: props.Geo['longitude'] }} // 지도 초기 위치        
         defaultZoom={15} // 지도 초기 확대 배율
       >
         {polylist}
       </NaverMap>
     );
   }
-  return(
-    <NaverMapAPI/>
+  return (
+    <NaverMapAPI />
   );
 }
 
 
-const Map = () =>{
+const Map = () => {
 
   const [sideType, setSideType] = useState("block"); //사이드바의 타입(지금은 chat, list, 채팅방)
   const [sideDisplay, setSideDisplay] = useState("near"); //사이드바의 display를 none, block 설정
@@ -121,9 +179,9 @@ const Map = () =>{
 
   //after solving naver-login-map conflict, 
   //LoadMapfromStore function is still needed since the page is rendered so many time for no reason.
-  const LoadMapfromStore = () =>{
+  const LoadMapfromStore = () => {
     const nears = useSelector(state => state.mapreducer.nearlist);
-    const [local_map, setmap] = useState();   
+    const [local_map, setmap] = useState();
     const Geo = useGeolocation({
       enableHighAccuracy: true,
       maximumAge: 15000,
@@ -132,18 +190,18 @@ const Map = () =>{
 
     const dispatch = useDispatch();
 
-    useEffect(()=>{       
-        setmap(<RenderAfterNavermapsLoaded ncpClientId={'5blqxkrbsw'}><PolyMap nearlist = {nears} Geo = {Geo}/></RenderAfterNavermapsLoaded>)                
-        //dispatch(actionType.maploadedObject);      
-    },[nears, Geo])   
-    
+    useEffect(() => {
+      setmap(<RenderAfterNavermapsLoaded ncpClientId={'5blqxkrbsw'}><PolyMap nearlist={nears} Geo={Geo} /></RenderAfterNavermapsLoaded>)
+      //dispatch(actionType.maploadedObject);      
+    }, [nears, Geo])
+
     return local_map;
   }
-  
-  return (     
-      <div className="Map">
-        {LoadMapfromStore()}
-      </div>    
+
+  return (
+    <div className="Map">
+      {LoadMapfromStore()}
+    </div>
   );
 };
 

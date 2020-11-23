@@ -14,16 +14,16 @@ const Near = () =>{
   const nearlist = useSelector(state => state.mapreducer.nearlist, []);
   const dispatch = useDispatch();
   console.log(nearlist);
-  useEffect(()=>{//정보를 받아와 리스트를 작성한다. 지금은 하드코딩이지만 후에 위치기반으로 수정
+  useEffect(()=>{
     nearlist.forEach(near =>{
       setChatList(oldList => [...oldList, near.chatroom_id])
     })
     
   }, []);
-
+  const nearHead=`주위에 ${Object.keys(nearlist).length}개의 채팅방이 있습니다.`
   return (
     <div className="Near">
-      <div id="nearhead" className="head">Near</div>
+      <div id="nearhead" className="head">{nearHead}</div>
       {chatList.map((chatRoom,index) => {
         return ( 
           <ChatroomBox key={index} chatRoom={chatRoom} index={index} ></ChatroomBox>

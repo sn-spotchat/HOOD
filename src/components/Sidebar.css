@@ -5,6 +5,7 @@
     display: flex;
     border-right-style:solid;
     border-right-width:1px;
+    border-right-color: rgb(200,200,200);
     margin:0px;
 }
 .head{

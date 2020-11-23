@@ -11,12 +11,12 @@ const SidebarContainer = () => {
     const changeDisplay = () => {
         if (document.getElementById("Sidebar").style.display == 'none') {
             document.getElementById("Sidebar").style.display = 'block';
-            document.getElementById("SidebarButton").style['margin-left'] = '320px';
+            document.getElementById("SidebarButton").style['margin-left'] = '322px';
             setButtonLabel('<');
         }
         else {
             document.getElementById("Sidebar").style.display = 'none';
-            document.getElementById("SidebarButton").style['margin-left'] = '-20px';
+            document.getElementById("SidebarButton").style['margin-left'] = '-18px';
             setButtonLabel('>');
         }
     }

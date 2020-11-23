@@ -6,10 +6,9 @@ import './Main.css';
 import Sidebar from './Sidebar';
 import SidebarContainer, { SidebarButton } from '../containers/SidebarContainer';
 const Main = () => {
-  const sidebarstate = useSelector(state => state.reducer.sidebarstate, []);
   return (
     <div className='wrap'>
-      <Navigation sidebarstate={sidebarstate}/>
+      <Navigation/>
       <SidebarContainer/>
       <Map/>
     </div>

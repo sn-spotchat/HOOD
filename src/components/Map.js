@@ -17,8 +17,7 @@ const PolyMap = (props) => {
     data.forEach((feature,index) => {
       let coordinates = feature.coordinates;
       let name = feature.name;
-      DisplayArea(coordinates, polyList, name, feature.chatroom_id);
-      
+      DisplayArea(coordinates, polyList, name, feature.chatroom_id);      
     })
   }
 
@@ -40,6 +39,7 @@ const PolyMap = (props) => {
     const dispatch = useDispatch();
 
     const initialstate = useSelector(state => state.profilereducer);
+    const chatroomlist = useSelector(state => state.chatreducer.chatroomlist);
     const chatid = useSelector(state => state.chatreducer.chatid);
     const sidebarstate = useSelector(state => state.reducer.sidebarstate);
 
@@ -48,8 +48,10 @@ const PolyMap = (props) => {
       dispatch(actionType.sidebartestObject);
       dispatch(actionType.chatid(index));
       let exist = false;
-      initialstate.chatroomlist.forEach(chatroomid =>{
-        if(index === chatroomid){
+      console.log(chatroomlist);
+      chatroomlist.forEach(chatroomid =>{        
+        console.log(chatroomid.id, index);
+        if(index === chatroomid.id){
           exist = true;
         }
       })
@@ -58,13 +60,13 @@ const PolyMap = (props) => {
       dispatch(actionType.insertchatroom(index));
       database.ref('chatroom').once('value', snapshot => {
         Object.values(snapshot.val()).forEach(Snap => {
-          if(String(index)!==String(Snap['chatroom_id'])) return;
+          if (index !== Snap['chatroom_id']) return;
           database.ref('user/').once('value', data => {
             Object.entries(data.val()).forEach(entry => {
               const [key, value] = entry;
-              if(value['ID']!== initialstate.id) return;
+              if (value['ID'] !== initialstate.id) return;
               var date = new Date();
-              database.ref('user/'+key+'/chatroomlist/').push({chatroom_id: Snap['chatroom_id'], start_chat_id:Snap['lastchat_id'], time: date.toString()});
+              database.ref('user/' + key + '/chatroomlist/').push({ chatroom_id: Snap['chatroom_id'], start_chat_id: Snap['lastchat_id'], time: date.toString() });
             });
           });
         });
@@ -78,7 +80,7 @@ const PolyMap = (props) => {
           buttons: [
             {
               label: 'YES',
-              onClick :YesClick()
+              onClick : () => YesClick()
             },
             {
               label: 'NO'
@@ -109,8 +111,8 @@ const PolyMap = (props) => {
 
     useEffect(()=>{
       if(chatid === index && sidebarstate === 'test'){
-        setcolor(color3);
-        setopacity(opacity3);
+        setColor(color3);
+        setOpacity(opacity3);
       }    
       else{
         setColor(color1)

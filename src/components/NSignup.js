@@ -15,6 +15,7 @@ const Signin = (props) => {
     const [NICKNAME, setNICKNAME] = useState('');
     const [ID, setID] = useState('');
     const [PW, setPW] = useState('');
+    const [userid, setuserid] = useState();
     const [PWCONFIRM, setPWCONFIRM] = useState('');
 
      const [NAMEERRFLAG, setNAMEERRFLAG] = useState(false);
@@ -60,13 +61,12 @@ const Signin = (props) => {
     }, [flag])
 
     useEffect(() => {
-        if (flag == true) {
+        if (flag === true) {
             console.log(User);
             database.ref('/user').push(User);
-            dispatch(actionType.insertprofile(profile));
-            dispatch(actionType.insertnickname(NICKNAME));
-            dispatch(actionType.loggedinObject);
-            dispatch(actionType.sidebarmypageObject);
+            alert('회원가입이 완료되었습니다. 로그인해주세요.');
+            dispatch(actionType.insertprofile({id:-1, name:'Guest'}));
+            dispatch(actionType.sidebarloginObject);
         }
     }, [User])
 
@@ -106,7 +106,7 @@ const Signin = (props) => {
                 })
                 if (exists == true) {
                     MSG = '이미 사용중인 아이디입니다.'; valid = false; setIDERRFLAG(true);
-                }
+                }                
             });
         }
         return [MSG, valid]

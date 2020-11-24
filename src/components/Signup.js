@@ -83,12 +83,11 @@ const Signin = (props) => {
     }, [profile])
 
     useEffect(() => {
-        if (flag == true) {
+        if (flag === true) {
             database.ref('/user').push(User);
-            dispatch(actionType.insertprofile(profile));
-            dispatch(actionType.insertnickname(NICKNAME));
-            dispatch(actionType.loggedinObject);
-            dispatch(actionType.sidebarmypageObject);
+            alert('회원가입이 완료되었습니다. 로그인해주세요.');
+            dispatch(actionType.insertprofile({id:-1, name:'Guest'}));
+            dispatch(actionType.sidebarloginObject);
         }
     }, [User])
 

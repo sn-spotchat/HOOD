@@ -12,7 +12,7 @@ console.log(profileimage);
     return (
         <div className='SidebarContent'>
             <div>{nickname}님 어서오세요!</div>
-            {console.log(JSON.stringify(profile))}
+            {console.log(profile)}
         </div>
     );
     return (

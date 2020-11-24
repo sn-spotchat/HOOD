@@ -41,6 +41,7 @@ const PolyMap = (props) => {
 
     const initialstate = useSelector(state => state.profilereducer);
     const chatid = useSelector(state => state.chatreducer.chatid);
+    const sidebarstate = useSelector(state => state.reducer.sidebarstate);
 
     const YesClick=()=>{
       dispatch(actionType.oldchat());
@@ -107,15 +108,15 @@ const PolyMap = (props) => {
     }
 
     useEffect(()=>{
-      if(chatid === index){
-        setColor(color3);
-        setOpacity(opacity3);
+      if(chatid === index && sidebarstate === 'test'){
+        setcolor(color3);
+        setopacity(opacity3);
       }    
       else{
         setColor(color1)
         setOpacity(opacity1)
       }
-    },[chatid])
+    },[chatid, sidebarstate])
 
     polyList.push(
       <Polygon

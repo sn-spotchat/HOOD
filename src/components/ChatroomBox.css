@@ -8,12 +8,12 @@
     align-items: center;
     box-sizing: border-box;
 
-    border: 2px solid;
-    border-top: 1px solid;
     border-bottom: 1px solid;
-    border-radius: 10px;
-    border-color: black;
+    border-color: lightgray;
     background-color: whitesmoke;
+}
+.ChatroomBoxRaw:hover{
+    background-color: #dadada;
 }
 .upper{
     width:100%;
@@ -24,7 +24,7 @@
 }
 #name{
     height:30px;
-    font-size: 25px;
+    font-size: 20px;
     font-family: 'Jua', sans-serif;
     margin-left: 20px;
     margin-top: 5px;
@@ -37,8 +37,9 @@
     align-items: center;
     position: absolute;
     right:10px;
+    margin-top: 10px;
     border-radius: 50%;
-    background-color: #FF6666;
+    background-color: #d46161;
 }
 .lower{
     width:100%;

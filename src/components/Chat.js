@@ -10,15 +10,15 @@ const Chat = () =>{
   const dispatch = useDispatch();
   const profilesaved = useSelector(state => state.profilereducer, {});
   const chat = useSelector(state => state.chatreducer, {});
-  useEffect(()=>{//정보를 받아와 리스트를 작성한다.
-    console.log(chat.chatroomlist);
+  const chatHead=`현재 ${Object.keys(chat.chatroomlist).length}개의 채팅방에 접속중입니다.`
+  useEffect(()=>{
     chat.chatroomlist.forEach(function(data){
       setChatList(oldList => [...oldList, data['id']]);
     });
   }, []);
   return (
     <div className="Chat">
-      <div id="chathead" className="head">Chat</div>
+      <div id="chathead" className="head">{chatHead}</div>
       {chatList.map((chatRoom,index) => {
         return ( 
           <ChatroomBox key={index} chatRoom={chatRoom} index={index}></ChatroomBox>

@@ -41,6 +41,7 @@ const PolyMap = (props) => {
 
     const initialstate = useSelector(state => state.profilereducer);
     const chatid = useSelector(state => state.chatreducer.chatid);
+    const sidebarstate = useSelector(state => state.reducer.sidebarstate);
 
     //일단 간단한 이벤트로 정의해둠, 기능 변경필요함.
     const polyClick = () => {
@@ -118,7 +119,7 @@ const PolyMap = (props) => {
 
     
     useEffect(()=>{
-      if(chatid === index){
+      if(chatid === index && sidebarstate === 'test'){
         setcolor(color3);
         setopacity(opacity3);
       }    
@@ -126,7 +127,7 @@ const PolyMap = (props) => {
         setcolor(color1)
         setopacity(opacity1)
       }
-    },[chatid])
+    },[chatid, sidebarstate])
 
     polylist.push(
       <Polygon

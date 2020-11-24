@@ -41,10 +41,12 @@ const Login = () => {
   const classes =useStyles();
 
   useEffect(() => {
-    if (MATCHFOUND == true) {
+    if (MATCHFOUND === true) {
       dispatch(actionType.insertprofile(profile));
       dispatch(actionType.insertnickname(nickname));
       dispatch(actionType.setuserid(userid));
+      dispatch(actionType.loginid(ID));
+      dispatch(actionType.loginpw(PW));
       dispatch(actionType.loggedinObject);
       dispatch(actionType.sidebarmypage());
     }
@@ -67,8 +69,8 @@ const Login = () => {
           setprofile(Accounts[key]['profile']);
           setnickname(Accounts[key]['nickname']);
           setuserid(key);
-          dispatch(actionType.loginid(ID));
-          dispatch(actionType.loginpw(PW));
+          setID(Accounts[key]['ID']);
+          setPW(Accounts[key]['PW']);
           if(Accounts[key]['chatroomlist'] !== null && Accounts[key]['chatroomlist'] !== undefined){
             Object.values(Accounts[key]['chatroomlist']).forEach(data =>{
               dispatch(actionType.insertchatroom(data['chatroom_id']));

@@ -13,9 +13,11 @@ const NLogin = (props) => {
     const [flag, setflag] = useState(false);
     const [ID, setID] = useState('');
     const [PW, setPW] = useState('');
+    const [chatroomlist, setchatroomlist] = useState();
 
     useEffect(() => {
         if (flag === true) {
+            console.log('here', userid, ID, PW);
             dispatch(actionType.insertprofile(profile));
             dispatch(actionType.insertnickname(nickname));
             dispatch(actionType.setuserid(userid));
@@ -23,6 +25,11 @@ const NLogin = (props) => {
             dispatch(actionType.loginpw(PW));
             dispatch(actionType.sidebarmypageObject);
             dispatch(actionType.loggedinObject);
+            if (chatroomlist !== null && chatroomlist !== undefined) {
+                Object.values(chatroomlist).forEach(data => {
+                    dispatch(actionType.insertchatroom(data['chatroom_id']));
+                });
+            }
         }
     }, [flag]);
 
@@ -33,6 +40,7 @@ const NLogin = (props) => {
         let retkey = null;
         let ID = '';
         let PW = '';
+        let chatroomlist = {};
         await database.ref('/user').once('value').then((Snap) => {
             const Accounts = Snap.val();
             const Arr = Object.keys(Accounts);
@@ -45,10 +53,11 @@ const NLogin = (props) => {
                     nickname = Accounts[key]['nickname'];
                     ID = Accounts[key]['ID'];
                     PW = Accounts[key]['PW'];
+                    chatroomlist = Accounts[key]['chatroomlist'];                    
                 }
             })
         })
-        return [exist, user, nickname, retkey, ID, PW];
+        return [exist, user, nickname, retkey, ID, PW, chatroomlist];
     }
     const Login = (User) => {
         //if result matches with an account in DB, user is set and goes to mypage
@@ -59,6 +68,7 @@ const NLogin = (props) => {
                 setuserid(ret[3]); // ret[3] = userid
                 setID(ret[4]); // ret[4] = ID
                 setPW(ret[5]); //ret[5] = PW
+                setchatroomlist(ret[6]);
                 setflag(true);
             }
             else {

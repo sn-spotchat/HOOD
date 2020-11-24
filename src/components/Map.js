@@ -44,36 +44,40 @@ const PolyMap = (props) => {
     const sidebarstate = useSelector(state => state.reducer.sidebarstate);
 
     const YesClick=()=>{
-      dispatch(actionType.oldchat());
       dispatch(actionType.sidebartestObject);
       dispatch(actionType.chatid(index));
       let exist = false;
-      console.log(chatroomlist);
-      chatroomlist.forEach(chatroomid =>{        
-        console.log(chatroomid.id, index);
+      chatroomlist.forEach(chatroomid =>{    
         if(index === chatroomid.id){
           exist = true;
         }
       })
-      if(exist) return;
-      dispatch(actionType.newchat());
-      dispatch(actionType.insertchatroom(index));
-      database.ref('chatroom').once('value', snapshot => {
-        Object.values(snapshot.val()).forEach(Snap => {
-          if (index !== Snap['chatroom_id']) return;
-          database.ref('user/').once('value', data => {
-            Object.entries(data.val()).forEach(entry => {
-              const [key, value] = entry;
-              if (value['ID'] !== initialstate.id) return;
-              var date = new Date();
-              database.ref('user/' + key + '/chatroomlist/').push({ chatroom_id: Snap['chatroom_id'], start_chat_id: Snap['lastchat_id'], time: date.toString() });
+      if(exist === true){
+        dispatch(actionType.oldchat());
+      }
+      else {
+        dispatch(actionType.newchat());
+        dispatch(actionType.insertchatroom(index));
+        database.ref('chatroom').once('value', snapshot => {
+          Object.values(snapshot.val()).forEach(Snap => {
+            if (index !== Snap['chatroom_id']) return;
+            database.ref('user/').once('value', data => {
+              Object.entries(data.val()).forEach(entry => {
+                const [key, value] = entry;
+                if (key !== initialstate['user_id']) return;
+                var date = new Date();
+                database.ref('user/' + key + '/chatroomlist/').push({ chatroom_id: Snap['chatroom_id'], start_chat_id: Snap['lastchat_id'], time: date.toString() });
+              });
             });
           });
         });
-      });
+      }
     }
     const polyClick = () => {
       if (initialstate.loggedin === true) {
+        dispatch(actionType.sidebarnearObject);
+        dispatch(actionType.chatid(-1));
+        
         confirmAlert({
           title: '채팅방입장',
           message: `${name} 채팅방에 입장하시겠습니까?`,

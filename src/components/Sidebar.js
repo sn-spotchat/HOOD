@@ -29,10 +29,10 @@ const Sidebar = ({ sidebarstate }) => {
     else if (sidebarstate === 'near') {
       setSidebarType(<Near></Near>);
     }
-    else if (sidebarstate === 'chat') {
+    else if (sidebarstate === 'chatlist') {
       setSidebarType(<Chatlist></Chatlist>);
     }
-    else if (sidebarstate === 'test') {
+    else if (sidebarstate === 'chat') {
       setSidebarType(<Chat chatRoomId={chatid}></Chat>);
     }
   }, [sidebarstate, chatid]);

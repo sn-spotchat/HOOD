@@ -118,15 +118,15 @@ const PolyMap = (props) => {
     MakePolygon(SeoulDong, polyList)
     return (
       <NaverMap
-        mapDivId={'maps-getting-started-uncontrolled'} // default: react-naver-map
+        mapDivId={'maps-getting-started-uncontrolled'} 
         style={{
-          width: '100%', // 네이버지도 가로 길이
-          height: '100%' // 네이버지도 세로 길이
+          width: '100%', 
+          height: '100%' 
         }}
-        defaultCenter={{ lat: props.Geo['latitude'], lng: props.Geo['longitude'] }} // 지도 초기 위치        
-        defaultZoom={14} // 지도 초기 확대 배율
+        defaultCenter={{ lat: props.Geo['latitude'], lng: props.Geo['longitude'] }}     
+        defaultZoom={14} 
         minZoom={13}
-        maxZoom={19}
+        maxZoom={16}
       >
         {polyList}
       </NaverMap>

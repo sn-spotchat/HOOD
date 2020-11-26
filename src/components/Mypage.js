@@ -12,14 +12,6 @@ const Mypage = (props) => {
             <div>{nickname}님 어서오세요!</div>
         </div>
     );
-    /*
-    return (
-        <div className='SidebarContent'>
-            <img className='Icon' src={require(profileimage)}></img>
-            <div>{nickname}님 어서오세요!</div>
-        </div>
-    );
-    */
 };
 
 export default Mypage;

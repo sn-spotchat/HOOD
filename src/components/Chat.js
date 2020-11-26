@@ -30,7 +30,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 *
 *
 */
-const Test = (props) =>{
+const Chat = (props) =>{
 
   const [messagelist, setMessagelist] = useState([]);//모든 메시지(server로부터 받은 모든 메시지)
   const [message, setMessage] = useState("");//내가 입력한 메시지
@@ -90,16 +90,13 @@ const Test = (props) =>{
     if(chatroomlist !== undefined && chatroomlist[chatroom] !== undefined){
       entertime = chatroomlist[chatroom].time; //1. 해당 유저가 chatroom에 입장한 시간을 기록
     }
-    console.log(entertime);
     database.ref('chatroom/' + chatroom + '/chatlist').once('value', Snap =>{
       const dbchatlist = Snap.val(); //2. db에서 chatroom에 해당하는 chatlist를 불러옴
-      console.log(dbchatlist);
       if(dbchatlist === null) return;      
       Object.keys(dbchatlist).forEach(key =>{
         var chat = dbchatlist[key].key;
         database.ref('chat/' + chat).once('value', Snap=>{ //3. dbchatlist에서 각각의 chat값을 접근
           chat = Snap.val();
-          console.log(chat);
           if(chat === null) return;
           if(chat.time >= entertime){ //4. 해당 chat의 시간이 유저가 접속한 시간 이후의 것이라면 출력함.
             if(chat.type === 'text'){
@@ -160,6 +157,7 @@ const Test = (props) =>{
     database.ref('chat/').remove();
     database.ref('user/').remove();
   }
+
   useEffect(() => {
 
 
@@ -247,4 +245,4 @@ const Test = (props) =>{
   );
 };
 
-export default Test;
+export default Chat;

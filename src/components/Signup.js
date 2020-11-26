@@ -61,8 +61,8 @@ const Signin = (props) => {
                 nickname: '',
                 profile_image: '',
             });
-        }
-    }, [flag])
+        };
+    }, [flag]);
 
     useEffect(() => {
         if (flag === true) {

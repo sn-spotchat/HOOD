@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+a{
+    text-decoration: none;
+}
+a:visited{
+    color: black;
+    text-decoration: none;
+}
+.EventRow{
+    width: 340px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    background-color: whitesmoke;
+    border-bottom: 1px solid;
+    border-color: lightgray;
+}
+.EventRow:hover{
+    background-color: #dadada;
+}
+.EventImg{
+    width:340px;
+    height: 200px;
+    display:flex;
+}
+.EventImg img{
+    width: 320px;
+    height: 180px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.EventDesc{
+    width:340px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+}
+.EventName{
+    width:320px;
+    height:30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    color: #5555ff;
+    font-size: 25px;
+    font-family: 'Jua', sans-serif;
+}
+.EventContent{
+    width:320px;
+    height: 50px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden; 
+    font-size: 18px;
+    font-family: 'Jua', sans-serif;
+}
+.EventTime{
+    width:320px;
+    height: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 15px;
+    text-align: right;
+    font-family: 'Jua', sans-serif;
+}

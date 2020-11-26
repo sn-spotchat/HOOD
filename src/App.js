@@ -4,8 +4,6 @@ import Main from './components/Main.js';
 import Callback from './components/Callback';
 import './App.css';
 
-
-
 const App = () => {  
   return (
     <div className="App">
@@ -17,6 +15,5 @@ const App = () => {
       </Router>
     </div>
   );
-
 }
 export default App;

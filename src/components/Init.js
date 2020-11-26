@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { appendNaverButton, loadScript } from './RNL';
 import SeoulDong from './SeoulDong.json'
@@ -36,8 +35,6 @@ const Init = () => {
             dispatch(actionType.nearlistloadedObject);
         });
     }
-    console.log('Init.js');
-
     return <div></div>;
 }
 

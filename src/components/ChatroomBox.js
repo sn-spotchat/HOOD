@@ -1,110 +1,67 @@
-import React, { useState, useEffect, useRef} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import * as actionType from '../modules/action';
 import { database } from '../firebase';
 import './ChatroomBox.css';
 
-const ChatroomBox = (props) =>{
-  const [chatroomName, setChatroomName] = useState();
-  const [lastchatTime, setLastChatTime] = useState();
-  const [Time, setTime] = useState("");
-  const [lastChat, setLastChat] = useState("");
+const ChatroomBox = (props) => {
+  const [chatroomname, setChatroomname] = useState();
+  const [lastchattime, setLastchattime] = useState();
+  const [time, setTime] = useState("");
+  const [content, setContent] = useState("");
   const dispatch = useDispatch();
-  const profilesaved = useSelector(state => state.profilereducer, {});
-  const chat = useSelector(state => state.chatreducer, []);
-  const login = useSelector(state => state.loginreducer, {});
-  useEffect(()=>{//채팅방의 정보를 받아와 box에 채울 정보를 저장한다..
-    database.ref('chatroom').once('value', function(snapshot){
-      Object.entries(snapshot.val()).forEach(entry =>{
-        var [key, value] = entry;
-        if(String(value['chatroom_id']) === String(props.chatRoom)){
-          setChatroomName(value["name"]);
-          if(value["lastchat_id"] !== ""){
-            database.ref('chat/'+value["lastchat_id"]).once('value', function(Snap){
-              const dataObj = Snap.val();
-              setLastChat(dataObj.content);
-              setLastChatTime(dataObj.time);
-            });
-          }
-        }        
-      });
-    });
-  }, []);
-  useEffect(()=>{
-    var dateObj = new Date(lastchatTime);
+
+  database.ref('chatroom/' + props.chatroom).once('value', (Snap)=>{   
+    let chatroom = Snap.val();
+    setChatroomname(chatroom.name);  
+    let lastchat = chatroom.lastchat;
+    if(lastchat === undefined || lastchat === null) return;
+    database.ref('chat/' + lastchat).once('value', (Snap)=>{
+      const lastchat = Snap.val();
+      if(lastchat === undefined || lastchat === null) return;
+      if(lastchat.type === 'text')
+        setContent(lastchat.content);
+      setLastchattime(lastchat.time);
+    })
+  })
+
+  useEffect(() => {
+    var dateObj = new Date(lastchattime);
     var todayObj = new Date();
 
-    if(todayObj.getDate() === dateObj.getDate()){
-      setTime(dateObj.getHours()+":"+dateObj.getMinutes());
+    if (todayObj.getDate() === dateObj.getDate()) {
+      setTime(dateObj.getHours() + ":" + dateObj.getMinutes());
     }
-    else if(Number(todayObj.getDate()) === (Number(dateObj.getDate()) + 1)){
+    else if (Number(todayObj.getDate()) === (Number(dateObj.getDate()) + 1)) {
       setTime("어제");
     }
-    else{
-      if(String(lastchatTime) === "" || lastchatTime === undefined || lastchatTime === null){
+    else {
+      if (String(lastchattime) === "" || lastchattime === undefined || lastchattime === null) {
         setTime("");
       }
-      else{
-        setTime(dateObj.getFullYear()+"-"+dateObj.getMonth()+"-"+dateObj.getDate());
+      else {
+        setTime(dateObj.getFullYear() + "-" + dateObj.getMonth() + "-" + dateObj.getDate());
       }
     }
-  },[lastchatTime]);
+  }, [lastchattime]);
 
-  function insertChat(chatRoom){
-    console.log('insertchat')
-    var exist=false;
-    console.log(chat.chatroomlist);
-    console.log(chat);
-    chat.chatroomlist.forEach(function(data){
-      console.log(data.id, chatRoom);
-      if(String(data.id) === String(chatRoom)){
-        console.log("true");
-        exist = true;
-      }else{
-        console.log("false");
-      }
-    });
-    console.log(exist);
-    if(!exist){
-      dispatch(actionType.newchat());
-      dispatch(actionType.insertchatroom(chatRoom));
-      database.ref('chatroom').once('value', function(snapshot) {
-        Object.values(snapshot.val()).forEach(Snap =>{
-          if(String(chatRoom) === String(Snap['chatroom_id'])){
-            database.ref('user/').once('value', function(data){
-              Object.entries(data.val()).forEach(entry=>{
-                const [key, value] = entry;
-                if(value['ID'] === login.id){
-                  var date = new Date();
-                  database.ref('user/'+key+'/chatroomlist/').push({chatroom_id: Snap['chatroom_id'], start_chat_id:Snap['lastchat_id'], time: date.toString()});
-                }
-              });
-            });
-          }
-        });
-      });
+    return (
+    <div className="ChatroomBoxRaw" key={props.index} onClick={() => {
+      dispatch(actionType.setSidebar('test'));
+      dispatch(actionType.setChatroom(props.chatroom));
+      dispatch(actionType.setChatroomname(chatroomname));
     }
-    else{dispatch(actionType.oldchat());}
-  }
-
-  return (
-    <div className="ChatroomBoxRaw" key={props.index} onClick={ () =>{
-        dispatch(actionType.oldchat());
-        dispatch(actionType.sidebartestObject);
-        dispatch(actionType.chatid(props.chatRoom));
-        insertChat(props.chatRoom);
-        }
-        }>
+    }>
       <div className="upper">
-        <div id="name">{chatroomName}</div>
+        <div id="name">{chatroomname}</div>
         <div className="ActivationNum">n</div>
       </div>
       <div className="lower">
-        <div id="message">{lastChat}</div>
-        <div id="time">{Time}</div>
+        <div id="message">{content}</div>
+        <div id="time">{time}</div>
       </div>
     </div>
-        
+
   );
 }
 export default ChatroomBox;

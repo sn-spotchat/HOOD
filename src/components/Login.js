@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import {  useDispatch } from 'react-redux';
 import * as actionType from '../modules/action';
 import { database } from '../firebase';
 import NLogin from './NLogin';
@@ -13,13 +13,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 const Login = () => {
-  const [profile, setprofile] = useState({});
-  const [nickname, setnickname] = useState();
-  const [MATCHFOUND, setMATCHFOUND] = useState(false);
   const [ERROR, setERROR] = useState(false);
-  const [userid, setuserid] = useState();
   const [ID, setID] = useState('');
   const [PW, setPW] = useState('');
+
   const dispatch = useDispatch();
   const useStyles = makeStyles((theme) => ({
     submit: {
@@ -38,19 +35,8 @@ const Login = () => {
     },
   })
   );
-  const classes =useStyles();
+  const classes = useStyles();
 
-  useEffect(() => {
-    if (MATCHFOUND === true) {
-      dispatch(actionType.insertprofile(profile));
-      dispatch(actionType.insertnickname(nickname));
-      dispatch(actionType.setuserid(userid));
-      dispatch(actionType.loginid(ID));
-      dispatch(actionType.loginpw(PW));
-      dispatch(actionType.loggedinObject);
-      dispatch(actionType.sidebarmypage());
-    }
-  }, [profile, MATCHFOUND]);
 
   const changeID = (event) => {
     setID(event.target.value);
@@ -63,20 +49,16 @@ const Login = () => {
     setERROR(false);
     await database.ref('/user').once('value').then((Snap) => {
       const Accounts = Snap.val();
+      if(Accounts === undefined || Accounts === null) {        
+        setERROR(true);return;
+      }
       const Arr = Object.keys(Snap.val());
       Arr.forEach(key => {
         if (Accounts[key]['ID'] === ID && Accounts[key]['PW'] === PW) {
-          setprofile(Accounts[key]['profile']);
-          setnickname(Accounts[key]['nickname']);
-          setuserid(key);
-          setID(Accounts[key]['ID']);
-          setPW(Accounts[key]['PW']);
-          if(Accounts[key]['chatroomlist'] !== null && Accounts[key]['chatroomlist'] !== undefined){
-            Object.values(Accounts[key]['chatroomlist']).forEach(data =>{
-              dispatch(actionType.insertchatroom(data['chatroom_id']));
-            });
-          }
-          setMATCHFOUND(true);
+          dispatch(actionType.setUser(Accounts[key]));
+          dispatch(actionType.setKey(key));
+          dispatch(actionType.loggedinObject);
+          dispatch(actionType.setSidebar('mypage'));
         }
         else {
           setERROR(true);
@@ -86,13 +68,13 @@ const Login = () => {
   }
   return (
     <div className='SidebarContent'>
-      <img className='Icon' src={require('./HoodIcon.png')}/>
+      <img className='Icon' src={require('./HoodIcon.png')} alt = 'icon'/>
       <Typography component="h1" variant="h5" >로그인</Typography>
       <TextField onChange={(event) => changeID(event)} error={ERROR} variant='outlined' label='ID' margin="dense" />
       <TextField onChange={(event) => changePW(event)} error={ERROR} variant='outlined' type = 'password' label="Password" margin="dense" />
       <div className='SigninRow'>
         <Button onClick={() => Authenticate()} variant="contained" color="primary" className={classes.submit}>로그인</Button>
-        <Button onClick={() => dispatch(actionType.sidebarsigninObject)} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
+        <Button onClick={() => dispatch(actionType.setSidebar('signin'))} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
       </div>
       <Button variant="contained" color="primary" className={classes.nsubmit}>
         <NLogin />

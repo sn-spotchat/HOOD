@@ -1,27 +1,31 @@
-import React, { useState, useEffect, useRef} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import * as actionType from '../modules/action';
-import { database } from '../firebase';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import ChatroomBox from './ChatroomBox';
 import './Chat.css';
 
-const Chat = () =>{
+const Chat = () => {
   const [chatList, setChatList] = useState([]);
-  const dispatch = useDispatch();
-  const profilesaved = useSelector(state => state.profilereducer, {});
-  const chat = useSelector(state => state.chatreducer, {});
-  const chatHead=`현재 ${Object.keys(chat.chatroomlist).length}개의 채팅방에 접속중입니다.`
-  useEffect(()=>{
-    chat.chatroomlist.forEach(function(data){
-      setChatList(oldList => [...oldList, data['id']]);
-    });
-  }, []);
+  const chatroomlist = useSelector(state => state.userreducer.chatroomlist);
+  let count = 0;
+  if (chatroomlist !== undefined)
+    count = Object.keys(chatroomlist).length;
+  const chatHead = `현재 ${count}개의 채팅방에 접속중입니다.`
+
+  useEffect(() => {
+    if (chatroomlist !== undefined) {
+      let Arr = Object.keys(chatroomlist);
+      Arr.forEach(key => {
+        setChatList(oldList => [...oldList, key]);
+      });
+    }
+  }, [chatroomlist]);
+
   return (
     <div className="Chat">
       <div id="chathead" className="head">{chatHead}</div>
-      {chatList.map((chatRoom,index) => {
-        return ( 
-          <ChatroomBox key={index} chatRoom={chatRoom} index={index}></ChatroomBox>
+      {chatList.map((chatroom, index) => {
+        return (
+          <ChatroomBox key={index} chatroom={chatroom} index={index}></ChatroomBox>
         )
       })}
     </div>

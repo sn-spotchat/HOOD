@@ -1,86 +1,47 @@
-export const SIDEBARHOME = 'sidebar/home';
-export const SIDEBARNEAR = 'sidebar/near';
-export const SIDEBARCHAT = 'sidebar/chat';
-export const SIDEBARTEST = 'sidebar/test';
-export const CHATID = 'chat/id';
-export const SIDEBARMYPAGE = 'sidebar/mypage';
-export const SIDEBARLOGIN = 'sidebar/login';
-export const SIDEBARSIGNIN = 'sidebar/signin';
-export const SIDEBARNSIGNIN = 'sidebar/nsignin';
+//인자가 필요한 액션은 함수의 형태로, 그렇지 않은 액션은 Object의 형태로 정의하고 사용한다.
 
 
-export const CHATNAME = 'chat/name';
-export const INSERTCHATROOM = 'chat/insert';
-export const REMOVECHATROOM = 'chat/remove';
-export const NEWCHAT = 'chat/newchat';
-export const OLDCHAT = 'chat/oldchat';
+//flag
+export const LOCATIONLOADED = 'flag/locationloaded';
+export const locationloadedObject = { type: LOCATIONLOADED };
 
-export const LOGINID = 'login/id';
-export const LOGINPW = 'login/pw';
-export const LOGINUSERID = 'login/user_id';
+export const NEARLISTLOADED = 'flag/nearlistloaded';
+export const nearlistloadedObject = { type: NEARLISTLOADED };
 
-export const sidebarhome = () => ({type:SIDEBARHOME});
-export const sidebarnear = () => ({type:SIDEBARNEAR});
-export const sidebarchat = () => ({type:SIDEBARCHAT});
-export const sidebartest = () => ({type:SIDEBARTEST});
-export const sidebarlogin = () => ({type:SIDEBARLOGIN});
-export const sidebarsignin = () => ({type:SIDEBARSIGNIN});
-export const sidebarnsignin = () => ({type:SIDEBARNSIGNIN});
-export const sidebarmypage = () => ({type:SIDEBARMYPAGE});
+export const LOGGEDIN = 'flag/loggedin';
+export const loggedinObject = { type: LOGGEDIN };
 
+//user
+export const SETUSER = 'user/setuser';
+export const setUser = (user) => ({ type: SETUSER, user: user });
 
-export const chatname = (chatname) => ({type:CHATNAME, name:chatname});
-export const chatid = (chatid) => ({type:CHATID, id:chatid});
-export const insertchatroom = (chatroomid) =>({type:INSERTCHATROOM, id:chatroomid});
-export const removechatroom = (chatroomid) =>({type:REMOVECHATROOM, id:chatroomid});
-export const newchat = ()=>({type:NEWCHAT});
-export const oldchat = ()=>({type:OLDCHAT});
+export const SETKEY = 'user/setkey';
+export const setKey = (key) => ({ type: SETKEY, key: key });
 
-export const loginid = (loginid)=>({type:LOGINID, id:loginid});
-export const loginpw = (loginpw)=>({type:LOGINPW, pw:loginpw});
-export const loginuserid = (loginuserid)=>({type:LOGINUSERID, user_id:loginuserid});
+export const INSERTCHATROOM = 'user/insertchatroom';
+export const insertChatroom = (chatroom, time) => ({ type: INSERTCHATROOM, chatroom: chatroom, time : time });
 
-export const sidebarhomeObject = {type:SIDEBARHOME};
-export const sidebarnearObject = {type:SIDEBARNEAR};
-export const sidebarchatObject = {type:SIDEBARCHAT};
-export const sidebartestObject = {type:SIDEBARTEST};
-export const chatidObject = {type:CHATID};
-//
-export const sidebarloginObject = {type:SIDEBARLOGIN};
-export const sidebarsigninObject = {type:SIDEBARSIGNIN};
-export const sidebarnsigninObject = {type:SIDEBARNSIGNIN};
-export const sidebarmypageObject = {type:SIDEBARMYPAGE};
-export const chatnameObject = {type:CHATNAME};
+export const REMOVECHATROOM = 'user/removechatroom';
+export const removeChatroom = (chatroom) => ({ type: REMOVECHATROOM, chatroom: chatroom });
+
+export const SENDCHAT= 'user/sendchat';
+export const sendChat = (chatroom, chat) => ({ type: SENDCHAT, chatroom : chatroom, chat : chat });
 
 
-export const INSERTPROFILE = 'insertprofile';
-export const insertprofile = (profile) =>({type:INSERTPROFILE, profile: profile});
-export const insertprofileObject = {type:INSERTPROFILE};
+//state
+export const SETCHATROOM = 'state/setchatroom';
+export const setChatroom = (chatroom) => ({ type: SETCHATROOM, chatroom: chatroom });
 
-export const INSERTNICKNAME = 'insertnickname';
-export const insertnickname = (NICKNAME) =>({type : INSERTNICKNAME, nickname : NICKNAME});
-export const insertnicknameObject = {type:INSERTNICKNAME};
+export const SETCHATROOMNAME = 'state/setchatroomname';
+export const setChatroomname = (chatroomname) => ({ type: SETCHATROOMNAME, chatroomname: chatroomname });
 
-export const LOGGEDIN = 'loggedin';
-export const loggedin = () =>({type : LOGGEDIN});
-export const loggedinObject = {type:LOGGEDIN};
+export const SETSIDEBAR = 'state/setsidebar';
+export const setSidebar = (sidebarstate) => ({ type: SETSIDEBAR, sidebarstate: sidebarstate });
 
-export const MAPLOADED = 'maploaded';
-export const maploaded = () =>({type : MAPLOADED});
-export const maploadedObject = {type:MAPLOADED};
 
-export const MAPSAVE = 'mapsave';
-export const mapsave = (map) =>({type : MAPSAVE, map : map});
-export const mapsaveObject = {type:MAPSAVE};
+//data
+export const SETLOCATION = 'data/setlocation';
+export const setLocation = (Geo) => ({ type: SETLOCATION, Geo: Geo });
 
-export const ADDNEAR = 'addnear';
-export const addnear = (feature) =>({type : ADDNEAR, coordinates : feature.coordinates, name : feature.name, chatroom_id : feature.chatroom_id });
-export const addnearObject = {type : ADDNEAR};
-
-export const RESETNEAR = 'resetnear';
-export const resetnear = () =>({type : RESETNEAR});
-export const resetnearObject = {type : RESETNEAR};
-
-export const SETUSERID = 'setuserid';
-export const setuserid = (userid) =>({type : SETUSERID, userid : userid});
-export const setuseridObject = {type : SETUSERID};
+export const SETNEARLIST = 'data/setnearlist';
+export const setNearlist = (nearlist) => ({ type: SETNEARLIST, nearlist: nearlist });

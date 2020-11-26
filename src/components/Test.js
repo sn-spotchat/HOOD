@@ -6,9 +6,7 @@ import "./Test.css";
 import * as actionType from '../modules/action';
 
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import Icon from '@material-ui/core/Icon';
 import Close from '@material-ui/icons/Close';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 /*
@@ -33,18 +31,19 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 *
 */
 const Test = (props) =>{
-  const [yourID, setYourID] = useState();//나의 아이디
-  const [socketID, setSocketID] = useState();
-  const [messages, setMessages] = useState([]);//모든 메시지(server로부터 받은 모든 메시지)
+
+  const [messagelist, setMessagelist] = useState([]);//모든 메시지(server로부터 받은 모든 메시지)
   const [message, setMessage] = useState("");//내가 입력한 메시지
-  const [chatroomName, setChatroomName] = useState("");
   
+  const chatroom = useSelector(state => state.statereducer.chatroom); // 현재 채팅중인 chatroomid
+  const chatroomname = useSelector(state => state.statereducer.chatroomname); // 현재 채팅중인 채팅방 지역 이름
+  const chatroomlist = useSelector(state => state.userreducer.chatroomlist); // 유저가 들어가있는 채팅방 목록  
+  const user = useSelector(state => state.userreducer); //유저정보
   const socketRef = useRef();
-  const dispatch = useDispatch();
-  const chat = useSelector(state => state.chatreducer, []);
-  const profilesaved = useSelector(state => state.profilereducer, {});
-  const login = useSelector(state => state.loginreducer, {});
   const date = new Date();
+
+  const dispatch = useDispatch();
+
   const useStyles = makeStyles((theme) => ({
     submit: {
       height: '100px',
@@ -61,7 +60,6 @@ const Test = (props) =>{
   })
   );
   const classes = useStyles();
-//
 
   function submitOnEnter(event){
     if(event.which === 13 && !event.shiftKey){
@@ -71,60 +69,43 @@ const Test = (props) =>{
   }
 
   function writeMsgData(messageObject) {
-    //chat db에 저장하는 부분
-    var date = new Date();
-    database.ref('chat').push(messageObject);
-    //chatroom db에 저장하는 부분 //여기부터 다시 수정 user에 저장하는데 오류 
-    var chat_id;
-    database.ref('chat').once('value', function(snapshot) {
-      Object.entries(snapshot.val()).forEach(entry =>{
-        const [key, value] = entry;
-        if(value['user_id'] === login.id && value['time'] === messageObject.time){
-          chat_id = key;
-          database.ref('chatroom').once('value', function(snapshot) {
-            Object.entries(snapshot.val()).forEach(entry =>{
-              const [key, value] = entry;
-              console.log(value['chatroom_id']);
-              console.log(messageObject.chatroom_id);
-              if(String(value['chatroom_id']) === String(messageObject.chatroom_id)){
-                database.ref('chatroom/'+messageObject.chatroom_id+'/chatlist').push({chat_id: chat_id});
-                database.ref('chatroom/'+messageObject.chatroom_id).update({lastchat_id: chat_id});
-              }
-            });
-          });
-        }
-      });
-    });
+    //chat db에 저장
+    let chat = database.ref('chat/').push(messageObject).key;
+
+    //chatroom db에 저장          
+    database.ref('/chatroom/' + chatroom + '/chatlist').push({key : chat});
+
+    //chatroom db의 lastchat 갱신
+    database.ref('chatroom/' + chatroom + '/lastchat').set(chat);
+    
     //user db에 저장하는 부분
-    database.ref('user').once('value', function(snapshot) {
-      Object.entries(snapshot.val()).forEach(entry =>{
-        const [key, value] = entry;
-        if(value['ID'] === login.id){
-          database.ref('user/'+key+'/chatlist').push({chat_id: chat_id});//문제
-        }
-      });
-    });
+
+    dispatch(actionType.sendChat(chatroom, chat));
+    database.ref('user/' + user.key + '/chatlist').set(user.chatlist);
+    //setMessagelist(oldMsgs => [...oldMsgs, messageObject]);
   }
-  function readMsgDate(chatroomid){
-    var time;
-    database.ref('user').once('value', function(snapshot) {
-      Object.values(snapshot.val()).forEach(Snap =>{
-        if(String(login.id) === String(Snap['ID'])){
-          Object.values(Snap['chatroomlist']).forEach(data =>{
-            if(String(data['chatroom_id']) === String(chatroomid)){
-              time = data['time'];
-              database.ref('chat').once('value', function(chatdata){
-                Object.values(chatdata.val()).forEach(chatSnap =>{
-                  if(time <= chatSnap['time'] && String(chatroomid) === String(chatSnap['chatroom_id'])){
-                    setMessages(oldMsgs => [...oldMsgs, chatSnap]);
-                  }
-                });
-              });
+
+  function readMsgDate() {
+    let entertime = null;
+    if(chatroomlist !== undefined && chatroomlist[chatroom] !== undefined){
+      entertime = chatroomlist[chatroom].time;
+    }
+    database.ref('chatroom/' + chatroom + '/chatlist').once('value', Snap =>{
+      const dbchatlist = Snap.val();
+      if(dbchatlist === null) return;      
+      Object.keys(dbchatlist).forEach(key =>{
+        var chat = dbchatlist[key].key;
+        database.ref('chat/' + chat).once('value', Snap=>{
+          chat = Snap.val();
+          if(chat === null) return;
+          if(chat.time >= entertime){
+            if(chat.type === 'text'){
+              setMessagelist(before => [...before, chat]);
             }
-          });
-        }
-      });
-    });
+          }
+        })
+      })
+    })
   }
 
   function getTime(time){
@@ -133,118 +114,98 @@ const Test = (props) =>{
   }
   
   function receivedMessage(messageObj){
-    setMessages(oldMsgs => [...oldMsgs, messageObj]);
+    console.log('received');
+    setMessagelist(oldMsgs => [...oldMsgs, messageObj]);
   }
 
   function sendMessage(e){
     e.preventDefault();
     const messageObject = {
-      chatroom_id: props.chatRoomId,
+      chatroom_id: chatroom,
       type: "text",
       time: date.toString(),
-      user_id: login.id,
-      nickname: profilesaved.nickname,
-      content: message
+      user_id: user.ID,
+      nickname: user.nickname,
+      content: message,
     };
     
     setMessage("");
     socketRef.current.emit("send message", messageObject);
+    console.log(messageObject);
     writeMsgData(messageObject);
   }
 
-  function leaveRoom(userid, chatroomid){
+  function leaveRoom(){
     const dataObject = {
-      user_id: userid,
-      chatroom_id: chatroomid,
+      user_id: user.ID,
+      chatroom_id: chatroom,
     };
+    console.log(dataObject);
     socketRef.current.emit("leave room", dataObject);
-    dispatch(actionType.removechatroom(chatroomid));
-    //방을 나갔으므로 user db에 있는 chatroom list에서 해당 채팅방을 지운다.
-    database.ref('user').once('value', function(snapshot) {
-      Object.entries(snapshot.val()).forEach(entry =>{
-        const [key, value] = entry;
-        var userid_key;
-        if(value['ID'] === userid){
-          userid_key = key;
-          database.ref('user/'+userid_key+'/chatroomlist').once('value', function(Snap) {
-            Object.entries(Snap.val()).forEach(entry =>{
-              const [key, value] = entry;
-              if(value['chatroom_id'] === String(chatroomid)){
-                database.ref('user/'+userid_key+'/chatroomlist/'+key).set(null);
-                chat.chatroomlist.filter(function(chatroom_id){
-                  if(chatroom_id !== chatroomid) return true;
-                });
-              }
-            });
-          });
-        }
-      });
-    });
-  } 
+    dispatch(actionType.removeChatroom(chatroom));
+    database.ref('user/' + user.key + '/chatroomlist/' + chatroom).remove();
+  }  
 
   function handleChange(e){
     setMessage(e.target.value);
   }
-//
+  //
   useEffect(() => {
+    var i = 0;
+    for(i=0;i<424;i++){
+      database.ref('chatroom/' + i + '/chatlist').remove();
+    }
+
+
     socketRef.current = io.connect("http://localhost:3001");  //나중에 서버에 Server.js를 올리게 되면 바꿔야함.
+    let time = String(new Date());
 
     const dataObject = {
-      user_id: login.id,
-      chatroom_id: props.chatRoomId,
+      user_id: user.ID,
+      chatroom_id: chatroom,
     };
-
-    if(chat.newchat === true){
-      console.log("new");
-      console.log(dataObject);
+    if (chatroomlist !== undefined) {
+      if (chatroom in chatroomlist) {//chat목록에 있는 방인 경우
+        socketRef.current.emit("rejoin room", dataObject);
+        readMsgDate();
+      }
+      else {
+        socketRef.current.emit("join room", dataObject);
+        dispatch(actionType.insertChatroom(chatroom, time));
+        database.ref('user/' + user.key + '/chatroomlist/' + chatroom).set({ time : time });
+      }
+    }
+    else {
       socketRef.current.emit("join room", dataObject);
-    }
-    else{//chat목록에 있는 방인 경우
-      console.log("old");
-      socketRef.current.emit("rejoin room", dataObject);
-      readMsgDate(props.chatRoomId);
+      dispatch(actionType.insertChatroom(chatroom, time));
+      database.ref('user/' + user.key + '/chatroomlist/' + chatroom).set({ time : time });
     }
 
-    database.ref('chatroom').once('value', function(snapshot) {
-      Object.entries(snapshot.val()).forEach(entry =>{
-        const [key, value] = entry;
-        if(String(value['chatroom_id']) === String(props.chatRoomId)){
-          setChatroomName(value['name']);
-        }
-      });
-    });
-
-    socketRef.current.on("your id", id =>{
-      setYourID(login.id);
-      setSocketID(id);
-    })
-    socketRef.current.on("message", (message) =>{
-      console.log(message.user_id);
+    socketRef.current.on("message", (message) => {
       receivedMessage(message);
     })
   }, []);
-  const SubmitButton = (props) => ( <button {...props} type='submit' />);
-  
-  const ClickExit = ()=>{
-    leaveRoom(login.id, props.chatRoomId);
-    dispatch(actionType.sidebarnearObject);   
-    dispatch(actionType.chatid(-1)); 
+
+  const ClickExit = () => {
+    leaveRoom();
+    dispatch(actionType.setSidebar('near'));   
+    dispatch(actionType.setChatroom(-1)); 
   }
 
   const ClickBack = () =>{
-    dispatch(actionType.sidebarchatObject);
-    dispatch(actionType.chatid(-1));
+    dispatch(actionType.setSidebar('chat'));
+    dispatch(actionType.setChatroom(-1));
   }
   return (
     <div className="chat">
       <div className="chatHead">
         <button id="backBtn" className="upperbutton" onClick={()=>{ClickBack()}}><ArrowBack></ArrowBack></button>
-        {chatroomName}
+        {chatroomname}
         <button id="exitChatroomBtn" className="upperbutton" onClick={() =>{ClickExit()}}><Close></Close></button>
       </div>
       <div className="chatBody">
-        {messages.map((message, index) => {
-            if(message.user_id === login.id){
+        {messagelist.map((message, index) => {
+            if(message.user_id === user.ID){
               return ( 
                 <div className="MyRow" key={index}>
                   <div className="MyTime">{getTime(message.time)}</div>

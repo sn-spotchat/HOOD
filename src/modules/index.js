@@ -1,13 +1,16 @@
 import {combineReducers} from 'redux';
-import reducer from './reducer';
-import chatreducer from './chatreducer';
-import profilereducer from './profilereducer';
-import mapreducer from './mapreducer';
-import loginreducer from './loginreducer';
-import initialState from './store';
+
+import flagreducer from './flagreducer'
+import datareducer from './datareducer'
+import userreducer from './userreducer'
+import statereducer from './statereducer'
 
 const rootReducer = combineReducers({
-    reducer, chatreducer, profilereducer, mapreducer, loginreducer
+    //sidebarreducer, chatreducer, profilereducer, mapreducer, loginreducer
+    flagreducer,
+    userreducer,
+    statereducer,
+    datareducer,
 });
 
 export default rootReducer;

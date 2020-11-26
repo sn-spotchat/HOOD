@@ -49,13 +49,8 @@ const Signin = (props) => {
     const [flag, setflag] = useState(false);
 
 
-    //setprofile
-    //setUser
-    //DB.push
-    //the above cycle must be done in order and made the code messy
-    //optimization is needed
     useEffect(() => {
-        if (flag == true) {
+        if (flag === true) {
             setprofile({
                 age: '',
                 birthday: '',
@@ -70,7 +65,7 @@ const Signin = (props) => {
     }, [flag])
 
     useEffect(() => {
-        if (flag == true) {
+        if (flag === true) {
             setUser({
                 ID: ID,
                 PW: PW,
@@ -86,8 +81,7 @@ const Signin = (props) => {
         if (flag === true) {
             database.ref('/user').push(User);
             alert('회원가입이 완료되었습니다. 로그인해주세요.');
-            dispatch(actionType.insertprofile({id:-1, name:'Guest'}));
-            dispatch(actionType.sidebarloginObject);
+            dispatch(actionType.setSidebar('login'));
         }
     }, [User])
 
@@ -116,20 +110,23 @@ const Signin = (props) => {
         setNICKNAMEERRFLAG(false);
         setIDERRFLAG(false);
         setPWERRFLAG(false);
-        if (NAME.length == 0) { MSG = '이름을 입력하세요'; valid = false; setNAMEERRFLAG(true); }
+        if (NAME.length === 0) { MSG = '이름을 입력하세요'; valid = false; setNAMEERRFLAG(true); }
         else if (NICKNAME.length < 2) { MSG = '닉네임은 2글자 이상이어야 합니다.'; valid = false; setNICKNAMEERRFLAG(true);}
         else if (ID.length < 6) { MSG = '아이디는 6글자 이상이어야합니다'; valid = false; setIDERRFLAG(true); }
         else if (PW.length < 6) { MSG = '비밀번호는 6글자 이상이어야합니다.'; valid = false; setPWERRFLAG(true); }
-        else if (PW != PWCONFIRM) { MSG = '비밀번호 확인이 일치하지 않습니다.'; valid = false; setPWCONFIRMERRFLAG(true); }
+        else if (PW !== PWCONFIRM) { MSG = '비밀번호 확인이 일치하지 않습니다.'; valid = false; setPWCONFIRMERRFLAG(true); }
         else {
             var exists = false;
             await database.ref('/user').once('value', (Snap) => {
                 const Accounts = Snap.val();
+                if(Accounts === undefined || Accounts === null){
+                    return;
+                }
                 const Arr = Object.keys(Accounts);
                 Arr.forEach(key => {
-                    if (Accounts[key]['ID'] == ID) exists = true;
+                    if (Accounts[key]['ID'] === ID) exists = true;
                 })
-                if (exists == true) {
+                if (exists === true) {
                     MSG = '이미 사용중인 아이디입니다.'; valid = false; setIDERRFLAG(true);
                 }
             });

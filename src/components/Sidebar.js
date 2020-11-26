@@ -5,8 +5,8 @@ import Mypage from './Mypage';
 import Login from './Login';
 import Signin from './Signup';
 import Near from './Near';
+import Chatlist from './Chatlist';
 import Chat from './Chat';
-import Test from './Test';
 import './Sidebar.css';
 
 const Sidebar = ({ sidebarstate }) => {
@@ -30,10 +30,10 @@ const Sidebar = ({ sidebarstate }) => {
       setSidebarType(<Near></Near>);
     }
     else if (sidebarstate === 'chat') {
-      setSidebarType(<Chat></Chat>);
+      setSidebarType(<Chatlist></Chatlist>);
     }
     else if (sidebarstate === 'test') {
-      setSidebarType(<Test chatRoomId={chatid}></Test>);
+      setSidebarType(<Chat chatRoomId={chatid}></Chat>);
     }
   }, [sidebarstate, chatid]);
 

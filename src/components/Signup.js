@@ -106,10 +106,7 @@ const Signin = (props) => {
     const Checkvalid = async () => {
         var valid = true;
         var MSG = '';
-        setNAMEERRFLAG(false);
-        setNICKNAMEERRFLAG(false);
-        setIDERRFLAG(false);
-        setPWERRFLAG(false);
+        setNAMEERRFLAG(false);setNICKNAMEERRFLAG(false);setIDERRFLAG(false);setPWERRFLAG(false);
         if (NAME.length === 0) { MSG = '이름을 입력하세요'; valid = false; setNAMEERRFLAG(true); }
         else if (NICKNAME.length < 2) { MSG = '닉네임은 2글자 이상이어야 합니다.'; valid = false; setNICKNAMEERRFLAG(true);}
         else if (ID.length < 6) { MSG = '아이디는 6글자 이상이어야합니다'; valid = false; setIDERRFLAG(true); }
@@ -126,7 +123,7 @@ const Signin = (props) => {
                 Arr.forEach(key => {
                     if (Accounts[key]['ID'] === ID) exists = true;
                 })
-                if (exists === true) {
+                if (exists) {
                     MSG = '이미 사용중인 아이디입니다.'; valid = false; setIDERRFLAG(true);
                 }
             });
@@ -137,12 +134,7 @@ const Signin = (props) => {
     //SigninProcess is the function called when Signinbutton is Clicked
     const SigninProcess = () => {
         Checkvalid().then(([MSG, valid]) => {
-            if (valid) {
-                setflag(true);
-            }
-            else {
-                alert(MSG)
-            }
+            (valid)?setflag(true):alert(MSG);
         });
     }
     return (

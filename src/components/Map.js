@@ -39,7 +39,7 @@ const PolyMap = (props) => {
     const sidebarstate = useSelector(state => state.statereducer.sidebarstate);
 
     const YesClick=()=>{
-      dispatch(actionType.setSidebar('test'));
+      dispatch(actionType.setSidebar('chat'));
       dispatch(actionType.setChatroom(index));
       dispatch(actionType.setChatroomname(name));
     }
@@ -84,7 +84,7 @@ const PolyMap = (props) => {
     }
 
     useEffect(()=>{
-      if(chatroom === index && sidebarstate === 'test'){
+      if(chatroom === index && sidebarstate === 'chat'){
         setColor(color3);
         setOpacity(opacity3);
       }    

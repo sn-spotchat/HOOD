@@ -47,7 +47,7 @@ const ChatroomBox = (props) => {
 
     return (
     <div className="ChatroomBoxRaw" key={props.index} onClick={() => {
-      dispatch(actionType.setSidebar('test'));
+      dispatch(actionType.setSidebar('chat'));
       dispatch(actionType.setChatroom(props.chatroom));
       dispatch(actionType.setChatroomname(chatroomname));
     }

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef} from 'react'; // import 로 useStat
 import {useSelector, useDispatch} from 'react-redux';
 import io from 'socket.io-client';
 import { database } from '../firebase';
-import "./Test.css";
+import "./Chat.css";
 import * as actionType from '../modules/action';
 
 import Button from '@material-ui/core/Button';

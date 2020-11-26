@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import ChatroomBox from './ChatroomBox';
-import './Chat.css';
+import './Chatlist.css';
 
 const Chat = () => {
   const [chatList, setChatList] = useState([]);

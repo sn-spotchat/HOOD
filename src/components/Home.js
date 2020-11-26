@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import HomeEventBox from './HomeEventBox';
 import './Home.css';
-import 'firebase/database';
-import {database, storage} from '../firebase.js';
+import {database, storage} from '../firebase';
 
 
 const Home = () =>{

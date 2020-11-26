@@ -2,7 +2,7 @@ import React from 'react';
 import NaverLogin from './RNL';
 import { useDispatch } from 'react-redux';
 import * as actionType from '../modules/action';
-import { database } from '../firebase.js';
+import { database } from '../firebase';
 
 const NLogin = (props) => {
     const dispatch = useDispatch();

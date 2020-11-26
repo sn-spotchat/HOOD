@@ -1,6 +1,5 @@
 import React from 'react';
 import './HomeEventBox.css';
-import 'firebase/database';
 
 /*
 *목표: Home화면에 띄울 이벤트 박스를 생성

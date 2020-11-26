@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import { appendNaverButton, loadScript } from './RNL';
 import SeoulDong from './SeoulDong.json'
 import * as actionType from '../modules/action';
@@ -18,24 +18,27 @@ const Init = () => {
         maximumAge: 15000,
         timeout: 12000
     });
-    dispatch(actionType.setLocation(Geo));
-    dispatch(actionType.locationloadedObject);
+    
+    useEffect(()=>{
+        dispatch(actionType.setLocation(Geo));
+        dispatch(actionType.locationloadedObject);
+        appendNaverButton();
+        if (localnearlist.length === 0) {
+            SeoulDong['features'].forEach(async (feature, index) => {
+                var range = 0.016;
+                if (Near(feature.geometry.centerXY[0], feature.geometry.centerXY[1], Geo.latitude, Geo.longitude, range)) {
+                    var coordinates = feature.geometry.coordinates;
+                    var name = feature.properties.adm_nm;
+                    localnearlist.push({ coordinates: coordinates, name: name, chatroom: index });
+                }
+                dispatch(actionType.setNearlist(localnearlist));
+                dispatch(actionType.nearlistloadedObject);
+            });
+        }
+    },[dispatch, Geo, localnearlist]);
 
-    appendNaverButton();
     loadScript({ onSuccess: console.log })
-
-    if (localnearlist.length === 0) {
-        SeoulDong['features'].forEach(async (feature, index) => {
-            var range = 0.016;
-            if (Near(feature.geometry.centerXY[0], feature.geometry.centerXY[1], Geo.latitude, Geo.longitude, range)) {
-                var coordinates = feature.geometry.coordinates;
-                var name = feature.properties.adm_nm;
-                localnearlist.push({ coordinates: coordinates, name: name, chatroom: index });
-            }
-            dispatch(actionType.setNearlist(localnearlist));
-            dispatch(actionType.nearlistloadedObject);
-        });
-    }
+    
     console.log('Init.js');
 
     return <div></div>;

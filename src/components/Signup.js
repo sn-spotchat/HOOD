@@ -62,7 +62,7 @@ const Signin = (props) => {
                 profile_image: '',
             });
         }
-    }, [flag])
+    }, [flag, NAME])
 
     useEffect(() => {
         if (flag === true) {
@@ -75,7 +75,7 @@ const Signin = (props) => {
                 profile: profile,
             });
         }
-    }, [profile])
+    }, [profile, ID, PW, NICKNAME, flag])
 
     useEffect(() => {
         if (flag === true) {
@@ -83,7 +83,7 @@ const Signin = (props) => {
             alert('회원가입이 완료되었습니다. 로그인해주세요.');
             dispatch(actionType.setSidebar('login'));
         }
-    }, [User])
+    }, [User, flag, dispatch])
 
     const changeNAME = (event) => {
         setNAME(event.target.value);
@@ -147,7 +147,7 @@ const Signin = (props) => {
     }
     return (
         <div className='SidebarContent'>
-            <img className='Icon' src={require('./HoodIcon.png')}></img>
+            <img className='Icon' src={require('./HoodIcon.png')} alt="icon"></img>
             <Typography component="h1" variant="h5" >후드 회원가입</Typography>
             <TextField onChange={(event) => changeNAME(event)} error={NAMEERRFLAG} variant='outlined' label="이름" margin="dense" />
             <TextField onChange={(event) => changeNICKNAME(event)} error={NICKNAMEERRFLAG} variant='outlined' label="닉네임" margin="dense" />

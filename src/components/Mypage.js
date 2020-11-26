@@ -1,9 +1,8 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
-const Mypage = (props) => {
-    const dispatch = useDispatch();    
+const Mypage = (props) => {  
     const nickname = useSelector(state => state.userreducer.nickname);
     const user = useSelector(state => state.userreducer);
     console.log(user);

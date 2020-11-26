@@ -85,7 +85,7 @@ const Test = (props) =>{
     //setMessagelist(oldMsgs => [...oldMsgs, messageObject]);
   }
 
-  function readMsgDate() {
+  /*function readMsgData() {
     let entertime = null;
     if(chatroomlist !== undefined && chatroomlist[chatroom] !== undefined){
       entertime = chatroomlist[chatroom].time;
@@ -106,7 +106,7 @@ const Test = (props) =>{
         })
       })
     })
-  }
+  }*/
 
   function getTime(time){
     var dateObj = new Date(time);
@@ -151,12 +151,6 @@ const Test = (props) =>{
   }
   //
   useEffect(() => {
-    var i = 0;
-    for(i=0;i<424;i++){
-      database.ref('chatroom/' + i + '/chatlist').remove();
-    }
-
-
     socketRef.current = io.connect("http://localhost:3001");  //나중에 서버에 Server.js를 올리게 되면 바꿔야함.
     let time = String(new Date());
 
@@ -167,7 +161,26 @@ const Test = (props) =>{
     if (chatroomlist !== undefined) {
       if (chatroom in chatroomlist) {//chat목록에 있는 방인 경우
         socketRef.current.emit("rejoin room", dataObject);
-        readMsgDate();
+        let entertime = null;
+        if(chatroomlist !== undefined && chatroomlist[chatroom] !== undefined){
+          entertime = chatroomlist[chatroom].time;
+        }
+        database.ref('chatroom/' + chatroom + '/chatlist').once('value', Snap =>{
+          const dbchatlist = Snap.val();
+          if(dbchatlist === null) return;      
+          Object.keys(dbchatlist).forEach(key =>{
+            var chat = dbchatlist[key].key;
+            database.ref('chat/' + chat).once('value', Snap=>{
+              chat = Snap.val();
+              if(chat === null) return;
+              if(chat.time >= entertime){
+                if(chat.type === 'text'){
+                  setMessagelist(before => [...before, chat]);
+                }
+              }
+            })
+          })
+        })
       }
       else {
         socketRef.current.emit("join room", dataObject);
@@ -184,7 +197,7 @@ const Test = (props) =>{
     socketRef.current.on("message", (message) => {
       receivedMessage(message);
     })
-  }, []);
+  }, [chatroom, chatroomlist, dispatch, user.ID, user.key]);
 
   const ClickExit = () => {
     leaveRoom();

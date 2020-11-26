@@ -17,8 +17,7 @@ const PolyMap = (props) => {
     data.forEach((feature,index) => {
       let coordinates = feature.coordinates;
       let name = feature.name;
-      DisplayArea(coordinates, polyList, name, feature.chatroom_id);
-      
+      DisplayArea(coordinates, polyList, name, feature.chatroom_id);      
     })
   }
 
@@ -40,45 +39,52 @@ const PolyMap = (props) => {
     const dispatch = useDispatch();
 
     const initialstate = useSelector(state => state.profilereducer);
+    const chatroomlist = useSelector(state => state.chatreducer.chatroomlist);
     const chatid = useSelector(state => state.chatreducer.chatid);
     const sidebarstate = useSelector(state => state.reducer.sidebarstate);
 
     const YesClick=()=>{
-      dispatch(actionType.oldchat());
       dispatch(actionType.sidebartestObject);
       dispatch(actionType.chatid(index));
       let exist = false;
-      initialstate.chatroomlist.forEach(chatroomid =>{
-        if(index === chatroomid){
+      chatroomlist.forEach(chatroomid =>{    
+        if(index === chatroomid.id){
           exist = true;
         }
       })
-      if(exist) return;
-      dispatch(actionType.newchat());
-      dispatch(actionType.insertchatroom(index));
-      database.ref('chatroom').once('value', snapshot => {
-        Object.values(snapshot.val()).forEach(Snap => {
-          if(String(index)!==String(Snap['chatroom_id'])) return;
-          database.ref('user/').once('value', data => {
-            Object.entries(data.val()).forEach(entry => {
-              const [key, value] = entry;
-              if(value['ID']!== initialstate.id) return;
-              var date = new Date();
-              database.ref('user/'+key+'/chatroomlist/').push({chatroom_id: Snap['chatroom_id'], start_chat_id:Snap['lastchat_id'], time: date.toString()});
+      if(exist === true){
+        dispatch(actionType.oldchat());
+      }
+      else {
+        dispatch(actionType.newchat());
+        dispatch(actionType.insertchatroom(index));
+        database.ref('chatroom').once('value', snapshot => {
+          Object.values(snapshot.val()).forEach(Snap => {
+            if (index !== Snap['chatroom_id']) return;
+            database.ref('user/').once('value', data => {
+              Object.entries(data.val()).forEach(entry => {
+                const [key, value] = entry;
+                if (key !== initialstate['user_id']) return;
+                var date = new Date();
+                database.ref('user/' + key + '/chatroomlist/').push({ chatroom_id: Snap['chatroom_id'], start_chat_id: Snap['lastchat_id'], time: date.toString() });
+              });
             });
           });
         });
-      });
+      }
     }
     const polyClick = () => {
       if (initialstate.loggedin === true) {
+        dispatch(actionType.sidebarnearObject);
+        dispatch(actionType.chatid(-1));
+        
         confirmAlert({
           title: '채팅방입장',
           message: `${name} 채팅방에 입장하시겠습니까?`,
           buttons: [
             {
               label: 'YES',
-              onClick :YesClick()
+              onClick : () => YesClick()
             },
             {
               label: 'NO'
@@ -109,8 +115,8 @@ const PolyMap = (props) => {
 
     useEffect(()=>{
       if(chatid === index && sidebarstate === 'test'){
-        setcolor(color3);
-        setopacity(opacity3);
+        setColor(color3);
+        setOpacity(opacity3);
       }    
       else{
         setColor(color1)

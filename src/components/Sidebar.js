@@ -10,12 +10,16 @@ import Chat from './Chat';
 import Test from './Test';
 import NSignin from './NSignup';
 import './Sidebar.css';
+import { LocalConvenienceStoreOutlined } from '@material-ui/icons';
 
 const Sidebar = ({sidebarstate}) =>{
   const [sidebarType, setSidebarType] = useState(sidebarstate);
-  const chat = useSelector(state => state.chatreducer, []);
+  const chatid = useSelector(state => state.chatreducer.chatid);
+  console.log(chatid);
+  
   
   useEffect(() =>{
+    console.log('effected');
     if(sidebarstate === 'home'){
       setSidebarType(<Home></Home>);
     }
@@ -38,9 +42,9 @@ const Sidebar = ({sidebarstate}) =>{
       setSidebarType(<Chat></Chat>);
     }
     else if(sidebarstate === 'test'){
-      setSidebarType(<Test chatRoomId={chat.chatid}></Test>);
+      setSidebarType(<Test chatRoomId={chatid}></Test>);
     }
-  },[sidebarstate]);
+  },[sidebarstate, chatid]);
     
   return (
     <div id = 'Sidebar' className="Sidebar">

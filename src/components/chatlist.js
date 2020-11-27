@@ -21,13 +21,15 @@ const Chat = () => {
   }, [chatroomlist]);
 
   return (
-    <div className="Chat">
-      <div id="chathead" className="head">{chatHead}</div>
-      {chatList.map((chatroom, index) => {
-        return (
-          <ChatroomBox key={index} chatroom={chatroom} index={index}></ChatroomBox>
-        )
-      })}
+    <div className="Chatlist">
+      <div id="chatlisthead" className="head">{chatHead}</div>
+      <div id="chatlistbody" className="body">
+        {chatList.map((chatroom, index) => {
+          return (
+            <ChatroomBox key={index} chatroom={chatroom} index={index}></ChatroomBox>
+          )
+        })}
+      </div>
     </div>
   );
 }

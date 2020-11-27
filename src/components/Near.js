@@ -21,11 +21,13 @@ const Near = () => {
   return (
     <div className="Near">
       <div id="nearhead" className="head">{nearHead}</div>
-      {chatList.map((chatroom, index) => {
-        return (
-          <ChatroomBox key={index} chatroom={chatroom} index={index} ></ChatroomBox>
-        )
-      })}
+      <div id="nearbody" className="body">
+        {chatList.map((chatroom, index) => {
+          return (
+            <ChatroomBox key={index} chatroom={chatroom} index={index} ></ChatroomBox>
+          )
+        })}
+      </div>
     </div>
   );
 }

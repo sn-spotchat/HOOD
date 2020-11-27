@@ -4,6 +4,11 @@
     font-size: 15px;
     font-family: 'Jua', sans-serif;
 }
+#nearbody{
+    width: 340px;
+    height: calc(100vh - 50px);
+    overflow: auto;
+}
 .NearRaw{
     width:100%;
     height:60px;

@@ -11,7 +11,7 @@ const SidebarContainer = () => {
     const [ButtonLabel, setButtonLabel] = useState(<NavigateBefore size="50px"></NavigateBefore>);
     
     const changeDisplay = () => {
-        let sidebar = document.getElementById("Sidebar");
+        let sidebar = document.getElementById("SidebarContainer");
         let sbutton = document.getElementById("SidebarButton");
         if (sidebar.style.display === 'none') {
             sidebar.style.display = 'block';

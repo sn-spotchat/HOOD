@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React from 'react';
 import './HomeEventBox.css';
-import 'firebase/database';
 
 /*
 *목표: Home화면에 띄울 이벤트 박스를 생성
@@ -13,10 +12,10 @@ import 'firebase/database';
 */
 const HomeEventBox = (props) =>{
     return (
-        <a href={props.url} target="_blank">
+        <a href={props.url} target="_blank" rel="noopener noreferrer">
             <div className="EventRow">
                 <div className="EventImg">
-                    <img src={props.img}></img>
+                    <img src={props.img} alt={props.name}></img>
                 </div>
                 <div className="EventDesc">
                     <div className="EventName">{props.name}</div>

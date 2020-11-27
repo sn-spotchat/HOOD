@@ -183,12 +183,14 @@ const Test = (props) =>{
         })
       }
       else {
+        console.log("-1");
         socketRef.current.emit("join room", dataObject);
         dispatch(actionType.insertChatroom(chatroom, time));
         database.ref('user/' + user.key + '/chatroomlist/' + chatroom).set({ time : time });
       }
     }
     else {
+      console.log("-1");
       socketRef.current.emit("join room", dataObject);
       dispatch(actionType.insertChatroom(chatroom, time));
       database.ref('user/' + user.key + '/chatroomlist/' + chatroom).set({ time : time });
@@ -197,7 +199,7 @@ const Test = (props) =>{
     socketRef.current.on("message", (message) => {
       receivedMessage(message);
     })
-  }, [chatroom, chatroomlist, dispatch, user.ID, user.key]);
+  }, [ chatroomlist, dispatch, user.ID, user.key]);
 
   const ClickExit = () => {
     leaveRoom();
@@ -206,7 +208,7 @@ const Test = (props) =>{
   }
 
   const ClickBack = () =>{
-    dispatch(actionType.setSidebar('chat'));
+    dispatch(actionType.setSidebar('chatlist'));
     dispatch(actionType.setChatroom(-1));
   }
   return (

@@ -8,5 +8,8 @@
     font-family: 'Jua', sans-serif;
 }
 #homebody{
+    width: 340px;
+    height: calc(100vh - 50px);
     font-size: 20px;
+    overflow: auto;
 }

@@ -35,6 +35,7 @@ const Sidebar = ({ sidebarstate }) => {
     else if (sidebarstate === 'chat') {
       setSidebarType(<Chat chatRoomId={chatid}></Chat>);
     }
+    
   }, [sidebarstate, chatid]);
 
   return (

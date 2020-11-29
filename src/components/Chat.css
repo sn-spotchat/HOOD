@@ -20,7 +20,7 @@ textarea{
     border: none;
 }
 .chat{
-    width: 100%;
+    width: 340px;
     height: 100vh;
     display: flex;
     flex-direction: column;

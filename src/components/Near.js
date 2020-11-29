@@ -17,7 +17,7 @@ const Near = () => {
         setChatList(oldList => [...oldList, near.chatroom])
       })
     }
-  }, []);
+  }, [nearlist]);
   return (
     <div className="Near">
       <div id="nearhead" className="head">{nearHead}</div>

@@ -103,7 +103,7 @@ const Chat = (props) =>{
       chatroom_id: chatroom,
       type: "text",
       time: date.toString(),
-      user_id: user.ID,
+      user_key: user.key,
       nickname: user.nickname,
       content: message,
     };
@@ -176,7 +176,7 @@ const Chat = (props) =>{
     socketRef.current.on("message", (message) => {
       receivedMessage(message);
     })
-  }, [ chatroomlist, dispatch, user.ID, user.key]);
+  }, [ dispatch, user.ID, user.key]);
 
   const ClickExit = () => {
     leaveRoom();
@@ -197,7 +197,7 @@ const Chat = (props) =>{
       </div>
       <div className="chatBody">
         {messagelist.map((message, index) => {
-            if(message.user_id === user.ID){
+            if(message.user_key === user.key){
               return ( 
                 <div className="MyRow" key={index}>
                   <div className="MyTime">{getTime(message.time)}</div>

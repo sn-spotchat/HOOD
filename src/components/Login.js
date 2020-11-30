@@ -55,7 +55,6 @@ const Login = () => {
       Arr.forEach(key => {
         if (Accounts[key]['ID'] === ID && Accounts[key]['PW'] === PW) {
           dispatch(actionType.setUser(Accounts[key]));
-          dispatch(actionType.setKey(key));
           dispatch(actionType.loggedinObject);
           dispatch(actionType.setSidebar('mypage'));
         }

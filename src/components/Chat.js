@@ -34,7 +34,9 @@ const Chat = (props) =>{
 
   const [messagelist, setMessagelist] = useState([]);//모든 메시지(server로부터 받은 모든 메시지)
   const [message, setMessage] = useState("");//내가 입력한 메시지
-  
+  const [preuser, setPreUser] = useState("");
+  const [pretime, setPreTime] = useState("");
+
   const chatroom = useSelector(state => state.statereducer.chatroom); // 현재 채팅중인 chatroomid
   const chatroomname = useSelector(state => state.statereducer.chatroomname); // 현재 채팅중인 채팅방 지역 이름
   const chatroomlist = useSelector(state => state.userreducer.chatroomlist); // 유저가 들어가있는 채팅방 목록  
@@ -198,6 +200,7 @@ const Chat = (props) =>{
       <div className="chatBody">
         {messagelist.map((message, index) => {
             if(message.user_id === user.ID){
+              
               return ( 
                 <div className="MyRow" key={index}>
                   <div className="MyTime">{getTime(message.time)}</div>

@@ -1,10 +1,13 @@
 .Sidebar{
-    height: 100vh;
+    height: calc(100vh - 3px);
     background: rgb(226, 235, 255);
     display: flex;
     border-right-style:solid;
     border-right-width:3px;
     border-right-color:rgb(101, 145, 105);
+    border-bottom-style:solid;
+    border-bottom-width:3px;
+    border-bottom-color:rgb(101, 145, 105);
     margin : 0px;
     transition: 0.3s;
 }

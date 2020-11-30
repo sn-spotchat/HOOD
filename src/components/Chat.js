@@ -126,8 +126,6 @@ const Chat = (props) =>{
   function handleChange(e){
     setMessage(e.target.value);
   }
-  //
-
   useEffect(() => {
     socketRef.current = io.connect("http://localhost:3001");  //나중에 서버에 Server.js를 올리게 되면 바꿔야함.
     let time = String(new Date());

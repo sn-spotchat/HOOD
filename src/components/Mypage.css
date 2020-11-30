@@ -8,14 +8,14 @@
 .mypagebody{
     display:flex;
     flex-direction: column;
-    align-items: left;
+    align-items: left;    
 }
 .mypagehead{
     width: 340px;
     height:40px;
     background-color:rgb(101, 145, 105);    
     text-align: center;    
-    font-size: 22px;
+    font-size: 30px;
     font-family: 'Jua', sans-serif;
 }
 .mypageprofile{

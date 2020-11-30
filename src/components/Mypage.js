@@ -112,12 +112,14 @@ const Mypage = (props) => {
                         valid = true;
                         setvalid_ID(true);
                     }
+                    if(valid === true)
+                        setEditID(!EditID);    
                     alert(MSG);   
                 })               
             }      
-        }
+        }   
         if(valid === true)
-            setEditID(!EditID);       
+            setEditID(!EditID);    
     }
     const ClickEditPW = ()=>{
         let MSG = '';
@@ -187,11 +189,11 @@ const Mypage = (props) => {
     }
     return (
         <div className = 'Mypage'>
-            <div className = 'mypagehead'>
-                {nickname}님 어서오세요!
+            <div className = 'mypagehead'>                
+                내 정보
             </div>
-            <div className = 'mypagebody'>
-                <img className = 'mypageprofile' src = {profile_image} alt='icon'></img>
+            <img className = 'mypageprofile' src = {profile_image} alt='icon'></img>
+            <div className = 'mypagebody'>                
                 <div className = 'mypagerow'>
                     <TextField label='이름' defaultValue = {user.profile.name} InputProps={{readOnly:true}} margin="dense" /> 
                 </div>

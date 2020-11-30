@@ -5,7 +5,7 @@ import Mypage from './Mypage';
 import Login from './Login';
 import Signin from './Signup';
 import Near from './Near';
-import Chatlist from './Chatlist';
+import Chatlist from './Chatlist.js';
 import Chat from './Chat';
 import './Sidebar.css';
 

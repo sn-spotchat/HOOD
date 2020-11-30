@@ -127,13 +127,6 @@ const Chat = (props) =>{
     setMessage(e.target.value);
   }
   //
-  const RESETDATABASE = () => {
-    for(var i=0;i<424;i++){
-      database.ref('chatroom/' + i + '/chatlist').remove();
-    }
-    database.ref('chat/').remove();
-    database.ref('user/').remove();
-  }
 
   useEffect(() => {
     socketRef.current = io.connect("http://localhost:3001");  //나중에 서버에 Server.js를 올리게 되면 바꿔야함.

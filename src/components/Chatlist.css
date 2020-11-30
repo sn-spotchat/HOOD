@@ -5,3 +5,8 @@
     font-size: 22px;
     font-family: 'Jua', sans-serif;
 }
+#chatlistbody{
+    width: 340px;
+    height: calc(100vh - 50px);
+    overflow: auto;
+}

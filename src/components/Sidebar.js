@@ -7,6 +7,7 @@ import Signin from './Signup';
 import Near from './Near';
 import Chatlist from './Chatlist';
 import Chat from './Chat';
+import Search from './Search';
 import './Sidebar.css';
 
 const Sidebar = ({ sidebarstate }) => {
@@ -34,6 +35,9 @@ const Sidebar = ({ sidebarstate }) => {
     }
     else if (sidebarstate === 'chat') {
       setSidebarType(<Chat chatRoomId={chatid}></Chat>);
+    }
+    else if (sidebarstate === 'search') {
+      setSidebarType(<Search></Search>);
     }
     
   }, [sidebarstate, chatid]);

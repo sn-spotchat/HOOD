@@ -1,0 +1,9 @@
+.Search{
+    width: 340px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    background-color: white;
+    position: relative;
+}

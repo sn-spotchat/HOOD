@@ -6,13 +6,15 @@ export type ApiResult = {
     title: string
     category: string
     roadAddress: string
+    mapx: string
+    mapy: string
   }[]
 }
 
 export async function fetchLocalAPI(keyword: string) {
   const params: Record<string, any> = {
     query: encodeURI(keyword),
-    display: 10,
+    display: 2,
     start: 1,
     sort: 'random'
   };

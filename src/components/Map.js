@@ -108,6 +108,7 @@ const PolyMap = (props) => {
         onClick={polyClick}
         onMouseover={polyOver}
         onMouseout={polyOut}
+        style = {{transition : '0.3s'}}
       />
     );
   }

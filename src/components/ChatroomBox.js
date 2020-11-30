@@ -29,8 +29,10 @@ const ChatroomBox = (props) => {
     var dateObj = new Date(lastchattime);
     var todayObj = new Date();
 
-    if (todayObj.getDate() === dateObj.getDate()) {
-      setTime(dateObj.getHours() + ":" + dateObj.getMinutes());
+    if (todayObj.getDate() === dateObj.getDate()) { 
+      let h = '0' + dateObj.getHours();
+      let m = '0' + dateObj.getMinutes();
+      setTime(h.slice(-2) + ':' + m.slice(-2));
     }
     else if (Number(todayObj.getDate()) === (Number(dateObj.getDate()) + 1)) {
       setTime("어제");

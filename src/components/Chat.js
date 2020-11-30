@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef} from 'react'; // import 로 useStat
 import {useSelector, useDispatch} from 'react-redux';
 import io from 'socket.io-client';
 import { database } from '../firebase';
-import "./Chat.css";
+import './Chat.css';
 import * as actionType from '../modules/action';
 
 import Button from '@material-ui/core/Button';
@@ -85,37 +85,16 @@ const Chat = (props) =>{
     //setMessagelist(oldMsgs => [...oldMsgs, messageObject]);
   }
 
-  /*function readMsgData() {
-    let entertime = null;
-    if(chatroomlist !== undefined && chatroomlist[chatroom] !== undefined){
-      entertime = chatroomlist[chatroom].time; //1. 해당 유저가 chatroom에 입장한 시간을 기록
-    }
-    database.ref('chatroom/' + chatroom + '/chatlist').once('value', Snap =>{
-      const dbchatlist = Snap.val(); //2. db에서 chatroom에 해당하는 chatlist를 불러옴
-      if(dbchatlist === null) return;      
-      Object.keys(dbchatlist).forEach(key =>{
-        var chat = dbchatlist[key].key;
-        database.ref('chat/' + chat).once('value', Snap=>{ //3. dbchatlist에서 각각의 chat값을 접근
-          chat = Snap.val();
-          if(chat === null) return;
-          if(chat.time >= entertime){ //4. 해당 chat의 시간이 유저가 접속한 시간 이후의 것이라면 출력함.
-            if(chat.type === 'text'){
-              setMessagelist(before => [...before, chat]);
-            }
-          }
-        })
-      })
-    })
-  }*/
 
   function getTime(time){
     var dateObj = new Date(time);
-    return dateObj.getHours()+":"+dateObj.getMinutes();
+    let h = '0' + dateObj.getHours();
+    let m = '0' + dateObj.getMinutes();
+    return h.slice(-2) + ':' + m.slice(-2);
   }
   
   function receivedMessage(messageObj){
-    console.log('received');
-    setMessagelist(oldMsgs => [...oldMsgs, messageObj]);
+    setMessagelist(before => [messageObj, ...before]);
   }
 
   function sendMessage(e){
@@ -131,7 +110,6 @@ const Chat = (props) =>{
     
     setMessage("");
     socketRef.current.emit("send message", messageObject);
-    console.log(messageObject);
     writeMsgData(messageObject);
   }
 
@@ -140,7 +118,6 @@ const Chat = (props) =>{
       user_id: user.ID,
       chatroom_id: chatroom,
     };
-    console.log(dataObject);
     socketRef.current.emit("leave room", dataObject);
     dispatch(actionType.removeChatroom(chatroom));
     database.ref('user/' + user.key + '/chatroomlist/' + chatroom).remove();
@@ -166,12 +143,13 @@ const Chat = (props) =>{
       user_id: user.ID,
       chatroom_id: chatroom,
     };
+    
     if (chatroomlist !== undefined) {
       if (chatroom in chatroomlist) {//chat목록에 있는 방인 경우
         socketRef.current.emit("rejoin room", dataObject);
         let entertime = null;
         if(chatroomlist !== undefined && chatroomlist[chatroom] !== undefined){
-          entertime = chatroomlist[chatroom].time;
+          entertime = new Date(chatroomlist[chatroom].time);
         }
         database.ref('chatroom/' + chatroom + '/chatlist').once('value', Snap =>{
           const dbchatlist = Snap.val();
@@ -181,9 +159,9 @@ const Chat = (props) =>{
             database.ref('chat/' + chat).once('value', Snap=>{
               chat = Snap.val();
               if(chat === null) return;
-              if(chat.time >= entertime){
+              if(new Date(chat.time) >= entertime){
                 if(chat.type === 'text'){
-                  setMessagelist(before => [...before, chat]);
+                  setMessagelist(before => [ chat, ...before]);
                 }
               }
             })
@@ -191,14 +169,12 @@ const Chat = (props) =>{
         })
       }
       else {
-        console.log("-1");
         socketRef.current.emit("join room", dataObject);
         dispatch(actionType.insertChatroom(chatroom, time));
         database.ref('user/' + user.key + '/chatroomlist/' + chatroom).set({ time : time });
       }
     }
     else {
-      console.log("-1");
       socketRef.current.emit("join room", dataObject);
       dispatch(actionType.insertChatroom(chatroom, time));
       database.ref('user/' + user.key + '/chatroomlist/' + chatroom).set({ time : time });
@@ -232,7 +208,7 @@ const Chat = (props) =>{
               return ( 
                 <div className="MyRow" key={index}>
                   <div className="MyTime">{getTime(message.time)}</div>
-                  <div className="MyMsg">
+                  <div className="MyMsg" >
                     {message.content}
                   </div>
                 </div>

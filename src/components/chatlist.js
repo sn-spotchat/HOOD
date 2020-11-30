@@ -22,7 +22,7 @@ const Chat = () => {
 
   return (
     <div className="Chat">
-      <div id="chathead" className="head">{chatHead}</div>
+      <div id="chatlisthead" className="head">{chatHead}</div>
       {chatList.map((chatroom, index) => {
         return (
           <ChatroomBox key={index} chatroom={chatroom} index={index}></ChatroomBox>

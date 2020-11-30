@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 
 import React, {useEffect} from 'react';
-=======
-import React from 'react';
->>>>>>> 7dba43875683ab776e6edee7109a6c5df6d41f2e
 import { appendNaverButton, loadScript } from './RNL';
 import SeoulDong from './SeoulDong.json'
 import * as actionType from '../modules/action';
@@ -39,6 +35,7 @@ const Init = () => {
                 dispatch(actionType.nearlistloadedObject);
             });
         }
+        
     },[dispatch, Geo, localnearlist]);
 
     loadScript({ onSuccess: console.log })

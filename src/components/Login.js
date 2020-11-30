@@ -68,8 +68,8 @@ const Login = () => {
   }
   return (
     <div className='SidebarContent'>
+      <div className="loginhead">Login</div>
       <img className='Icon' src={require('./HoodIcon.png')} alt = 'icon'/>
-      <Typography component="h1" variant="h5" >로그인</Typography>
       <TextField onChange={(event) => changeID(event)} error={ERROR} variant='outlined' label='ID' margin="dense" />
       <TextField onChange={(event) => changePW(event)} error={ERROR} variant='outlined' type = 'password' label="Password" margin="dense" />
       <div className='SigninRow'>

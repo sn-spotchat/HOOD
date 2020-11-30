@@ -42,48 +42,8 @@ const Signin = (props) => {
     const [PWERRFLAG, setPWERRFLAG] = useState(false);
     const [PWCONFIRMERRFLAG, setPWCONFIRMERRFLAG] = useState(false);
 
-    const [profile, setprofile] = useState({});
-    const [User, setUser] = useState();
     const classes = useStyles();
 
-    const [flag, setflag] = useState(false);
-
-
-    useEffect(() => {
-        if (flag === true) {
-            setprofile({
-                age: '',
-                birthday: '',
-                email: '',
-                gender: '',
-                id: '',
-                name: NAME,
-                nickname: '',
-                profile_image: '',
-            });
-        }
-    }, [flag, NAME])
-
-    useEffect(() => {
-        if (flag === true) {
-            setUser({
-                ID: ID,
-                PW: PW,
-                nickname: NICKNAME,
-                chatlist: [null],
-                chatroomlist: [null],
-                profile: profile,
-            });
-        }
-    }, [profile, ID, PW, NICKNAME, flag])
-
-    useEffect(() => {
-        if (flag === true) {
-            database.ref('/user').push(User);
-            alert('회원가입이 완료되었습니다. 로그인해주세요.');
-            dispatch(actionType.setSidebar('login'));
-        }
-    }, [User, flag, dispatch])
 
     const changeNAME = (event) => {
         setNAME(event.target.value);
@@ -134,7 +94,26 @@ const Signin = (props) => {
     //SigninProcess is the function called when Signinbutton is Clicked
     const SigninProcess = () => {
         Checkvalid().then(([MSG, valid]) => {
-            (valid)?setflag(true):alert(MSG);
+            if(valid === true){
+                let profile = {
+                    name : NAME,
+                };
+                let user = {
+                    ID: ID,
+                    PW: PW,
+                    nickname: NICKNAME,
+                    chatlist: [null],
+                    chatroomlist: [null],
+                    profile: profile,
+                };
+                database.ref('/user').push(user);
+                console.log(user);
+                alert('회원가입이 완료되었습니다. 로그인해주세요.');
+                dispatch(actionType.setSidebar('login'));
+            }
+            else{
+                alert(MSG);
+            }
         });
     }
     return (

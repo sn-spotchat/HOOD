@@ -40,7 +40,7 @@ const Navigation = () => {
 
     function navigation_present(element, index){//현재 sidebarstate에 따라 색깔을 달리 표시
         if(element.id === NavState){
-            return <div id={element.id} className="NavigationIcon" onClick={element.func} key={index} style={{color:'white', backgroundColor:'#5555ff'}}>{element.icon}</div>
+            return <div id={element.id} className="NavigationIconClick" onClick={element.func} key={index} >{element.icon}</div>
         }
         else{
             return <div id={element.id} className="NavigationIcon" onClick={element.func} key={index}>{element.icon}</div>

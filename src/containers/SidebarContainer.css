@@ -1,16 +1,16 @@
 .SidebarContainer{
     height: 100vh;
     display: flex;
+    flex-direction: row;
     position: relative;
     z-index: 2;
-    display:block;
 }
 .SidebarButton{
-    margin-left : 50vw;
-    margin-top : 50vh;
-    position: absolute; 
-    width:500000px;
-    height:400000px;
+    position: absolute;
+    margin-left: 340px;
+    margin-top: calc(50vh - 20px);
+    width: 18px;
+    height:40px;
     border-style: solid;
     border-width: 1px;
     border-color:rgb(101, 145, 105);

@@ -1,6 +1,139 @@
-@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-#chathead{
-    background-color: rgba(21, 124, 38, 0.616);
-    font-size: 15px;
+form{
+    width:100%;
+    height:100px;
+    display: flex;
+}
+textarea{
+    width:100%;
+    flex:1;
+    background-color: whitesmoke;
+    color: black;
+    outline:none;
+    resize:none;
+}
+.upperbutton{
+    width: 50px;
+    background-color: rgba(21, 124, 38, 0);
+    border: none;
+}
+#sendbutton{
+    border: none;
+}
+.chat{
+    width: 340px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    background-color: white;
+    position: relative;
+}
+.chatHead{
+    background-color: rgb(101, 145, 105);
+    height: 40px;
+    font-size: 22px;
     font-family: 'Jua', sans-serif;
+    width: 340px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.chatBody{
+    width: 340px;
+    height: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    overflow: auto;
+}
+.chatUnder{
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+}
+::-webkit-scrollbar {
+    width: 2px;
+}
+::-webkit-scrollbar-thumb {
+background-color: #b4b4b4;
+border-radius: 2px;
+
+}
+.MyRow{
+    width:100%;
+    display:flex;
+    justify-content: flex-end;
+    margin-top:3px;
+    margin-bottom:3px;
+}
+.MyMsgInfo{
+    display:flex;
+}
+.MyTime{
+    height: 10px;
+    margin-right: 3px;
+    font-size: 7px;
+    position: relative;
+
+    bottom:5px;
+    align-self: flex-end;
+}
+.MyMsg{
+    max-width: 60%;
+    background-color:#c2f598;
+    padding:7px;
+    margin-right:5px;
+    text-align: left;
+    border-radius: 5px;
+    word-break: break-all;
+}
+.PeerRow{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top:10px;
+}
+.PeerInfo{
+    width:100%;
+    height:12px;
+    margin-top:0px;
+    display:flex;
+    flex-direction: row;
+}
+.PeerName{
+    width:10%;
+    height:7px;
+    font-size: 7px;
+    
+    text-align:center;
+    
+}
+.PeerMsgInfo{
+    display: flex;
+}
+.PeerMsg{
+    max-width: 60%;
+    background-color: rgb(240, 240, 240);
+    padding:7px;
+    margin-left:5px;
+    text-align: left;
+    border-radius:5px;
+    word-break: break-all;
+}
+.PeerTime{
+    width: 10%;
+    height: 10px;
+    font-size: 7px;
+    position: relative;
+    left:0px;
+    bottom:5px;
+    align-self: flex-end;
+}
+#backBtn{
+    position: absolute;
+    left:0px;
+}
+#exitChatroomBtn{
+    position: absolute;
+    right:0px;
 }

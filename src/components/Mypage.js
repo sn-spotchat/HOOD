@@ -1,24 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
+import './Mypage.css';
 
 
 const Mypage = (props) => {
-    const dispatch = useDispatch();    
-    const profile = useSelector(state => state.profilereducer);
-    const nickname = useSelector(state => state.profilereducer.nickname);
-    const profileimage = useSelector(state => state.profilereducer.profileimage);
+    const nickname = useSelector(state => state.userreducer.nickname);
+    const user = useSelector(state => state.userreducer);
 
-console.log(profileimage);
+    var profile_image;
+    if(user.profile !== undefined && user.profile.profile_image !== undefined&& user.profile.profile_image !== null)
+        profile_image = user.profile.profile_image;
+    else{
+        profile_image = require('./profile.png');
+    }
+    
+    console.log(user);
     return (
-        <div className='SidebarContent'>
-            <div>{nickname}님 어서오세요!</div>
-            {console.log(profile)}
-        </div>
-    );
-    return (
-        <div className='SidebarContent'>
-            <img className='Icon' src={require(profileimage)}></img>
-            <div>{nickname}님 어서오세요!</div>
+        <div className = 'Mypage'>
+            <div className = 'mypagehead'>
+                {nickname}님 어서오세요!
+            </div>
+            <div className = 'mypagebody'>
+                <img className = 'mypageprofile' src = {profile_image} alt='icon'></img>
+                <TextField variant='outlined' label='이름' value = {user.profile.Name} margin="dense" />
+                <TextField variant='outlined' label='ID' margin="dense" />
+            </div>
         </div>
     );
 };

@@ -1,10 +1,7 @@
 .Navigation{
-    width: 59px;
+    width: 60px;
     height:100vh;
-    background-color: rgb(227, 255, 254);
-    border-right-style: solid;
-    border-right-width: 1px;
-    border-right-color: rgb(200,200,200);
+    background-color:rgb(101, 145, 105);
     display:flex;
     flex-direction: column;
 }
@@ -14,7 +11,7 @@
     margin-top: 5px;
     margin-left: 5px;
     margin-right:0px;
-    color: #55aa55;
+    color:rgb(101, 145, 105);
     display: flex;
     text-align: center;
     align-items: center;
@@ -22,8 +19,25 @@
     cursor: pointer;
     background-color:white;
     border-radius: 10px;    
+    transition: 0.2s;
+}
+.NavigationIconClick{
+    width: 50px;
+    height:50px;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right:0px;
+    color: #ffffff;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color:rgb(236, 130, 130);
+    border-radius: 10px;    
+    transition: 0.2s;
 }
 .NavigationIcon:hover{
     color:white;
-    background-color: #5555ff;
+    background-color: rgb(236, 181, 130);
 }

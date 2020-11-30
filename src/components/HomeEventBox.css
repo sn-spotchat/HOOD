@@ -7,10 +7,10 @@ a:visited{
     text-decoration: none;
 }
 .EventRow{
-    width: 100%;
-    height: 300px;
+    width:100%;
     display: flex;
     flex-direction: column;
+    padding-top:5px;
     background-color: whitesmoke;
     border-bottom: 1px solid;
     border-color: lightgray;
@@ -19,18 +19,13 @@ a:visited{
     background-color: #dadada;
 }
 .EventImg{
-    width:100%;
-    height: 200px;
+    max-width: 340px;
     display:flex;
 }
 .EventImg img{
-    width: 320px;
-    height: 180px;
+    max-width: 320px;
+    margin: auto;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: auto;
-    margin-bottom: auto;
 }
 .EventDesc{
     width:100%;

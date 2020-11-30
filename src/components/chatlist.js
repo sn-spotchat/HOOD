@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import ChatroomBox from './ChatroomBox';
 import './Chatlist.css';
 
-const Chat = () => {
+const Chatlist = () => {
   const [chatList, setChatList] = useState([]);
   const chatroomlist = useSelector(state => state.userreducer.chatroomlist);
   let count = 0;
@@ -12,6 +12,7 @@ const Chat = () => {
   const chatHead = `현재 ${count}개의 채팅방에 접속중입니다.`
 
   useEffect(() => {
+    setChatList([]);
     if (chatroomlist !== undefined) {
       let Arr = Object.keys(chatroomlist);
       Arr.forEach(key => {
@@ -34,4 +35,4 @@ const Chat = () => {
   );
 }
 
-export default Chat;
+export default Chatlist;

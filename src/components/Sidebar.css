@@ -1,7 +1,7 @@
 .Sidebar{
     width: 340px;
     height: 100vh;
-    background: rgb(231, 255, 233);
+    background: rgb(226, 235, 255);
     display: flex;
     
     border-right-style:solid;

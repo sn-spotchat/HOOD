@@ -51,7 +51,6 @@ const NLogin = (props) => {
                         Newuser.profile[key] = User[key];
                     }
                 })
-
                 database.ref('/user').push(Newuser);
                 alert('네이버 회원가입이 완료되었습니다. 다시 네이버 로그인을 진행해주세요.')
                 dispatch(actionType.setSidebar('login'));

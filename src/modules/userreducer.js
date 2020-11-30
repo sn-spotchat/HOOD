@@ -6,6 +6,7 @@ const userreducer = (state = initialState.user, action) => {
         case actionType.SETUSER: 
             return {
                 ...state,
+                key : action.user.key,
                 nickname: action.user.nickname,
                 ID: action.user.ID,
                 PW: action.user.PW,
@@ -13,8 +14,21 @@ const userreducer = (state = initialState.user, action) => {
                 chatroomlist: action.user.chatroomlist,
                 profile: action.user.profile
             };
-        case actionType.SETKEY:
-            return { ...state, key: action.key };
+        case actionType.SETNICKNAME:
+            return{
+                ...state,
+                nickname : action.nickname,
+            };
+        case actionType.SETPW:
+            return{
+                ...state,
+                PW : action.PW,
+            };
+        case actionType.SETID:
+            return{
+                ...state,
+                ID : action.ID,
+            };
         case actionType.INSERTCHATROOM: {
             let obj = {};
             if (state.chatroomlist !== undefined) obj = state.chatroomlist;                            

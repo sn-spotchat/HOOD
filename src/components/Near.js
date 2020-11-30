@@ -13,6 +13,7 @@ const Near = () => {
 
   useEffect(() => {
     if (nearlist !== undefined) {
+      setChatList([]);
       nearlist.forEach(near => {
         setChatList(oldList => [...oldList, near.chatroom])
       })

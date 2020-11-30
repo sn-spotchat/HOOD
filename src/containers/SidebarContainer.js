@@ -16,7 +16,6 @@ const SidebarContainer = () => {
         let sbutton = document.getElementById("SidebarButton");
         if (sidebar.style.opacity === '0') {
             sidebar.style.opacity = '1';
-            sidebar.style.
             sbutton.style['margin-left'] = String(navwid) + 'px';
             setButtonLabel(<NavigateBefore></NavigateBefore>);
         }

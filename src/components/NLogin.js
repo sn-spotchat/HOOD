@@ -19,6 +19,7 @@ const NLogin = (props) => {
             }
             const Arr = Object.keys(Accounts);
             Arr.forEach(key => {
+                if(Accounts[key]['profile'] === undefined) return;
                 if (Accounts[key]['profile']['id'] === Nuser['id']) {
                     exist = true;
                     retkey = key;

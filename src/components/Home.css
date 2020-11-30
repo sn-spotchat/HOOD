@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-.home{
+.home{    
     font-family: 'Jua', sans-serif;
 }
 #homehead{
-    background-color: rgba(21, 124, 38, 0.616);
+    height:40px;
+    background-color: rgb(101, 145, 105);
     font-size: 30px;
     font-family: 'Jua', sans-serif;
 }

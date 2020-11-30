@@ -13,7 +13,7 @@ textarea{
 }
 .upperbutton{
     width: 50px;
-    background-color:#4ed48b;
+    background-color: rgba(21, 124, 38, 0);
     border: none;
 }
 #sendbutton{
@@ -29,18 +29,20 @@ textarea{
     position: relative;
 }
 .chatHead{
-    width:100%;
-    height: 50px;
+    background-color: rgb(101, 145, 105);
+    height: 40px;
+    font-size: 22px;
+    font-family: 'Jua', sans-serif;
+    width: 340px;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    background-color:#4ed48b;
 }
 .chatBody{
-    width:100%;
+    width: 340px;
+    height: auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     overflow: auto;
 }
 .chatUnder{
@@ -49,39 +51,40 @@ textarea{
     margin-top: auto;
 }
 ::-webkit-scrollbar {
-    width: 4px;
+    width: 2px;
 }
 ::-webkit-scrollbar-thumb {
-background-color: #4c4c6a;
+background-color: #b4b4b4;
 border-radius: 2px;
+
 }
 .MyRow{
     width:100%;
     display:flex;
     justify-content: flex-end;
-    margin-top:10px;
+    margin-top:3px;
+    margin-bottom:3px;
 }
 .MyMsgInfo{
     display:flex;
 }
 .MyTime{
-    width: 10%;
     height: 10px;
+    margin-right: 3px;
     font-size: 7px;
     position: relative;
-    right:5px;
+
     bottom:5px;
     align-self: flex-end;
 }
 .MyMsg{
-    width:45%;
+    max-width: 60%;
     background-color:#c2f598;
-    padding:10px;
+    padding:7px;
     margin-right:5px;
-    text-align:center;
-    border-radius: 10px;
+    text-align: left;
+    border-radius: 5px;
     word-break: break-all;
-    white-space:pre;
 }
 .PeerRow{
     width:100%;
@@ -109,21 +112,20 @@ border-radius: 2px;
     display: flex;
 }
 .PeerMsg{
-    width:45%;
-    background-color: lightgray;
-    padding:10px;
-    margin-right:5px;
-    text-align:center;
-    border-radius:10px;
+    max-width: 60%;
+    background-color: rgb(240, 240, 240);
+    padding:7px;
+    margin-left:5px;
+    text-align: left;
+    border-radius:5px;
     word-break: break-all;
-    white-space:pre;
 }
 .PeerTime{
     width: 10%;
     height: 10px;
     font-size: 7px;
     position: relative;
-    left:5px;
+    left:0px;
     bottom:5px;
     align-self: flex-end;
 }

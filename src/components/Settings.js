@@ -1,22 +1,17 @@
 import React from 'react';
+import Themes from '../modules/Theme.js';
 
 const Settings = () =>{
-    const Theme2 = {
-        '--THEME1' : '#000000',
-        '--THEME2' : '#EC8282',
-        '--THEME3' : '#ECB582',
-        '--THEME4' : '#FFFFFF',
-        '--THEME5' : '#A0A0A0',
-        '--THEME6' : '#FFFFFF',
-    }
+    console.log(Themes);
     const changeTheme = () => {
+        /*
         const Arr = Object.keys(Theme2);
         Arr.forEach(key =>{
             console.log(key, Arr);
             document.documentElement.style.setProperty(key, Theme2[key]);
         });
+        */
     }
-
 
     return (
     <div className = 'SidebarContent'>

@@ -1,8 +1,8 @@
 .SidebarContainer{
-    height: calc(100% - 6px);
+    height: calc(100% - var(--BW1)*2);
     display:flex;
     position: fixed;
-    top: 3px;
+    top: var(--BW1);
     left: var(--NW);
     z-index: 2;
 }
@@ -20,7 +20,7 @@
     align-items: center;
     transition: var(--STrans);
     transition-timing-function: var(--STransF);
-    color:var(--THEME4);
-    background-color:var(--THEME1);
+    color:var(--SB_C, #FFFFFF);
+    background-color:var(--SB_BC, #659169);
     z-index: 3;
 }

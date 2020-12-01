@@ -1,7 +1,7 @@
 .Navigation{
     width: var(--NW);
     height: 100%;
-    background-color: var(--THEME1);
+    background-color: var(--N_BC,#659169);
     display:flex;
     flex-direction: column;
     position: fixed;
@@ -18,9 +18,9 @@
     justify-content: center;
     cursor: pointer;
     border-radius: 10px;    
-    transition: 0.3s;
-    color : var(--THEME1);
-    background-color : var(--THEME4);
+    transition: var(--NTrans, 0.4);
+    color : var(--NI_C,#659169);
+    background-color : var(--NI_BC, #FFFFFF);
 }
 .NavigationIconClick{
     width: calc(0.8 * var(--NW));
@@ -33,11 +33,11 @@
     justify-content: center;
     cursor: pointer;
     border-radius: 10px;    
-    transition: 0.3s;
-    color: var(--THEME4);
-    background-color: var(--THEME2);
+    transition: var(--NTrans, 0.4);
+    color: var(--NIC_C, #FFFFFF);
+    background-color: var(--NIC_BC, #EC8282);
 }
 .NavigationIcon:hover{
-    color:var(--THEME4);
-    background-color: var(--THEME3);
+    color: var(--NIH_C,#FFFFFF);
+    background-color: var(--NIH_BC,#ECB582);
 }

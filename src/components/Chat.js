@@ -170,7 +170,7 @@ const Chat = (props) => {
   }
   return (
     <div className='SidebarContent'>
-      <div className="Sidebarhead" style = {{'fontSize' : '22px'}}>
+      <div className="Sidebarhead" >
         <div className = 'chatHead'>
         <ArrowBack style = {{'marginRight' : '20px'}} onClick={() => { ClickBack() }}/>
         {chatroomname}
@@ -207,8 +207,8 @@ const Chat = (props) => {
           )}
         </div>
         <div className="chatUnder">
-          <form onSubmit={sendMessage}>
-            <textarea name="inputtext" value={message} onChange={handleChange} placeholder="메시지 입력" onKeyPress={submitOnEnter}></textarea>
+          <form onSubmit={sendMessage} className = 'chat_form'>
+            <textarea className="inputtext" value={message} onChange={handleChange} placeholder="메시지 입력" onKeyPress={submitOnEnter}></textarea>
             <button className='sendbutton' onClick={sendMessage}>전송</button>
           </form>
         </div>

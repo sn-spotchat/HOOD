@@ -119,6 +119,7 @@ const Signin = (props) => {
     }
     return (
         <div className='SidebarContent'>
+            <div className="Sidebarhead">회원가입</div>
             <img className='Icon' src={require('./HoodIcon.png')} alt="icon"></img>
             <Typography component="h1" variant="h5" >후드 회원가입</Typography>
             <TextField onChange={(event) => changeNAME(event)} error={NAMEERRFLAG} variant='outlined' label="이름" margin="dense" />

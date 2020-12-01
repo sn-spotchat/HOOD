@@ -26,9 +26,10 @@ const PolyMap = (props) => {
       })
     })
 
-    const color1 = Theme['PColor1']; const opacity1 = 0.4;
-    const color2 = Theme['PColor2']; const opacity2 = 0.3;
-    const color3 = Theme['PColor3']; const opacity3 = 0.4;
+    const Theme = useSelector(state => state.themereducer.polygondesign);
+    const color1 = Theme.color[0]; const opacity1 = Theme.opacity[0];
+    const color2 = Theme.color[1]; const opacity2 = Theme.opacity[1];
+    const color3 = Theme.color[2]; const opacity3 = Theme.opacity[2];
     const [color, setColor] = useState(color1);
     const [opacity, setOpacity] = useState(opacity1);
     const scolor = '#FFFFFF';

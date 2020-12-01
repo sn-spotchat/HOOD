@@ -10,5 +10,5 @@
     border-right-style: solid;
     border-bottom-style: solid;
     border-width: var(--BW1);
-    border-color: var(--THEME1);
+    border-color: var(--M_B_C, #659169); 
 }

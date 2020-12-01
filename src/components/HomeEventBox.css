@@ -12,15 +12,14 @@ a:visited{
     display: flex;
     flex-direction: column;
     padding-top:5px;
-    background-color: whitesmoke;
+    background-color: var(--ER_BC, #F5F5F5);
     border-bottom: 1px solid;
-    border-color: lightgray;
+    border-color: var(--ER_B_C, #D3D3D3);
 }
 .EventRow:hover{
-    background-color: #dadada;
+    background-color: var(--ERH_C, #DADADA);
 }
 .EventImg{
-    max-width: 340px;
     display:flex;
 }
 .EventImg img{
@@ -40,14 +39,14 @@ a:visited{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    color: #5555ff;
+    color: var(--EN_C, #5555FF);
     font-size: 25px;
     font-family: 'Jua', sans-serif;
 }
 .EventContent{
     width:320px;
     height: 50px;
-    color: black;
+    color: var(--EC_C, #000000);
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -61,7 +60,7 @@ a:visited{
 .EventTime{
     width:320px;
     height: 20px;
-    color: black;
+    color: var(--ET_C, #000000);
     display: block;
     margin-left: auto;
     margin-right: auto;

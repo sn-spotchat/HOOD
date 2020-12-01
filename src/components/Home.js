@@ -29,7 +29,7 @@ const Home = () =>{
     
     return (
         <div className='SidebarContent'>
-            <div id="Homehead" className="Sidebarhead">Home</div>
+            <div id="Homehead" className="Sidebarhead">이벤트</div>
             <div id="Homebody" className="Sidebarbody">
               {EventList.map((element, index) => {
                   return (

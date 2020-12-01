@@ -7,6 +7,7 @@ import Person from '@material-ui/icons/Person';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Forum from '@material-ui/icons/Forum';
 import PinDrop from '@material-ui/icons/PinDrop';
+import SettingsIcon from '@material-ui/icons/Settings';
 import './Navigation.css';
 import '../modules/Theme.css';
 
@@ -36,6 +37,7 @@ const Navigation = () => {
             setNavList(oldList => [...oldList, { id: "home", func: () => dispatch(actionType.setSidebar('home')), icon: <Home></Home>}]);
             setNavList(oldList => [...oldList, { id: "near", func: () => dispatch(actionType.setSidebar('near')), icon: <PinDrop></PinDrop>}]);
             setNavList(oldList => [...oldList, { id: "chatlist", func: () => dispatch(actionType.setSidebar('chatlist')), icon: <Forum></Forum>}]);
+            setNavList(oldList => [...oldList, { id: "settings", func: () => dispatch(actionType.setSidebar('settings')), icon: <SettingsIcon/>}]);
         }
     }, [sidebarstate, loggedin, dispatch]);
 

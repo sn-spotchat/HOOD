@@ -22,7 +22,7 @@ const Chatlist = () => {
 
   return (
     <div className='SidebarContent'>
-      <div id="chatlisthead" className="Sidebarhead" >{chatHead}</div>
+      <div id="chatlisthead" className="Sidebarhead" >내 채팅방</div>
       <div id="chatlistbody" className="Sidebarbody">
         {chatList.map((chatroom, index) => {
           return (

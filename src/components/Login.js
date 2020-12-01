@@ -66,7 +66,7 @@ const Login = () => {
   }
   return (
     <div className='SidebarContent'>
-      <div className="Sidebarhead" style={{ 'fontSize': '30px' }}>로그인</div>
+      <div className="Sidebarhead">로그인</div>
       <img className='Icon' src={require('./HoodIcon.png')} alt='icon' />
       <TextField onChange={(event) => changeID(event)} error={ERROR} variant='outlined' label='ID' margin="dense" />
       <TextField onChange={(event) => changePW(event)} error={ERROR} variant='outlined' type='password' label="Password" margin="dense" />

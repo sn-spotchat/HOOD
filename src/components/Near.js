@@ -21,7 +21,7 @@ const Near = () => {
   }, [nearlist]);
   return (
     <div className='SidebarContent'>
-      <div id="nearhead" className="Sidebarhead" >{nearHead}</div>
+      <div id="nearhead" className="Sidebarhead" >가까운 채팅방</div>
       <div id="nearbody" className="Sidebarbody">
         {chatList.map((chatroom, index) => {
           return (

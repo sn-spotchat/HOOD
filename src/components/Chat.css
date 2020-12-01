@@ -6,7 +6,7 @@ form{
 textarea{
     width:100%;
     flex:1;
-    background-color: whitesmoke;
+    background-color:var(--THEME7);
     color: black;
     outline:none;
     resize:none;
@@ -17,8 +17,20 @@ textarea{
     border: none;
     margin-left:10px;
 }
-#sendbutton{
+.sendbutton{
+    height:100px;
+    width:50px;
+    border-radius: 10px;
     border: none;
+    transition:0.3s;
+    background-color: var(--THEME1);
+    color : var(--THEME6);
+    font-family: 'Jua', sans-serif;
+    font-size : 20px;
+}
+.sendbutton:hover{
+    background-color: var(--THEME3);
+    transition:0.3s;
 }
 .chat{
     width: 340px;
@@ -26,7 +38,7 @@ textarea{
     display: flex;
     flex-direction: column;    
     flex:1;
-    background-color: white;
+    background-color: var(--THEME5);
     position: relative;
 }
 .chatHead{
@@ -75,7 +87,7 @@ border-radius: 2px;
 }
 .MyMsg{
     max-width: 80%;
-    background-color:#c2f598;
+    background-color: var(--THEME8);
     padding:7px;
     margin-right:5px;
     text-align: left;
@@ -109,7 +121,7 @@ border-radius: 2px;
 }
 .PeerMsg{
     max-width: 80%;
-    background-color: rgb(240, 240, 240);
+    background-color: var(--THEME9);
     padding:7px;
     margin-left:5px;
     text-align: left;

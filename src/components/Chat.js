@@ -43,22 +43,6 @@ const Chat = (props) => {
 
   const dispatch = useDispatch();
 
-  const useStyles = makeStyles((theme) => ({
-    submit: {
-      height: '100px',
-      width: '50px',
-      color: '#ffffff',
-      backgroundColor: '#7ec4eb',
-    },
-    nsubmit: {
-      height: '100px',
-      width: '50px',
-      color: '#ffffff',
-      backgroundColor: '#4ed48b',
-    },
-  })
-  );
-  const classes = useStyles();
 
   function submitOnEnter(event) {
     if (event.which === 13 && !event.shiftKey) {
@@ -225,7 +209,7 @@ const Chat = (props) => {
         <div className="chatUnder">
           <form onSubmit={sendMessage}>
             <textarea name="inputtext" value={message} onChange={handleChange} placeholder="메시지 입력" onKeyPress={submitOnEnter}></textarea>
-            <Button variant="contained" color="primary" className={classes.nsubmit} onClick={sendMessage}>전송</Button>
+            <button className='sendbutton' onClick={sendMessage}>전송</button>
           </form>
         </div>
       </div>

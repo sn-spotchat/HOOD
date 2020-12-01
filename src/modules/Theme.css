@@ -16,11 +16,21 @@
     NavigationIconClick.color
     NavigationIcon:hover.color
     */
-    --THEME5 :#e2ebff;/*
+    --THEME5 :#ecffe3;/*
+    Chat.background-color
     */
 
     --THEME6 : #000000;/*
     Sidebar Head Color
+    */
+    --THEME7 : whitesmoke;/*
+    textarea.background-color
+    */
+    --THEME8 : #c2f598;/*
+    MyMsg.background-color
+    */
+    --THEME9 : #f0f0f0;/*
+    PeerMsg.background-color;
     */
 
     --BW1 :3px; /*Border Width 1*/

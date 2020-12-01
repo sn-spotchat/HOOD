@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Close from '@material-ui/icons/Close';
 import ArrowBack from '@material-ui/icons/ArrowBack';
+import Search from '@material-ui/icons/Search';
 /*
 *chat DB
 *messageObj
@@ -34,8 +35,8 @@ const Chat = (props) =>{
 
   const [messagelist, setMessagelist] = useState([]);//모든 메시지(server로부터 받은 모든 메시지)
   const [message, setMessage] = useState("");//내가 입력한 메시지
-  const [preuser, setPreUser] = useState("");
-  const [pretime, setPreTime] = useState("");
+  //const [preuser, setPreUser] = useState("");
+  //const [pretime, setPreTime] = useState("");
 
   const chatroom = useSelector(state => state.statereducer.chatroom); // 현재 채팅중인 chatroomid
   const chatroomname = useSelector(state => state.statereducer.chatroomname); // 현재 채팅중인 채팅방 지역 이름
@@ -190,6 +191,11 @@ const Chat = (props) =>{
     dispatch(actionType.setSidebar('chatlist'));
     dispatch(actionType.setChatroom(-1));
   }
+
+  const ClickSearch = () => {
+    dispatch(actionType.setSidebar('search'));   
+  }
+
   return (
     <div className="chat">
       <div className="chatHead">
@@ -227,6 +233,9 @@ const Chat = (props) =>{
         )}
       </div>
       <div className="chatUnder">
+        <div className="tool">
+          <div className="toolicon" id="searchtool" onClick={ClickSearch}><Search></Search></div>
+        </div>
         <form onSubmit={sendMessage}>
           <textarea name="inputtext" value={message} onChange={handleChange} placeholder="메시지 입력" onKeyPress={submitOnEnter}></textarea>
           <Button variant="contained" color="primary" className={classes.nsubmit} onClick={sendMessage}>전송</Button>

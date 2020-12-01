@@ -137,3 +137,20 @@ border-radius: 2px;
     position: absolute;
     right:0px;
 }
+
+.tool{
+    width:100%;
+    height: 30px;
+    background-color: gray;
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+}
+.toolicon{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}

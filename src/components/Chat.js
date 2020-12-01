@@ -4,6 +4,8 @@ import io from 'socket.io-client';
 import { database } from '../firebase';
 import './Chat.css';
 import * as actionType from '../modules/action';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -159,9 +161,23 @@ const Chat = (props) => {
   }, [dispatch, chatroom, user.ID, user.key]);
 
   const ClickExit = () => {
-    leaveRoom();
-    dispatch(actionType.setSidebar('near'));
-    dispatch(actionType.setChatroom(-1));
+    confirmAlert({
+      title: `채팅방 나가기`,
+      message: `채팅방을 나가시겠습니까?`,
+      buttons: [
+        {
+          label: 'YES',
+          onClick : () =>{
+            leaveRoom();
+            dispatch(actionType.setSidebar('near'));   
+            dispatch(actionType.setChatroom(-1)); 
+          }
+        },
+        {
+          label: 'NO'
+        }
+      ]
+    })
   }
 
   const ClickBack = () => {

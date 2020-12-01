@@ -51,3 +51,11 @@ export const setLocation = (Geo) => ({ type: SETLOCATION, Geo: Geo });
 
 export const SETNEARLIST = 'data/setnearlist';
 export const setNearlist = (nearlist) => ({ type: SETNEARLIST, nearlist: nearlist });
+
+
+//theme
+export const SETPOLYGONDESIGN = 'theme/setpolygondesign';
+export const setPolygondesign = (polygondesign) => ({type : SETPOLYGONDESIGN, polygondesign : polygondesign});
+
+export const SETTHEMENAME = 'theme/setthemename';
+export const setThemename = (themename) => ({type : SETTHEMENAME, themename : themename});

@@ -1,20 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 .Sidebar{
-    height: calc(100vh - 3px);
-    background: rgb(226, 235, 255);
+    height: 100%;
+    width : var(--SW);
+    position:fixed;
+    top : 0px;
+    left : var(--NW);
     display: flex;
-    border-right-style:solid;
-    border-right-width:3px;
-    border-right-color:rgb(101, 145, 105);
-    border-bottom-style:solid;
-    border-bottom-width:3px;
-    border-bottom-color:rgb(101, 145, 105);
-    margin : 0px;
-    transition: 0.3s;
+    border-right-style: solid;
+    border-right-width: var(--BW1);
+    transition: var(--STrans);
+    transition-timing-function: var(--STransF);
+    border-right-color: var(--S_B_C, #659169);
+    background-color: var(--S_BC, #ebf2fd);
 }
-.head{
-    width:340px;
-    height:40px;
+.SidebarContent{
+    height: 100%;
+    width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    align-items: center;    
+}
+.Sidebarhead{
+    height: var(--SHH);
+    width: 100%;
+    line-height: calc(var(--SHH) + var(--BW1));
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-content: center;
+    vertical-align: center;
+    font-family: 'Jua', sans-serif;
+    font-size : 150%;
+
+    color : var(--SH_C, #000000);
+    background-color: var(--SH_BC, #659169);    
+}
+.Sidebarbody{
+    max-height: calc(100% - var(--SHH));
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    overflow: auto;
 }

@@ -1,27 +1,26 @@
 .SidebarContainer{
-    height: 100vh;
-    display: flex;
-    flex-direction: row;
-    position: relative;
+    height: calc(100% - var(--BW1)*2);
+    display:flex;
+    position: fixed;
+    top: var(--BW1);
+    left: var(--NW);
     z-index: 2;
 }
 .SidebarButton{
-    position: absolute;
-    margin-left: 340px;
-    margin-top: calc(50vh - 20px);
-    width: 18px;
-    height:40px;
-    border-style: solid;
-    border-width: 1px;
-    border-color:rgb(101, 145, 105);
+    position: fixed;
+    left: calc(var(--SW) + var(--NW));
+    top: calc(50vh - var(--SBH));
+    width: var(--SBW);
+    height: var(--SBH);
+    border-style: none;
     border-radius: 20px;
     outline: none;
-    font-size:30px;
-    color:rgb(255, 255, 255);
-    z-index: 3;
-    background-color:rgb(101, 145, 105);
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: 0.2s;
+    transition: var(--STrans);
+    transition-timing-function: var(--STransF);
+    color:var(--SB_C, #FFFFFF);
+    background-color:var(--SB_BC, #659169);
+    z-index: 3;
 }

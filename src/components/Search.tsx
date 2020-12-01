@@ -2,7 +2,7 @@ import './Search.css';
 import React, {useEffect, useState} from 'react';
 import {fetchLocalAPI, ApiResult} from '../fetchLocalAPI';
 import SearchIcon from '@material-ui/icons/Search';
-
+import SearchBox from './SearchBox';
 function Search(props: any) {
   
   const [apiResult, setApiResult] = useState<ApiResult | null>(null)
@@ -30,9 +30,7 @@ function Search(props: any) {
         console.log("ender");
     }
   }
-  useEffect(() => {
-    
-  }, [])
+
   return (
     <div className="Search" style={{maxWidth: 640, margin: '0 auto'}}>
       <form id="SearchHead" onSubmit={submitKeyword}>
@@ -44,20 +42,7 @@ function Search(props: any) {
       <div id="SearchBody">
       {apiResult?.items?.map(item => {
           return (
-            <div>
-              <header>
-                <div
-                  style={{fontSize: '1.4em'}}
-                  dangerouslySetInnerHTML={{__html: item.title}}
-                />
-              </header>
-              <ul>
-                <li>{item.category}</li>
-                <li>{item.roadAddress}</li>
-                <li>{item.mapx}</li>
-                <li>{item.mapy}</li>
-              </ul>
-            </div>
+            <SearchBox title={item.title} category={item.category} roadAddress={item.roadAddress} mapx={item.mapx} mapy={item.mapy}></SearchBox>
           )
         })}
       </div>

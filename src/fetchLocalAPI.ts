@@ -14,7 +14,7 @@ export type ApiResult = {
 export async function fetchLocalAPI(keyword: string) {
   const params: Record<string, any> = {
     query: encodeURI(keyword),
-    display: 2,
+    display: 5,
     start: 1,
     sort: 'random'
   };

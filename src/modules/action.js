@@ -45,3 +45,10 @@ export const setLocation = (Geo) => ({ type: SETLOCATION, Geo: Geo });
 
 export const SETNEARLIST = 'data/setnearlist';
 export const setNearlist = (nearlist) => ({ type: SETNEARLIST, nearlist: nearlist });
+
+//search marker
+export const SETMARKERX = 'search/setmarkerx';
+export const setMarkerX = (searchmarkerx) => ({type: SETMARKERX, searchmarkerx: searchmarkerx});
+
+export const SETMARKERY = 'search/setmarkery';
+export const setMarkerY = (searchmarkery) => ({type: SETMARKERY, searchmarkery: searchmarkery});

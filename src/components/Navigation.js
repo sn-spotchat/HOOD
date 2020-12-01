@@ -8,7 +8,6 @@ import Person from '@material-ui/icons/Person';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Forum from '@material-ui/icons/Forum';
 import PinDrop from '@material-ui/icons/PinDrop';
-import Search from '@material-ui/icons/Search';
 
 
 /*
@@ -30,12 +29,10 @@ const Navigation = () => {
         if (loggedin === false) {
             setNavList(oldList => [...oldList, { id: "login", func: () => dispatch(actionType.setSidebar('login')), icon: <Person></Person>}]);
             setNavList(oldList => [...oldList, { id: "home", func: () => dispatch(actionType.setSidebar('home')), icon: <Home></Home>}]);
-            setNavList(oldList => [...oldList, { id: "search", func: () => dispatch(actionType.setSidebar('search')), icon: <Search></Search>}]);
         }
         else {
             setNavList(oldList => [...oldList, { id: "mypage", func: () => dispatch(actionType.setSidebar('mypage')), icon:<AccountCircle></AccountCircle> }]);
             setNavList(oldList => [...oldList, { id: "home", func: () => dispatch(actionType.setSidebar('home')), icon: <Home></Home>}]);
-            setNavList(oldList => [...oldList, { id: "search", func: () => dispatch(actionType.setSidebar('search')), icon: <Search></Search>}]);
             setNavList(oldList => [...oldList, { id: "near", func: () => dispatch(actionType.setSidebar('near')), icon: <PinDrop></PinDrop>}]);
             setNavList(oldList => [...oldList, { id: "chatlist", func: () => dispatch(actionType.setSidebar('chatlist')), icon: <Forum></Forum>}]);
         }

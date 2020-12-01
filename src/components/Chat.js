@@ -129,6 +129,12 @@ const Chat = (props) =>{
   function handleChange(e){
     setMessage(e.target.value);
   }
+
+  function sendMarker(e){
+    dispatch(actionType.setMarkerX(null));
+    dispatch(actionType.setMarkerY(null));
+  }
+
   //
 
   useEffect(() => {

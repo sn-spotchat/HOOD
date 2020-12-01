@@ -47,7 +47,7 @@
     border: none;
     transition:0.3s;
     background-color: var(--C_SB_BC,#659169);
-    color : var(--C_SB_B,#000000);
+    color : var(--C_SB_C,#000000);
     font-family: 'Jua', sans-serif;
     font-size : 20px;
 }
@@ -81,7 +81,7 @@ border-radius: 2px;
     position: relative;
     bottom:5px;
     align-self: flex-end;
-    color :var(--C_MY_C, #000000);
+    color :var(--C_MT_C, #000000);
 }
 .MyMsg{
     max-width: 80%;

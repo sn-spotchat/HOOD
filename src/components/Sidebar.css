@@ -10,8 +10,8 @@
     border-right-width: var(--BW1);
     transition: var(--STrans);
     transition-timing-function: var(--STransF);
-    border-right-color:var(--THEME1);
-    background-color: var(--THEME5);
+    border-right-color: var(--S_B_C, #659169);
+    background-color: var(--S_BC, #ebf2fd);
 }
 .SidebarContent{
     height: 100%;
@@ -32,8 +32,8 @@
     font-family: 'Jua', sans-serif;
     font-size : 150%;
 
-    color : var(--THEME6);
-    background-color: var(--THEME1);    
+    color : var(--SH_C, #000000);
+    background-color: var(--SH_BC, #659169);    
 }
 .Sidebarbody{
     max-height: calc(100% - var(--SHH));

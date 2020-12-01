@@ -10,6 +10,7 @@
 
     border-bottom: 1px solid;
     border-color: var(--CBR_B_C,#D3D3D3);
+    color: var(--CBR_C, #000000);
     background-color: var(--CBR_BC, #F5F5F5);
 }
 .ChatroomBoxRaw:hover{

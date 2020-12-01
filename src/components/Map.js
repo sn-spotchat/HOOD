@@ -26,19 +26,29 @@ const PolyMap = (props) => {
       })
     })
 
-    const Theme = useSelector(state => state.themereducer.polygondesign);
-    const color1 = Theme.color[0]; const opacity1 = Theme.opacity[0];
-    const color2 = Theme.color[1]; const opacity2 = Theme.opacity[1];
-    const color3 = Theme.color[2]; const opacity3 = Theme.opacity[2];
     const [color, setColor] = useState(color1);
     const [opacity, setOpacity] = useState(opacity1);
-    const scolor = '#FFFFFF';
-    const sopacity = 1.0;
     const dispatch = useDispatch();
 
     const loggedin = useSelector(state => state.flagreducer.loggedin);
     const chatroom = useSelector(state => state.statereducer.chatroom);
     const sidebarstate = useSelector(state => state.statereducer.sidebarstate);
+
+    const Theme = useSelector(state => state.themereducer.polygondesign);
+
+    var color1 = Theme.color[0]; var opacity1 = Theme.opacity[0];
+    var color2 = Theme.color[1]; var opacity2 = Theme.opacity[1];
+    var color3 = Theme.color[2]; var opacity3 = Theme.opacity[2];
+    var scolor = Theme.scolor;   var sopacity = Theme.sopacity;
+    useEffect(()=>{
+      color1 = Theme.color[0]; opacity1 = Theme.opacity[0];
+      color2 = Theme.color[1]; opacity2 = Theme.opacity[1];
+      color3 = Theme.color[2]; opacity3 = Theme.opacity[2];
+      scolor = Theme.scolor;   sopacity = Theme.sopacity;
+      setColor(color1); setOpacity(opacity1);
+
+    },[Theme]);
+    
 
     const YesClick=()=>{
       dispatch(actionType.setSidebar('chat'));

@@ -1,25 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-.Mypage{
-    width : 340px;
-    height:100vh;
-    display: flex;
-    flex-direction: column;
-}
 .mypagebody{
     display:flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;    
 }
-.mypagehead{
-    width: 340px;
-    height:40px;
-    background-color:rgb(101, 145, 105);    
-    text-align: center;    
-    font-size: 22px;
-    font-family: 'Jua', sans-serif;
+.mypagerow{
+    display: flex;
+    flex-direction: row;       
+    padding:0;
+    margin-left: 50px;
+    align-self: left;
 }
-.mypageprofile{
-    margin-top:100px;    
-    max-width: 150px;    
-    max-height: 150px;
+.mypageedit{
+    width:23px;
+    height:24px;
+    padding:0px;
+    margin-top:28px;
+    margin-left: 6px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;    
 }

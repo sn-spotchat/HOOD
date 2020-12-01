@@ -8,6 +8,7 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import { database } from '../firebase';
 import { bindActionCreators } from 'redux';
+import Theme from '../modules/Theme.js';
 
 const PolyMap = (props) => {
 
@@ -67,19 +68,30 @@ const PolyMap = (props) => {
         path.push(new window.naver.maps.LatLng(Coordinate[1], Coordinate[0]))
       })
     })
-
-    const color1 = '#7ea4f0'; const opacity1 = (0.1*rank==0)?0.05:0.1*rank;
-    const color2 = '#F51D1A'; const opacity2 = 0.3;
-    const color3 = '#10E040'; const opacity3 = 0.4;
     const [color, setColor] = useState(color1);
     const [opacity, setOpacity] = useState(opacity1);
-    const scolor = '#FFFFFF';
-    const sopacity = 1.0;
     const dispatch = useDispatch();
 
     const loggedin = useSelector(state => state.flagreducer.loggedin);
     const chatroom = useSelector(state => state.statereducer.chatroom);
     const sidebarstate = useSelector(state => state.statereducer.sidebarstate);
+
+    const Theme = useSelector(state => state.themereducer.polygondesign
+                             );
+
+    var color1 = Theme.color[0]; var opacity1 = (0.1*rank==0)?0.05:0.1*rank;
+    var color2 = Theme.color[1]; var opacity2 = Theme.opacity[1];
+    var color3 = Theme.color[2]; var opacity3 = Theme.opacity[2];
+    var scolor = Theme.scolor;   var sopacity = Theme.sopacity;
+    useEffect(()=>{
+      color1 = Theme.color[0]; opacity1 = (0.1*rank==0)?0.05:0.1*rank;
+      color2 = Theme.color[1]; opacity2 = Theme.opacity[1];
+      color3 = Theme.color[2]; opacity3 = Theme.opacity[2];
+      scolor = Theme.scolor;   sopacity = Theme.sopacity;
+      setColor(color1); setOpacity(opacity1);
+
+    },[Theme]);
+    
 
     const YesClick=()=>{
       dispatch(actionType.setSidebar('chat'));
@@ -88,6 +100,8 @@ const PolyMap = (props) => {
     }
     const polyClick = () => {
       if (loggedin === true) {
+        setColor(color3);
+        setOpacity(opacity3);
         dispatch(actionType.setSidebar('near'));
         dispatch(actionType.setChatroom(null));
         
@@ -100,7 +114,11 @@ const PolyMap = (props) => {
               onClick : () => YesClick()
             },
             {
-              label: 'NO'
+              label: 'NO',
+              onClick : () => {
+                setColor(color1)
+                setOpacity(opacity1)
+              }
             }
           ]
         })
@@ -148,7 +166,7 @@ const PolyMap = (props) => {
         strokeOpacity={sopacity}
         strokeWeight={2}
         clickable={true}
-        onClick={polyClick}
+        onClick={ () => polyClick()}
         onMouseover={polyOver}
         onMouseout={polyOut}
         style = {{transition : '0.3s'}}

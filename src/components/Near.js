@@ -13,15 +13,16 @@ const Near = () => {
 
   useEffect(() => {
     if (nearlist !== undefined) {
+      setChatList([]);
       nearlist.forEach(near => {
         setChatList(oldList => [...oldList, near.chatroom])
       })
     }
   }, [nearlist]);
   return (
-    <div className="Near">
-      <div id="nearhead" className="head">{nearHead}</div>
-      <div id="nearbody" className="body">
+    <div className='SidebarContent'>
+      <div id="nearhead" className="Sidebarhead" >가까운 채팅방</div>
+      <div id="nearbody" className="Sidebarbody">
         {chatList.map((chatroom, index) => {
           return (
             <ChatroomBox key={index} chatroom={chatroom} index={index} ></ChatroomBox>

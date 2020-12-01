@@ -4,8 +4,8 @@ import Map from './Map';
 import './Main.css';
 import SidebarContainer from '../containers/SidebarContainer';
 import Init from './Init.js'
-const Main = () => {
-  
+
+const Main = () => {  
   return (
     <div className='wrap'>
       <Init/>

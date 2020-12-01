@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as actionType from '../modules/action';
 import { database } from '../firebase';
@@ -106,7 +106,8 @@ const Signin = (props) => {
                     chatroomlist: [null],
                     profile: profile,
                 };
-                database.ref('/user').push(user);
+                let key = database.ref('/user').push(user).key;
+                database.ref('/user/' + key + '/key').set(key);
                 console.log(user);
                 alert('회원가입이 완료되었습니다. 로그인해주세요.');
                 dispatch(actionType.setSidebar('login'));
@@ -118,6 +119,7 @@ const Signin = (props) => {
     }
     return (
         <div className='SidebarContent'>
+            <div className="Sidebarhead">회원가입</div>
             <img className='Icon' src={require('./HoodIcon.png')} alt="icon"></img>
             <Typography component="h1" variant="h5" >후드 회원가입</Typography>
             <TextField onChange={(event) => changeNAME(event)} error={NAMEERRFLAG} variant='outlined' label="이름" margin="dense" />

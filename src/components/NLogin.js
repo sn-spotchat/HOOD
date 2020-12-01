@@ -11,7 +11,6 @@ const NLogin = (props) => {
     const CheckExist = async (Nuser) => {
         let exist = false;
         let user = null;
-        let retkey = null;
         await database.ref('/user').once('value').then((Snap) => {
             const Accounts = Snap.val();
             if(Accounts === undefined || Accounts === null){
@@ -22,19 +21,17 @@ const NLogin = (props) => {
                 if(Accounts[key]['profile'] === undefined) return;
                 if (Accounts[key]['profile']['id'] === Nuser['id']) {
                     exist = true;
-                    retkey = key;
                     user = Accounts[key];             
                 }
             })
         })
-        return [exist, user, retkey];
+        return [exist, user];
     }
     const Login = (User) => {
         //if result matches with an account in DB, user is set and goes to mypage
         CheckExist(User).then((ret) => {
             if (ret[0]) { // ret[0] = exist                
                 dispatch(actionType.setUser(ret[1]));
-                dispatch(actionType.setKey(ret[2]));
                 dispatch(actionType.setSidebar('mypage'));
                 dispatch(actionType.loggedinObject);
             }
@@ -46,13 +43,13 @@ const NLogin = (props) => {
                     nickname: 'Naver' + User['id'],
                     profile : {},
                 };
-                Object.keys(User).forEach(key =>{
+                Object.keys(User).forEach(key => {
                     if(User[key] !== undefined){
                         Newuser.profile[key] = User[key];
                     }
                 })
-
-                database.ref('/user').push(Newuser);
+                let key = database.ref('/user').push(Newuser).key;
+                database.ref('/user/' + key + '/key').set(key);
                 alert('네이버 회원가입이 완료되었습니다. 다시 네이버 로그인을 진행해주세요.')
                 dispatch(actionType.setSidebar('login'));
             }

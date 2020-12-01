@@ -1,30 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-.Mypage{
-    width : 340px;
-    height:100vh;
-    display: flex;
-    flex-direction: column;
-}
 .mypagebody{
     display:flex;
     flex-direction: column;
     align-items: left;    
-}
-.mypagehead{
-    width: 340px;
-    height:40px;
-    background-color:rgb(101, 145, 105);    
-    text-align: center;    
-    font-size: 30px;
-    font-family: 'Jua', sans-serif;
-}
-.mypageprofile{
-    background-color: teal;
-    margin-top:100px;    
-    margin-bottom:50px;    
-    max-width: 150px;    
-    max-height: 150px;
-    align-self: center;
 }
 .mypagerow{
     display: flex;

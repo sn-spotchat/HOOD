@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actionType from '../modules/action';
-import './Navigation.css';
 
 import Home from '@material-ui/icons/Home';
 import Person from '@material-ui/icons/Person';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Forum from '@material-ui/icons/Forum';
 import PinDrop from '@material-ui/icons/PinDrop';
+import './Navigation.css';
+import '../modules/Theme.css';
 
 
 /*

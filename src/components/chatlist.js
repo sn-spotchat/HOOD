@@ -15,7 +15,7 @@ const Chatlist = () => {
     if (chatroomlist !== undefined) {
       let Arr = Object.keys(chatroomlist);
       Arr.forEach(key => {
-        setChatList(oldList => [...oldList, key]);
+        setChatList(oldList => [...oldList, Number(key)]);
       });
     }
   }, [chatroomlist]);

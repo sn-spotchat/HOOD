@@ -1,37 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 .Sidebar{
-    height: calc(100vh - 6px);
-    background: rgb(226, 235, 255);
+    height: 100%;
+    width : var(--SW);
+    position:fixed;
+    top : 0px;
+    left : var(--NW);
     display: flex;
-    border-right-style:solid;
-    border-right-width:3px;
-    border-right-color:rgb(101, 145, 105);
-    border-bottom-style:solid;
-    border-bottom-width:3px;
-    border-bottom-color:rgb(101, 145, 105);
-    margin : 0px;
-    transition: 0.3s;
+    border-right-style: solid;
+    border-right-width: var(--BW1);
+    transition: var(--STrans);
+    transition-timing-function: var(--STransF);
+    border-right-color:var(--THEME1);
+    background-color: var(--THEME5);
 }
 .SidebarContent{
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;    
 }
 .Sidebarhead{
-    height:40px;
-    width: 340px;
-    line-height: 43px;
+    height: var(--SHH);
+    width: 100%;
+    line-height: calc(var(--SHH) + var(--BW1));
     display: flex;
     flex-direction: column;
     text-align: center;
     align-content: center;
     vertical-align: center;
-    background-color: #659169;    
     font-family: 'Jua', sans-serif;
+    background-color: var(--THEME1);    
 }
 .Sidebarbody{
-    max-height: calc(100vh - 43px);
-    width: 340px;
+    max-height: calc(100% - var(--SHH));
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;    

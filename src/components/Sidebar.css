@@ -30,6 +30,9 @@
     align-content: center;
     vertical-align: center;
     font-family: 'Jua', sans-serif;
+    font-size : 150%;
+
+    color : var(--THEME6);
     background-color: var(--THEME1);    
 }
 .Sidebarbody{

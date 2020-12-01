@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as actionType from '../modules/action';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import Theme from '../modules/Theme.js';
 
 const PolyMap = (props) => {
   function MakePolygon(geojson, polyList) {
@@ -25,9 +26,9 @@ const PolyMap = (props) => {
       })
     })
 
-    const color1 = '#7ea4f0'; const opacity1 = 0.4;
-    const color2 = '#F51D1A'; const opacity2 = 0.3;
-    const color3 = '#10E040'; const opacity3 = 0.4;
+    const color1 = Theme['PColor1']; const opacity1 = 0.4;
+    const color2 = Theme['PColor2']; const opacity2 = 0.3;
+    const color3 = Theme['PColor3']; const opacity3 = 0.4;
     const [color, setColor] = useState(color1);
     const [opacity, setOpacity] = useState(opacity1);
     const scolor = '#FFFFFF';
@@ -45,6 +46,8 @@ const PolyMap = (props) => {
     }
     const polyClick = () => {
       if (loggedin === true) {
+        setColor(color3);
+        setOpacity(opacity3);
         dispatch(actionType.setSidebar('near'));
         dispatch(actionType.setChatroom(null));
         
@@ -57,7 +60,11 @@ const PolyMap = (props) => {
               onClick : () => YesClick()
             },
             {
-              label: 'NO'
+              label: 'NO',
+              onClick : () => {
+                setColor(color1)
+                setOpacity(opacity1)
+              }
             }
           ]
         })
@@ -105,7 +112,7 @@ const PolyMap = (props) => {
         strokeOpacity={sopacity}
         strokeWeight={2}
         clickable={true}
-        onClick={polyClick}
+        onClick={ () => polyClick()}
         onMouseover={polyOver}
         onMouseout={polyOut}
         style = {{transition : '0.3s'}}

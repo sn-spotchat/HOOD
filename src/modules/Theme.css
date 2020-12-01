@@ -1,7 +1,5 @@
 :root{
-    --THEME1 :#659169;
-    
-    /*    
+    --THEME1 :#659169;/*    
     Navigation.background-color
     NavigationIcon.color
 
@@ -21,6 +19,10 @@
     --THEME5 :#e2ebff;/*
     */
 
+    --THEME6 : #000000;/*
+    Sidebar Head Color
+    */
+
     --BW1 :3px; /*Border Width 1*/
     
     --SW :340px; /*Sidebar Width*/
@@ -33,5 +35,6 @@
     --NTrans : 0.4s; /*navigation trasition time*/
     --STrans : 0.6s; /*sidebar transition time*/
     --STransF : cubic-bezier(.7,-0.2,.3,1.2);
+
     
 }

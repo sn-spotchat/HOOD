@@ -22,7 +22,7 @@ const Chatlist = () => {
 
   return (
     <div className='SidebarContent'>
-      <div id="chatlisthead" className="Sidebarhead" style = {{'fontSize' : '22px'}}>{chatHead}</div>
+      <div id="chatlisthead" className="Sidebarhead" >{chatHead}</div>
       <div id="chatlistbody" className="Sidebarbody">
         {chatList.map((chatroom, index) => {
           return (

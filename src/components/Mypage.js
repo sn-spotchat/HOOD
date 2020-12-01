@@ -9,7 +9,6 @@ import './Mypage.css';
 import { database } from '../firebase';
 
 const Mypage = (props) => {
-    const nickname = useSelector(state => state.userreducer.nickname);
     const user = useSelector(state => state.userreducer);    
 
     const [EditID, setEditID] = useState(false);
@@ -189,7 +188,7 @@ const Mypage = (props) => {
     }
     return (
         <div className='SidebarContent'>
-            <div className="Sidebarhead" style = {{'fontSize' : '30px'}}>내 정보</div>
+            <div className="Sidebarhead" >내 정보</div>
             <div className="Sidebarbody">
                 <img className = 'Icon' src = {profile_image} alt='icon'></img>
                 <div className = 'mypagebody'>                

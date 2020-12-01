@@ -1,15 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-.SidebarContent{
-    display: flex;
-    flex-direction: column;
-    height : 100vh;
-    width : 318px;    
-    margin-left: 10px;
-    align-items: center;
-    font-family: 'Jua', sans-serif;
-}
 .Icon{
-    margin-top : calc(50vh - 300px);    
+    margin-top : calc(33vh - 150px);    
     max-width: 150px;    
     max-height: 150px;
 }

@@ -1,0 +1,52 @@
+:root{
+    --THEME1 :#659169;/*    
+    Navigation.background-color
+    NavigationIcon.color
+
+    Map.border-color
+    */
+    --THEME2 :#ec8282;/*
+    NavitaionIconClick.background-color
+    */
+    --THEME3 :#ecb582;/*
+    NavigationIcon:hover.background-color
+    */
+    --THEME4 :#FFFFFF;/*
+    NavitationIcon.background-color
+    NavigationIconClick.color
+    NavigationIcon:hover.color
+    */
+    --THEME5 :#ecffe3;/*
+    Chat.background-color
+    */
+
+    --THEME6 : #000000;/*
+    Sidebar Head Color
+    */
+    --THEME7 : #f5f5f5;/*
+    textarea.background-color
+    */
+    --THEME8 : #c2f598;/*
+    MyMsg.background-color
+    */
+    --THEME9 : #f0f0f0;/*
+    PeerMsg.background-color;
+    */
+
+    --BW1 :3px; /*Border Width 1*/
+    
+    --SW :340px; /*Sidebar Width*/
+    --NW :60px; /*Navigation Width*/
+
+    --SBW :18px; /*Sidebar Button Width*/
+    --SBH :40px; /*Sidebar Button Height*/
+    --SHH :40px; /*Sideabr Head Height*/
+    
+    --C_U_H:100px; /*Chat Under Height*/
+
+    --NTrans : 0.4s; /*navigation trasition time*/
+    --STrans : 0.6s; /*sidebar transition time*/
+    --STransF : cubic-bezier(.7,-0.2,.3,1.2);
+
+    
+}

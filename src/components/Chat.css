@@ -1,6 +1,144 @@
-@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-#chathead{
-    background-color: rgba(21, 124, 38, 0.616);
-    font-size: 15px;
+
+.upperbutton{
+    height: 100%;
+    width: 50px;
+    border: none;
+    margin-left:10px;
+}
+.chat{
+    width: 100%;
+    display: flex;
+    flex-direction: column;    
+    flex:1;
+    background-color :var(--C_C_BC, #FFFFFF);
+    position: relative;
+}
+.chatHead{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.chatBody{
+    height: calc(100vh - var(--SHH) - var(--C_U_H));
+    display: flex;
+    flex-direction: column-reverse;
+    overflow: auto;
+}
+.chatUnder{
+    width:100%;
+    height: var(--C_U_H);
+}
+.chat_form{
+    height:100%;
+    display: flex;
+    flex-direction: row;
+}
+.inputtext{
+    flex:1;
+    background-color: var(--C_TA_BC, #F5F5F5);
+    color: var(--C_TA_C, #000000);
+    outline:none;
+    resize:none;
+}
+.sendbutton{
+    outline:none;
+    height: 100%;
+    border-radius: 10px;
+    border: none;
+    transition:0.3s;
+    background-color: var(--C_SB_BC,#659169);
+    color : var(--C_SB_C,#000000);
     font-family: 'Jua', sans-serif;
+    font-size : 20px;
+}
+.sendbutton:hover{
+    background-color: var(--C_SBH_BC, #ECB582);
+    color : var(--C_SBH_C,#000000);
+    transition:0.3s;
+}
+::-webkit-scrollbar {
+    width: 2px;
+}
+::-webkit-scrollbar-thumb {
+background-color: #b4b4b4;
+border-radius: 2px;
+
+}
+.MyRow{
+    width:100%;
+    display:flex;
+    justify-content: flex-end;
+    padding-top:3px;
+    padding-bottom:3px;
+}
+.MyMsgInfo{
+    display:flex;
+}
+.MyTime{
+    height: 10px;
+    margin-right: 3px;
+    font-size: 7px;
+    position: relative;
+    bottom:5px;
+    align-self: flex-end;
+    color :var(--C_MT_C, #000000);
+}
+.MyMsg{
+    max-width: 80%;
+    color: var(--C_MM_C, #000000);
+    background-color: var(--C_MM_BC, #C2F598);
+    padding:7px;
+    margin-right:5px;
+    text-align: left;
+    border-radius: 5px;
+    word-break: break-all;
+}
+.PeerRow{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top:10px;
+}
+.PeerInfo{
+    width:100%;
+    height:12px;
+    margin-top:0px;
+    display:flex;
+    flex-direction: row;
+}
+.PeerName{
+    font-size: 7px;    
+    color: var(--C_PN_C, #000000);
+}
+.PeerMsgInfo{
+    display: flex;
+}
+.PeerMsg{
+    max-width: 80%;
+    padding:7px;
+    margin-left:5px;
+    text-align: left;
+    border-radius:5px;
+    word-break: break-all;
+    color: var(--C_PM_C, #000000);
+    background-color: var(--C_PM_BC, #F0F0F0);
+}
+.PeerTime{
+    width: 10%;
+    height: 10px;
+    font-size: 7px;
+    position: relative;
+    left:0px;
+    bottom:5px;
+    align-self: flex-end;
+    color : var(--C_PT_C, #000000);
+}
+#backBtn{
+    position: absolute;
+    left:0px;
+}
+#exitChatroomBtn{
+    position: absolute;
+    right:0px;
 }

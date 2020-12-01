@@ -1,17 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 .Map{    
-    width:calc(100% - 62px);
-    height: calc(100vh - 6px);
+    width:calc(100% - var(--NW) - var(--BW1));
+    height: calc(100% - var(--BW1) * 2);
     position: fixed;
-    top:0px;
-    left:60px;
+    top: 0px;
+    left: var(--NW);
     z-index: 1;
     border-top-style: solid;
     border-right-style: solid;
     border-bottom-style: solid;
-    border-width: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    border-color: rgb(228, 240, 255);
-    font-family: 'Jua', sans-serif;
+    border-width: var(--BW1);
+    border-color: var(--M_B_C, #659169); 
 }

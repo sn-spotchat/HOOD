@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+a{
+    width:100%;
+    text-decoration: none;
+}
+a:visited{
+    color: black;
+    text-decoration: none;
+}
+.EventRow{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top:5px;
+    background-color: var(--ER_BC, #F5F5F5);
+    border-bottom: 1px solid;
+    border-color: var(--ER_B_C, #D3D3D3);
+}
+.EventRow:hover{
+    background-color: var(--ERH_C, #DADADA);
+}
+.EventImg{
+    display:flex;
+}
+.EventImg img{
+    max-width: 330px;
+    margin: auto;
+    display: block;
+}
+.EventDesc{
+    width:100%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+}
+.EventName{
+    width:320px;
+    height:30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--EN_C, #5555FF);
+    font-size: 25px;
+    font-family: 'Jua', sans-serif;
+}
+.EventContent{
+    width:320px;
+    height: 50px;
+    color: var(--EC_C, #000000);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden; 
+    font-size: 18px;
+    font-family: 'Jua', sans-serif;
+}
+.EventTime{
+    width:320px;
+    height: 20px;
+    color: var(--ET_C, #000000);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 15px;
+    text-align: right;
+    font-family: 'Jua', sans-serif;
+}

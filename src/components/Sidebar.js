@@ -1,53 +1,49 @@
-import React, {Component, useEffect, useState, useRef} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import io from 'socket.io-client';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Home from './Home';
 import Mypage from './Mypage';
 import Login from './Login';
 import Signin from './Signup';
 import Near from './Near';
+import Chatlist from './Chatlist';
 import Chat from './Chat';
-import Test from './Test';
-import NSignin from './NSignup';
+import Settings from './Settings';
 import './Sidebar.css';
-import { LocalConvenienceStoreOutlined } from '@material-ui/icons';
 
-const Sidebar = ({sidebarstate}) =>{
+const Sidebar = ({ sidebarstate }) => {
   const [sidebarType, setSidebarType] = useState(sidebarstate);
-  const chatid = useSelector(state => state.chatreducer.chatid);
-  console.log(chatid);
-  
-  
-  useEffect(() =>{
-    console.log('effected');
-    if(sidebarstate === 'home'){
+  const chatid = useSelector(state => state.statereducer.chatid);
+
+  useEffect(() => {
+    if (sidebarstate === 'home') {
       setSidebarType(<Home></Home>);
     }
-    else if(sidebarstate === 'mypage'){
+    else if (sidebarstate === 'mypage') {
       setSidebarType(<Mypage></Mypage>);
     }
-    else if(sidebarstate === 'login'){
+    else if (sidebarstate === 'login') {
       setSidebarType(<Login></Login>);
     }
-    else if(sidebarstate === 'signin'){
+    else if (sidebarstate === 'signin') {
       setSidebarType(<Signin></Signin>);
     }
-    else if(sidebarstate === 'nsignin'){
-      setSidebarType(<NSignin></NSignin>);
-    }
-    else if(sidebarstate === 'near'){
+    else if (sidebarstate === 'near') {
       setSidebarType(<Near></Near>);
     }
-    else if(sidebarstate === 'chat'){
-      setSidebarType(<Chat></Chat>);
+    else if (sidebarstate === 'chatlist') {
+      setSidebarType(<Chatlist></Chatlist>);
     }
-    else if(sidebarstate === 'test'){
-      setSidebarType(<Test chatRoomId={chatid}></Test>);
+    else if (sidebarstate === 'settings') {
+      setSidebarType(<Settings/>);
     }
-  },[sidebarstate, chatid]);
+    else if (sidebarstate === 'chat') {
+      setSidebarType(<Chat chatRoomId={chatid}></Chat>);
+    }
     
+  }, [sidebarstate, chatid]);
+
   return (
-    <div id = 'Sidebar' className="Sidebar">
+    <div id='Sidebar' className="Sidebar">
       {sidebarType}
     </div>
   );

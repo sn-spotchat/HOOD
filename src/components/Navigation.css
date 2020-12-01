@@ -1,29 +1,43 @@
 .Navigation{
-    width: 59px;
-    height:100vh;
-    background-color: rgb(227, 255, 254);
-    border-right-style: solid;
-    border-right-width: 1px;
-    border-right-color: rgb(200,200,200);
+    width: var(--NW);
+    height: 100%;
+    background-color: var(--N_BC,#659169);
     display:flex;
     flex-direction: column;
+    position: fixed;
+    z-index:3;
 }
 .NavigationIcon{
-    width: 50px;
-    height:50px;
-    margin-top: 5px;
-    margin-left: 5px;
-    margin-right:0px;
-    color: #55aa55;
+    width: calc(0.8 * var(--NW));
+    height: calc(0.8 * var(--NW));
+    margin-top: calc(0.1 * var(--NW));
+    align-self: center;
     display: flex;
-    text-align: center;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background-color:white;
     border-radius: 10px;    
+    transition: var(--NTrans, 0.4);
+    color : var(--NI_C,#659169);
+    background-color : var(--NI_BC, #FFFFFF);
+}
+.NavigationIconClick{
+    width: calc(0.8 * var(--NW));
+    height:calc(0.8 * var(--NW));
+    margin-top: calc(0.1 * var(--NW));
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 10px;    
+    transition: var(--NTrans, 0.4);
+    color: var(--NIC_C, #FFFFFF);
+    background-color: var(--NIC_BC, #EC8282);
 }
 .NavigationIcon:hover{
-    color:white;
-    background-color: #5555ff;
+    color: var(--NIH_C,#FFFFFF);
+    background-color: var(--NIH_BC,#ECB582);
 }

@@ -6,18 +6,61 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as actionType from '../modules/action';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import { database } from '../firebase';
+import { bindActionCreators } from 'redux';
 
 const PolyMap = (props) => {
+
+  let chatNum={}
+  let test=database.ref('/chat').once('value').then(function(snapshot){
+    var a=snapshot.val();
+    var b=Object.values(a);
+    for(var i=0;i<b.length;i++){
+      var data=b[i];
+       if(data.chatroom_id in chatNum) chatNum[data.chatroom_id]+=1
+       else chatNum[data.chatroom_id]=1
+    }
+    // for(var i=1;i<=423;i++){
+    //   if(i in chatNum) database.ref('chatroom/'+i).update({chatNum:chatNum[i]});
+    //   else database.ref('chatroom/'+i).update({chatNum:0});
+    // }
+    for(var key in chatNum){
+      database.ref('chatroom/'+key).update({chatNum:chatNum[key]});
+    }
+  })
+
   function MakePolygon(geojson, polyList) {
     var data = props.nearlist;
+    var chatRank={};
+    var chatRank2={};
     data.forEach((feature,index) => {
+      let chatRoom=feature.chatroom;
+      if (chatRoom in chatNum) chatRank[chatRoom]=chatNum[chatRoom];
+      else chatRank[chatRoom]=0;
+      //채팅의 개수에따라 순위를 매겨 opacity를 설정한다.
+    })
+    for(var key in chatRank){
+      var rank=1;
+      var curValue=chatRank[key];
+      if(curValue===0){
+        chatRank2[key]=0;
+        break
+      }
+      for(var key2 in chatRank){
+        if(curValue>chatRank[key2]) rank++;
+      }
+      chatRank2[key]=rank;
+    }
+
+    data.forEach((feature,index)=>{
       let coordinates = feature.coordinates;
       let name = feature.name;
-      DisplayArea(coordinates, polyList, name, feature.chatroom);      
+      let chatroom=feature.chatroom;
+      DisplayArea(coordinates, polyList, name, chatroom,chatRank2[chatroom]);      
     })
   }
-
-  function DisplayArea(coordinates, polyList, name, index) {
+  
+  function DisplayArea(coordinates, polyList, name, index,rank) {
     var path = [];
     coordinates[0].forEach(data => {
       data.forEach(Coordinate => {
@@ -25,7 +68,7 @@ const PolyMap = (props) => {
       })
     })
 
-    const color1 = '#7ea4f0'; const opacity1 = 0.4;
+    const color1 = '#7ea4f0'; const opacity1 = (0.1*rank==0)?0.05:0.1*rank;
     const color2 = '#F51D1A'; const opacity2 = 0.3;
     const color3 = '#10E040'; const opacity3 = 0.4;
     const [color, setColor] = useState(color1);
@@ -113,7 +156,6 @@ const PolyMap = (props) => {
     );
   }
 
-
   function NaverMapAPI() {
     var polyList = [];
     MakePolygon(SeoulDong, polyList)
@@ -137,7 +179,6 @@ const PolyMap = (props) => {
     <NaverMapAPI />
   );
 }
-
 
 const Map = () => {
   const location = useSelector(state => state.datareducer.location);

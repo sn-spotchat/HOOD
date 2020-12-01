@@ -79,14 +79,14 @@ const PolyMap = (props) => {
     const Theme = useSelector(state => state.themereducer.polygondesign
                              );
 
-    var color1 = Theme.color[0]; var opacity1 = (0.1*rank==0)?0.05:0.1*rank;
+    var color1 = Theme.color[0]; var opacity1 = Theme.opacity[0]*(0.1*rank==0)?0.05:0.1*rank;
     var color2 = Theme.color[1]; var opacity2 = Theme.opacity[1];
-    var color3 = Theme.color[2]; var opacity3 = Theme.opacity[2];
+    var color3 = Theme.color[2]; var opacity3 = Theme.opacity[2]*(0.1*rank==0)?0.05:0.1*rank;
     var scolor = Theme.scolor;   var sopacity = Theme.sopacity;
     useEffect(()=>{
-      color1 = Theme.color[0]; opacity1 = (0.1*rank==0)?0.05:0.1*rank;
+      color1 = Theme.color[0]; opacity1 = Theme.opacity[0]*(0.1*rank==0)?0.05:0.1*rank;
       color2 = Theme.color[1]; opacity2 = Theme.opacity[1];
-      color3 = Theme.color[2]; opacity3 = Theme.opacity[2];
+      color3 = Theme.color[2]; opacity3 = Theme.opacity[2]*(0.1*rank==0)?0.05:0.1*rank;
       scolor = Theme.scolor;   sopacity = Theme.sopacity;
       setColor(color1); setOpacity(opacity1);
 

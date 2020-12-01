@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef} from 'react'; // import 로 useState 를 불러온다!
-import {useSelector, useDispatch} from 'react-redux';
+import React, { useState, useEffect, useRef } from 'react'; // import 로 useState 를 불러온다!
+import { useSelector, useDispatch } from 'react-redux';
 import io from 'socket.io-client';
 import { database } from '../firebase';
 import './Chat.css';
@@ -30,17 +30,16 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 *
 *
 */
-const Chat = (props) =>{
+const Chat = (props) => {
 
   const [messagelist, setMessagelist] = useState([]);//모든 메시지(server로부터 받은 모든 메시지)
   const [message, setMessage] = useState("");//내가 입력한 메시지
-  
+
   const chatroom = useSelector(state => state.statereducer.chatroom); // 현재 채팅중인 chatroomid
   const chatroomname = useSelector(state => state.statereducer.chatroomname); // 현재 채팅중인 채팅방 지역 이름
   const chatroomlist = useSelector(state => state.userreducer.chatroomlist); // 유저가 들어가있는 채팅방 목록  
   const user = useSelector(state => state.userreducer); //유저정보
   const socketRef = useRef();
-  const date = new Date();
 
   const dispatch = useDispatch();
 
@@ -61,10 +60,10 @@ const Chat = (props) =>{
   );
   const classes = useStyles();
 
-  function submitOnEnter(event){
-    if(event.which === 13 && !event.shiftKey){
-        event.target.form.dispatchEvent(new Event("submit", {cancelable: true}));
-        event.preventDefault();
+  function submitOnEnter(event) {
+    if (event.which === 13 && !event.shiftKey) {
+      event.target.form.dispatchEvent(new Event("submit", { cancelable: true }));
+      event.preventDefault();
     }
   }
 
@@ -73,11 +72,11 @@ const Chat = (props) =>{
     let chat = database.ref('chat/').push(messageObject).key;
 
     //chatroom db에 저장          
-    database.ref('/chatroom/' + chatroom + '/chatlist').push({key : chat});
+    database.ref('/chatroom/' + chatroom + '/chatlist').push({ key: chat });
 
     //chatroom db의 lastchat 갱신
     database.ref('chatroom/' + chatroom + '/lastchat').set(chat);
-    
+
     //user db에 저장하는 부분
 
     dispatch(actionType.sendChat(chatroom, chat));
@@ -86,34 +85,34 @@ const Chat = (props) =>{
   }
 
 
-  function getTime(time){
+  function getTime(time) {
     var dateObj = new Date(time);
     let h = '0' + dateObj.getHours();
     let m = '0' + dateObj.getMinutes();
     return h.slice(-2) + ':' + m.slice(-2);
   }
-  
-  function receivedMessage(messageObj){
+
+  function receivedMessage(messageObj) {
     setMessagelist(before => [messageObj, ...before]);
   }
 
-  function sendMessage(e){
+  function sendMessage(e) {
     e.preventDefault();
     const messageObject = {
       chatroom_id: chatroom,
       type: "text",
-      time: date.toString(),
+      time: (new Date()).toString(),
       user_key: user.key,
       nickname: user.nickname,
       content: message,
     };
-    
+
     setMessage("");
     socketRef.current.emit("send message", messageObject);
     writeMsgData(messageObject);
   }
 
-  function leaveRoom(){
+  function leaveRoom() {
     const dataObject = {
       user_id: user.ID,
       chatroom_id: chatroom,
@@ -121,82 +120,84 @@ const Chat = (props) =>{
     socketRef.current.emit("leave room", dataObject);
     dispatch(actionType.removeChatroom(chatroom));
     database.ref('user/' + user.key + '/chatroomlist/' + chatroom).remove();
-  }  
+  }
 
-  function handleChange(e){
+  function handleChange(e) {
     setMessage(e.target.value);
   }
   useEffect(() => {
     socketRef.current = io.connect("http://localhost:3001");  //나중에 서버에 Server.js를 올리게 되면 바꿔야함.
     let time = String(new Date());
-
     const dataObject = {
       user_id: user.ID,
       chatroom_id: chatroom,
     };
-    
     if (chatroomlist !== undefined) {
       if (chatroom in chatroomlist) {//chat목록에 있는 방인 경우
         socketRef.current.emit("rejoin room", dataObject);
         let entertime = null;
-        if(chatroomlist !== undefined && chatroomlist[chatroom] !== undefined){
+        if (chatroomlist !== undefined && chatroomlist[chatroom] !== undefined) {
           entertime = new Date(chatroomlist[chatroom].time);
         }
-        database.ref('chatroom/' + chatroom + '/chatlist').once('value', Snap =>{
+        database.ref('chatroom/' + chatroom + '/chatlist').once('value', Snap => {
           const dbchatlist = Snap.val();
-          if(dbchatlist === null) return;      
-          Object.keys(dbchatlist).forEach(key =>{
+          if (dbchatlist === null) return;
+          Object.keys(dbchatlist).forEach(key => {
             var chat = dbchatlist[key].key;
-            database.ref('chat/' + chat).once('value', Snap=>{
+            database.ref('chat/' + chat).once('value', Snap => {
               chat = Snap.val();
-              if(chat === null) return;
-              if(new Date(chat.time) >= entertime){
-                if(chat.type === 'text'){
-                  setMessagelist(before => [ chat, ...before]);
+              if (chat === null) return;
+              if (new Date(chat.time) >= entertime) {
+                if (chat.type === 'text') {
+                  setMessagelist(before => [chat, ...before]);
                 }
               }
             })
           })
         })
       }
-      else {
+      else if (chatroom !== -1) {
         socketRef.current.emit("join room", dataObject);
         dispatch(actionType.insertChatroom(chatroom, time));
-        database.ref('user/' + user.key + '/chatroomlist/' + chatroom).set({ time : time });
+        database.ref('user/' + user.key + '/chatroomlist/' + chatroom).set({ time: time });
       }
     }
-    else {
+    else if (chatroom !== -1) {
       socketRef.current.emit("join room", dataObject);
       dispatch(actionType.insertChatroom(chatroom, time));
-      database.ref('user/' + user.key + '/chatroomlist/' + chatroom).set({ time : time });
+      database.ref('user/' + user.key + '/chatroomlist/' + chatroom).set({ time: time });
     }
 
     socketRef.current.on("message", (message) => {
+      console.log('here');
       receivedMessage(message);
     })
-  }, [ dispatch, user.ID, user.key]);
+  }, [dispatch, chatroom, user.ID, user.key]);
 
   const ClickExit = () => {
     leaveRoom();
-    dispatch(actionType.setSidebar('near'));   
-    dispatch(actionType.setChatroom(-1)); 
+    dispatch(actionType.setSidebar('near'));
+    dispatch(actionType.setChatroom(-1));
   }
 
-  const ClickBack = () =>{
+  const ClickBack = () => {
     dispatch(actionType.setSidebar('chatlist'));
     dispatch(actionType.setChatroom(-1));
   }
   return (
-    <div className="chat">
-      <div className="chatHead">
-        <button id="backBtn" className="upperbutton" onClick={()=>{ClickBack()}}><ArrowBack></ArrowBack></button>
+    <div className='SidebarContent'>
+      <div className="Sidebarhead" style = {{'fontSize' : '22px'}}>
+        <div className = 'chatHead'>
+        <ArrowBack style = {{'marginRight' : '20px'}} onClick={() => { ClickBack() }}/>
         {chatroomname}
-        <button id="exitChatroomBtn" className="upperbutton" onClick={() =>{ClickExit()}}><Close></Close></button>
+        <Close style = {{'marginLeft' : '20px'}} onClick={() => { ClickExit() }}/>
+        </div>
       </div>
-      <div className="chatBody">
-        {messagelist.map((message, index) => {
-            if(message.user_key === user.key){
-              return ( 
+      <div className="chat">
+        <div className="chatBody">
+          {messagelist.map((message, index) => {
+            if (message.user_key === user.key) {
+              return (
                 <div className="MyRow" key={index}>
                   <div className="MyTime">{getTime(message.time)}</div>
                   <div className="MyMsg" >
@@ -219,13 +220,14 @@ const Chat = (props) =>{
               </div>
             )
           }
-        )}
-      </div>
-      <div className="chatUnder">
-        <form onSubmit={sendMessage}>
-          <textarea name="inputtext" value={message} onChange={handleChange} placeholder="메시지 입력" onKeyPress={submitOnEnter}></textarea>
-          <Button variant="contained" color="primary" className={classes.nsubmit} onClick={sendMessage}>전송</Button>
-        </form>
+          )}
+        </div>
+        <div className="chatUnder">
+          <form onSubmit={sendMessage}>
+            <textarea name="inputtext" value={message} onChange={handleChange} placeholder="메시지 입력" onKeyPress={submitOnEnter}></textarea>
+            <Button variant="contained" color="primary" className={classes.nsubmit} onClick={sendMessage}>전송</Button>
+          </form>
+        </div>
       </div>
     </div>
   );

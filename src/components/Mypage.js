@@ -188,25 +188,25 @@ const Mypage = (props) => {
         }
     }
     return (
-        <div className = 'Mypage'>
-            <div className = 'mypagehead'>                
-                내 정보
+        <div className='SidebarContent'>
+            <div className="Sidebarhead" style = {{'fontSize' : '30px'}}>내 정보</div>
+            <div className="Sidebarbody">
+                <img className = 'Icon' src = {profile_image} alt='icon'></img>
+                <div className = 'mypagebody'>                
+                    <div className = 'mypagerow'>
+                        <TextField label='이름' defaultValue = {user.profile.name} InputProps={{readOnly:true}} margin="dense" /> 
+                    </div>
+                    <div className = 'mypagerow'>
+                        <TextField label='ID' onChange={(event) => changeID(event)} error = {!valid_ID} defaultValue = {user.ID} InputProps={{readOnly:!EditID}}  margin="dense" />   
+                        <button className = 'mypageedit' onClick = {() => ClickEditID()}><EditIDIcon/></button>
+                    </div>
+                    <div className = 'mypagerow'>
+                        <TextField label='닉네임' onChange={(event) => changeNickname(event)} error = {!valid_NICKNAME} defaultValue = {user.nickname} InputProps={{readOnly:!EditNickname}} margin="dense" />
+                        <button className = 'mypageedit' onClick = {() => ClickEditNickname()}><EditNicknameIcon/></button>
+                    </div>
+                    {PasswordField()}
+                </div>  
             </div>
-            <img className = 'mypageprofile' src = {profile_image} alt='icon'></img>
-            <div className = 'mypagebody'>                
-                <div className = 'mypagerow'>
-                    <TextField label='이름' defaultValue = {user.profile.name} InputProps={{readOnly:true}} margin="dense" /> 
-                </div>
-                <div className = 'mypagerow'>
-                    <TextField label='ID' onChange={(event) => changeID(event)} error = {!valid_ID} defaultValue = {user.ID} InputProps={{readOnly:!EditID}}  margin="dense" />   
-                    <button className = 'mypageedit' onClick = {() => ClickEditID()}><EditIDIcon/></button>
-                </div>
-                <div className = 'mypagerow'>
-                    <TextField label='닉네임' onChange={(event) => changeNickname(event)} error = {!valid_NICKNAME} defaultValue = {user.nickname} InputProps={{readOnly:!EditNickname}} margin="dense" />
-                    <button className = 'mypageedit' onClick = {() => ClickEditNickname()}><EditNicknameIcon/></button>
-                </div>
-                {PasswordField()}
-            </div>  
         </div>
     );
 };

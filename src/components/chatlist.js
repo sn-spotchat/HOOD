@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import ChatroomBox from './ChatroomBox';
-import './Chatlist.css';
 
 const Chatlist = () => {
   const [chatList, setChatList] = useState([]);
@@ -22,9 +21,9 @@ const Chatlist = () => {
   }, [chatroomlist]);
 
   return (
-    <div className="Chatlist">
-      <div id="chatlisthead" className="head">{chatHead}</div>
-      <div id="chatlistbody" className="body">
+    <div className='SidebarContent'>
+      <div id="chatlisthead" className="Sidebarhead" style = {{'fontSize' : '22px'}}>{chatHead}</div>
+      <div id="chatlistbody" className="Sidebarbody">
         {chatList.map((chatroom, index) => {
           return (
             <ChatroomBox key={index} chatroom={chatroom} index={index}></ChatroomBox>

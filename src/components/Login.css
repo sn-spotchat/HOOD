@@ -1,24 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-.SidebarContent{
-    display: flex;
-    flex-direction: column;
-    height : 100vh;
-    width : 340px;    
-    align-items: center;
-    font-family: 'Jua', sans-serif;
-}
-.loginhead{        
-    width:100%;
-    height:40px;
-    background-color:  rgb(101, 145, 105);
-    font-size: 30px;
-    font-family: 'Jua', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 .Icon{
-    margin-top : calc(50vh - 300px);    
+    margin-top : calc(33vh - 150px);    
     max-width: 150px;    
     max-height: 150px;
 }

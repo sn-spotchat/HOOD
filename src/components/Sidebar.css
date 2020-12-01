@@ -1,5 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 .Sidebar{
-    height: calc(100vh - 3px);
+    height: calc(100vh - 6px);
     background: rgb(226, 235, 255);
     display: flex;
     border-right-style:solid;
@@ -11,10 +12,28 @@
     margin : 0px;
     transition: 0.3s;
 }
-.head{
-    width:340px;
-    height:40px;
+.SidebarContent{
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    align-items: center;    
+}
+.Sidebarhead{
+    height:40px;
+    width: 340px;
+    line-height: 43px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-content: center;
+    vertical-align: center;
+    background-color: rgb(101, 145, 105);    
+    font-family: 'Jua', sans-serif;
+}
+.Sidebarbody{
+    max-height: calc(100vh - 43px);
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    overflow: auto;
 }

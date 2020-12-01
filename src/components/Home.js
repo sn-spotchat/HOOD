@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import HomeEventBox from './HomeEventBox';
-import './Home.css';
 import {database, storage} from '../firebase';
-
 
 const Home = () =>{
     const [EventList, setEventList] = useState([]);
@@ -30,9 +28,9 @@ const Home = () =>{
     },[])
     
     return (
-        <div>
-            <div id="homehead" className="head">Home</div>
-            <div id="homebody" className="body">
+        <div className='SidebarContent'>
+            <div id="Homehead" className="Sidebarhead" style = {{'fontSize' : '30px'}}>Home</div>
+            <div id="Homebody" className="Sidebarbody">
               {EventList.map((element, index) => {
                   return (
                     <HomeEventBox  key={index} img={element.img} content={element.content} date={element.date} name={element.name} url={element.url}></HomeEventBox>

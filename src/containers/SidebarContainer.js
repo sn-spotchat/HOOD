@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Sidebar from '../components/Sidebar';
-import './SidebarContainer.css'
 import NavigateBefore from '@material-ui/icons/NavigateBefore';
 import NavigateNext from '@material-ui/icons/NavigateNext';
+import './SidebarContainer.css'
 
 
 const SidebarContainer = () => {
@@ -32,11 +32,9 @@ const SidebarContainer = () => {
         }
     }
     return (
-        <div>
-            <div id="SidebarContainer" className="SidebarContainer">
-                <Sidebar sidebarstate={sidebarstate} />
-                <button id='SidebarButton' className='SidebarButton' onClick={changeDisplay}>{ButtonLabel}</button>
-            </div>
+        <div id="SidebarContainer" className="SidebarContainer">
+            <Sidebar sidebarstate={sidebarstate} />
+            <button id='SidebarButton' className='SidebarButton' onClick={changeDisplay}>{ButtonLabel}</button>
         </div>
     );
 };

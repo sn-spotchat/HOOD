@@ -66,7 +66,7 @@ const Login = () => {
   }
   return (
     <div className='SidebarContent'>
-      <div className="loginhead">Login</div>
+      <div className="Sidebarhead" style = {{'fontSize' : '30px'}}>로그인</div>
       <img className='Icon' src={require('./HoodIcon.png')} alt = 'icon'/>
       <TextField onChange={(event) => changeID(event)} error={ERROR} variant='outlined' label='ID' margin="dense" />
       <TextField onChange={(event) => changePW(event)} error={ERROR} variant='outlined' type = 'password' label="Password" margin="dense" />
@@ -74,8 +74,8 @@ const Login = () => {
         <Button onClick={() => Authenticate()} variant="contained" color="primary" className={classes.submit}>로그인</Button>
         <Button onClick={() => dispatch(actionType.setSidebar('signin'))} variant="contained" color="primary" className={classes.submit}>회원가입</Button>
       </div>
-      <Button variant="contained" color="primary" className={classes.nsubmit}>
-        <NLogin />
+      <Button variant="contained" color="primary" className={classes.nsubmit} >
+        <NLogin/>
       </Button>
     </div>
   );

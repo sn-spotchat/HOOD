@@ -1,5 +1,6 @@
 .SidebarContainer{
     height: 100vh;
+    width:340px;
     display: flex;
     flex-direction: row;
     position: relative;

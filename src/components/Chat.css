@@ -15,37 +15,33 @@ textarea{
     width: 50px;
     background-color: rgba(21, 124, 38, 0);
     border: none;
+    margin-left:10px;
 }
 #sendbutton{
     border: none;
 }
 .chat{
     width: 340px;
-    height: 100vh;
+    height: calc(100vh - 143px);
     display: flex;
-    flex-direction: column;
+    flex-direction: column;    
     flex:1;
     background-color: white;
     position: relative;
 }
 .chatHead{
-    background-color: rgb(101, 145, 105);
-    height: 40px;
-    font-size: 22px;
-    font-family: 'Jua', sans-serif;
-    width: 340px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .chatBody{
-    width: 340px;
-    height: auto;
+    height: calc(100vh - 143px);
     display: flex;
     flex-direction: column-reverse;
     overflow: auto;
 }
 .chatUnder{
+    height: 100px;
     display: flex;
     flex-direction: column;
     margin-top: auto;
@@ -62,8 +58,8 @@ border-radius: 2px;
     width:100%;
     display:flex;
     justify-content: flex-end;
-    margin-top:3px;
-    margin-bottom:3px;
+    padding-top:3px;
+    padding-bottom:3px;
 }
 .MyMsgInfo{
     display:flex;
@@ -78,7 +74,7 @@ border-radius: 2px;
     align-self: flex-end;
 }
 .MyMsg{
-    max-width: 60%;
+    max-width: 80%;
     background-color:#c2f598;
     padding:7px;
     margin-right:5px;
@@ -112,7 +108,7 @@ border-radius: 2px;
     display: flex;
 }
 .PeerMsg{
-    max-width: 60%;
+    max-width: 80%;
     background-color: rgb(240, 240, 240);
     padding:7px;
     margin-left:5px;

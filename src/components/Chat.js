@@ -165,6 +165,9 @@ const Chat = (props) =>{
                 if(chat.type === 'text'){
                   setMessagelist(before => [ chat, ...before]);
                 }
+                else if(chat.type === 'coord'){
+                  setMessagelist(before => [ chat, ...before]);
+                }
               }
             })
           })
@@ -185,6 +188,10 @@ const Chat = (props) =>{
     socketRef.current.on("message", (message) => {
       receivedMessage(message);
     })
+    socketRef.current.on("coord", (message) => {
+      receivedMessage(message);
+    })
+
   }, [ chatroomlist, dispatch, user.ID, user.key]);
 
   const ClickExit = () => {
@@ -201,7 +208,11 @@ const Chat = (props) =>{
   const ClickSearch = () => {
     dispatch(actionType.setSidebar('search'));   
   }
-
+  function setMarker(lat, lng){
+    dispatch(actionType.setMarker(true));
+    dispatch(actionType.setMarkerX(lat));
+    dispatch(actionType.setMarkerY(lng));
+  };
   return (
     <div className="chat">
       <div className="chatHead">
@@ -211,8 +222,8 @@ const Chat = (props) =>{
       </div>
       <div className="chatBody">
         {messagelist.map((message, index) => {
+          if(message.type === "text"){
             if(message.user_id === user.ID){
-              
               return ( 
                 <div className="MyRow" key={index}>
                   <div className="MyTime">{getTime(message.time)}</div>
@@ -236,7 +247,38 @@ const Chat = (props) =>{
               </div>
             )
           }
-        )}
+          else if(message.type === "coord"){
+            if(message.user_id === user.ID){
+              return ( 
+                <div className="MyRow" key={index}>
+                  <div className="MyTime">{getTime(message.time)}</div>
+                  <div className="Coord" onClick={setMarker(message.content.lat, message.content.lng)}>
+                    <div className="desc">
+                        <div className="title" dangerouslySetInnerHTML={{__html: message.content.title}}></div>
+                        <div className="category">{message.content.category}</div>
+                    </div>
+                  </div>
+                </div>
+              )
+            }
+            return (
+              <div className="PeerRow" key={index}>
+                <div className="PeerInfo">
+                  <div className="PeerName">{message.nickname}</div>
+                </div>
+                <div className="PeerMsgInfo">
+                  <div className="Coord" onClick={setMarker(message.content.lat, message.content.lng)}>
+                    <div className="desc">
+                        <div className="title" dangerouslySetInnerHTML={{__html: message.content.title}}></div>
+                        <div className="category">{message.content.category}</div>
+                    </div>
+                  </div>
+                  <div className="PeerTime">{getTime(message.time)}</div>
+                </div>
+              </div>
+            )
+          }
+        })}
       </div>
       <div className="chatUnder">
         <div className="tool">

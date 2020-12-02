@@ -154,3 +154,23 @@ border-radius: 2px;
     justify-content: center;
     background-color: white;
 }
+.Coord{
+    max-width: 60%;
+    background-color:#dbee71;
+    padding:7px;
+    margin-right:5px;
+    margin-left:5px;
+    text-align: left;
+    border-radius: 5px;
+    word-break: break-all;
+}
+.desc{
+    height: 50px;
+}
+.title{
+    font-size: 20px;
+}
+.category{
+    font-size: 15px;
+    color: gray;
+}

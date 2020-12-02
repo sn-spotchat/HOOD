@@ -42,7 +42,7 @@ const Init = () => {
     
     console.log('Init.js');
 
-    return <div></div>;
+    return <></>;
 }
 
 

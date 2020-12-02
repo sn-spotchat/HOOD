@@ -6,9 +6,9 @@ import SidebarContainer from '../containers/SidebarContainer';
 import Init from './Init.js'
 
 const Main = () => {  
+  Init();
   return (
     <div className='wrap'>
-      <Init/>
       <Navigation/>
       <SidebarContainer/>
       <Map/>

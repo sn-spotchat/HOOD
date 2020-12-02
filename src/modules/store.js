@@ -38,8 +38,8 @@ const initialState = {
     theme : {
         themename : 'Original',
         polygondesign: {
-            color : ['#7ea4f0','#F51D1A','#10E040'],
-            opacity : [0.4, 0.3, 0.4],
+            color : ['#7ED4F0','#4040F0', '#F51D1A', '#10E040'],
+            opacity : [0.3, 0.5, 0.3, 0.4],
             scolor : '#FFFFFF',
             sopacity : 1.0,
         }

@@ -60,6 +60,10 @@ const Chat = (props) => {
     //chatroom db에 저장          
     database.ref('/chatroom/' + chatroom + '/chatlist').push({ key: chat });
 
+    database.ref('chatroom/' + chatroom + '/chatlist').once('value', Snap=>{
+      database.ref('chatroom/' + chatroom + '/chatnum').set(Snap.numChildren());
+    })
+
     //chatroom db의 lastchat 갱신
     database.ref('chatroom/' + chatroom + '/lastchat').set(chat);
 

@@ -284,7 +284,7 @@ const Chat = (props) => {
         </div>
         <form onSubmit={sendMessage}>
           <textarea name="inputtext" value={message} onChange={handleChange} placeholder="메시지 입력" onKeyPress={submitOnEnter}></textarea>
-          <Button variant="contained" color="primary" onClick={sendMessage}>전송</Button>
+          <button className='sendbutton' onClick={sendMessage}>전송</button>
         </form>
       </div>
     </div>

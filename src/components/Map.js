@@ -26,7 +26,7 @@ const PolyMap = (props) => {
     //   else database.ref('chatroom/'+i).update({chatNum:0});
     // }
     for(var key in chatNum){
-      database.ref('chatroom/'+key).update({chatNum:chatNum[key]});
+      database.ref('chatroom/'+key + '/chatNum').set(chatNum[key]);
     }
   })
 

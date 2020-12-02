@@ -46,7 +46,12 @@ const initialState = {
     },
     update: [
         null
-    ]
+    ],
+    marker:{
+        marker: false,
+        searchmarkerx: null,
+        searchmarkery: null,
+    }
 }
 
 export default initialState;

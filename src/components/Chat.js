@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Close from '@material-ui/icons/Close';
 import ArrowBack from '@material-ui/icons/ArrowBack';
+import Search from '@material-ui/icons/Search';
 /*
 *chat DB
 *messageObj
@@ -18,7 +19,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 * - chatroom_id (string): 채팅 메시지가 사용된 채팅방의 고유값
 * - type        (string): 메시지의 타입 (text, image(아직 미반영)) 
 * - time        (string): 메시지가 전송된 시간, (형식: Wed Nov 14 2020 13:30:00 GMT+0900 (대한민국 표준시))
-* - user_id     (string): 메시지를 보낸 사람의 고유값
+* - user_key    (string): 메시지를 보낸 사람의 고유값
 * - nickname    (string): user의 nickname
 * - content     (string?): 메시지의 내용
 *
@@ -115,6 +116,14 @@ const Chat = (props) => {
   function handleChange(e) {
     setMessage(e.target.value);
   }
+
+  function sendMarker(e){
+    dispatch(actionType.setMarkerX(null));
+    dispatch(actionType.setMarkerY(null));
+  }
+
+  //
+
   useEffect(() => {
     socketRef.current = io.connect("http://localhost:3001");  //나중에 서버에 Server.js를 올리게 되면 바꿔야함.
     let time = String(new Date());
@@ -140,6 +149,9 @@ const Chat = (props) => {
               if (new Date(chat.time) >= entertime) {
                 if (chat.type === 'text') {
                   setMessagelist(before => [chat, ...before]);
+                }
+                else if(chat.type === 'coord'){
+                  setMessagelist(before => [ chat, ...before]);
                 }
               }
             })
@@ -188,6 +200,15 @@ const Chat = (props) => {
     dispatch(actionType.setSidebar('chatlist'));
     dispatch(actionType.setChatroom(-1));
   }
+
+  const ClickSearch = () => {
+    dispatch(actionType.setSidebar('search'));   
+  }
+  function setMarker(lat, lng){
+    dispatch(actionType.setMarker(true));
+    dispatch(actionType.setMarkerX(lat));
+    dispatch(actionType.setMarkerY(lng));
+  };
   return (
     <div className='SidebarContent'>
       <div className="Sidebarhead" >
@@ -197,11 +218,11 @@ const Chat = (props) => {
         <Close style = {{'marginLeft' : '20px'}} onClick={() => { ClickExit() }}/>
         </div>
       </div>
-      <div className="chat">
-        <div className="chatBody">
-          {messagelist.map((message, index) => {
-            if (message.user_key === user.key) {
-              return (
+      <div className="chatBody">
+        {messagelist.map((message, index) => {
+          if(message.type === "text"){
+            if(message.user_key === user.key){
+              return ( 
                 <div className="MyRow" key={index}>
                   <div className="MyTime">{getTime(message.time)}</div>
                   <div className="MyMsg" >
@@ -224,14 +245,47 @@ const Chat = (props) => {
               </div>
             )
           }
-          )}
+          else if(message.type === "coord"){
+            if(message.user_key=== user.key){
+              return ( 
+                <div className="MyRow" key={index}>
+                  <div className="MyTime">{getTime(message.time)}</div>
+                  <div className="Coord" onClick={setMarker(message.content.lat, message.content.lng)}>
+                    <div className="desc">
+                        <div className="title" dangerouslySetInnerHTML={{__html: message.content.title}}></div>
+                        <div className="category">{message.content.category}</div>
+                    </div>
+                  </div>
+                </div>
+              )
+            }
+            return (
+              <div className="PeerRow" key={index}>
+                <div className="PeerInfo">
+                  <div className="PeerName">{message.nickname}</div>
+                </div>
+                <div className="PeerMsgInfo">
+                  <div className="Coord" onClick={setMarker(message.content.lat, message.content.lng)}>
+                    <div className="desc">
+                        <div className="title" dangerouslySetInnerHTML={{__html: message.content.title}}></div>
+                        <div className="category">{message.content.category}</div>
+                    </div>
+                  </div>
+                  <div className="PeerTime">{getTime(message.time)}</div>
+                </div>
+              </div>
+            )
+          }
+        })}
+      </div>
+      <div className="chatUnder">
+        <div className="tool">
+          <div className="toolicon" id="searchtool" onClick={ClickSearch}><Search></Search></div>
         </div>
-        <div className="chatUnder">
-          <form onSubmit={sendMessage} className = 'chat_form'>
-            <textarea className="inputtext" value={message} onChange={handleChange} placeholder="메시지 입력" onKeyPress={submitOnEnter}></textarea>
-            <button className='sendbutton' onClick={sendMessage}>전송</button>
-          </form>
-        </div>
+        <form className = 'chat_form' onSubmit={sendMessage}>
+          <textarea className="inputtext" value={message} onChange={handleChange} placeholder="메시지 입력" onKeyPress={submitOnEnter}></textarea>
+          <button className='sendbutton' onClick={sendMessage}>전송</button>
+        </form>
       </div>
     </div>
   );

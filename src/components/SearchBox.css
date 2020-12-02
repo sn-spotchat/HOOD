@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+.SearchBoxRaw{
+    width:100%;
+    min-height:130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+
+    border-bottom: 1px solid;
+    border-color: lightgray;
+    background-color: whitesmoke;
+}
+.SearchBoxRaw:hover{
+    background-color: #dadada;
+}
+.descript{
+    margin-left: 20px;
+    width: 100%;
+}
+.head{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+#title{
+    height:30px;
+    font-size: 20px;
+    font-family: 'Jua', sans-serif;
+    margin-top: 5px;
+}
+#category{
+    font-size: 15px;
+    color: gray;
+}
+
+#address{
+    font-size: 15px;
+    display: flex;
+}

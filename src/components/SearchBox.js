@@ -17,6 +17,7 @@ const SearchBox = (props) => {
         dispatch(actionType.setMarker(true));
         dispatch(actionType.setMarkerX(temp[0]));
         dispatch(actionType.setMarkerY(temp[1]));
+        console.log(temp[0], temp[1]);
     };
     function sendMarker(event){
         dispatch(actionType.setSidebar("chat"));

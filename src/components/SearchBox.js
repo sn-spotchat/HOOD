@@ -17,24 +17,25 @@ const SearchBox = (props) => {
         dispatch(actionType.setMarker(true));
         dispatch(actionType.setMarkerX(temp[0]));
         dispatch(actionType.setMarkerY(temp[1]));
-        console.log(temp[0], temp[1]);
     };
     function sendMarker(event){
+        console.log("sne");
+        event.preventDefault();
         dispatch(actionType.setSidebar("chat"));
+        dispatch(actionType.setMarker(false));
+        dispatch(actionType.setMarkerX(null));
+        dispatch(actionType.setMarkerY(null));
     }
 
 
     return (
-    <div className="SearchBoxRaw" key={props.index} onClick={setMarker}>
-        <div className="descript">
+    <div className="SearchBoxRaw" key={props.index} >
+        <div className="descript" onClick={setMarker}>
             <div id="title" dangerouslySetInnerHTML={{__html: props.title}}></div>
             <div id="category">{props.category}</div>
             <div id="address">{props.roadAddress}</div>
-            <Button  variant="contained" color="primary" onClick={sendMarker}>전송</Button>
         </div>
-        <div className="descImg">
-
-        </div>
+        <Button  variant="contained" color="primary" onClick={sendMarker} style={{'width':'30px', 'left':'20px'}}>전송</Button>
     </div>
 
     );

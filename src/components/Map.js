@@ -122,7 +122,6 @@ const PolyMap = (props) => {
     const markerx = useSelector(state => state.markerreducer.searchmarkerx);
     const markery = useSelector(state => state.markerreducer.searchmarkery);
     if(marker === true){
-      console.log(markerx, markery);
       return (
         <NaverMap
           mapDivId={'maps-getting-started-uncontrolled'} 
@@ -145,7 +144,6 @@ const PolyMap = (props) => {
       );
     }
     else{
-      console.log("false");
       return (
         <NaverMap
           mapDivId={'maps-getting-started-uncontrolled'} 

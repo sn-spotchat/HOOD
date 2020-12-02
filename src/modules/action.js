@@ -47,6 +47,9 @@ export const SETNEARLIST = 'data/setnearlist';
 export const setNearlist = (nearlist) => ({ type: SETNEARLIST, nearlist: nearlist });
 
 //search marker
+export const SETMARKER = 'search/setmarker';
+export const setMarker = (marker) => ({type: SETMARKER, marker: marker});
+
 export const SETMARKERX = 'search/setmarkerx';
 export const setMarkerX = (searchmarkerx) => ({type: SETMARKERX, searchmarkerx: searchmarkerx});
 

@@ -39,6 +39,7 @@ const initialState = {
         null
     ],
     marker:{
+        marker: false,
         searchmarkerx: null,
         searchmarkery: null,
     }

@@ -3,6 +3,8 @@ import initialState from './store';
 
 const markerreducer = (state = initialState.marker, action) =>{
     switch(action.type){
+        case actionType.SETMARKER:
+            return {...state, marker : action.marker};
         case actionType.SETMARKERX:
             return {...state, searchmarkerx : action.searchmarkerx};
         case actionType.SETMARKERY:

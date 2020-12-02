@@ -14,7 +14,7 @@ const SearchBox = (props) => {
     var p = proj4('TM128', 'WGS84');
     function setMarker(event){
         var temp = p.forward([Number(props.mapx), Number(props.mapy)]);
-        console.log(temp);
+        dispatch(actionType.setMarker(true));
         dispatch(actionType.setMarkerX(temp[0]));
         dispatch(actionType.setMarkerY(temp[1]));
     };

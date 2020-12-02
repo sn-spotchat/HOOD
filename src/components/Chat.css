@@ -19,6 +19,7 @@
     align-items: center;
 }
 .chatBody{
+    width:100%;
     height: calc(100vh - var(--SHH) - var(--C_U_H));
     display: flex;
     flex-direction: column-reverse;
@@ -65,7 +66,6 @@ border-radius: 2px;
 
 }
 .MyRow{
-    width:100%;
     display:flex;
     justify-content: flex-end;
     padding-top:3px;
@@ -87,6 +87,7 @@ border-radius: 2px;
     max-width: 80%;
     color: var(--C_MM_C, #000000);
     background-color: var(--C_MM_BC, #C2F598);
+    right:0px;
     padding:7px;
     margin-right:5px;
     text-align: left;

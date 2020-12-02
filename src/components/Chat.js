@@ -19,7 +19,7 @@ import Search from '@material-ui/icons/Search';
 * - chatroom_id (string): 채팅 메시지가 사용된 채팅방의 고유값
 * - type        (string): 메시지의 타입 (text, image(아직 미반영)) 
 * - time        (string): 메시지가 전송된 시간, (형식: Wed Nov 14 2020 13:30:00 GMT+0900 (대한민국 표준시))
-* - user_id     (string): 메시지를 보낸 사람의 고유값
+* - user_key    (string): 메시지를 보낸 사람의 고유값
 * - nickname    (string): user의 nickname
 * - content     (string?): 메시지의 내용
 *
@@ -221,7 +221,7 @@ const Chat = (props) => {
       <div className="chatBody">
         {messagelist.map((message, index) => {
           if(message.type === "text"){
-            if(message.user_id === user.ID){
+            if(message.user_key === user.key){
               return ( 
                 <div className="MyRow" key={index}>
                   <div className="MyTime">{getTime(message.time)}</div>
@@ -246,7 +246,7 @@ const Chat = (props) => {
             )
           }
           else if(message.type === "coord"){
-            if(message.user_id === user.ID){
+            if(message.user_key=== user.key){
               return ( 
                 <div className="MyRow" key={index}>
                   <div className="MyTime">{getTime(message.time)}</div>
@@ -282,8 +282,8 @@ const Chat = (props) => {
         <div className="tool">
           <div className="toolicon" id="searchtool" onClick={ClickSearch}><Search></Search></div>
         </div>
-        <form onSubmit={sendMessage}>
-          <textarea name="inputtext" value={message} onChange={handleChange} placeholder="메시지 입력" onKeyPress={submitOnEnter}></textarea>
+        <form className = 'chat_form' onSubmit={sendMessage}>
+          <textarea className="inputtext" value={message} onChange={handleChange} placeholder="메시지 입력" onKeyPress={submitOnEnter}></textarea>
           <button className='sendbutton' onClick={sendMessage}>전송</button>
         </form>
       </div>

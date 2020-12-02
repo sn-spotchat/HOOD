@@ -52,7 +52,7 @@ const SearchBox = (props) => {
             chatroom_id: chatroom,
             type: "coord",
             time: date.toString(),
-            user_id: user.ID,
+            user_key: user.key,
             nickname: user.nickname,
             content: {
                 title: props.title,

@@ -51,8 +51,8 @@ const Themes = {
         '--C_PM_BC' :   '#F0F0F0',      // Chat PeerMsg BackgroundColor
         },
         polygondesign:{
-            color : ['#7EA4F0', '#F51D1A', '#10E040'],
-            opacity : [0.4, 0.3, 0.4],
+            color : ['#7ED4F0','#4040F0', '#F51D1A', '#10E040'],
+            opacity : [0.3, 0.5, 0.3, 0.4],
             scolor : '#FFFFFF',
             sopacity : 1.0,
         }
@@ -109,8 +109,8 @@ const Themes = {
         '--C_PM_BC' :   '#A0A0A0',      // Chat PeerMsg BackgroundColor
         },
         polygondesign:{
-            color : ['#151515', '#606060', '#F0F0F0'],
-            opacity : [0.6, 0.4, 0.7],            
+            color : ['#707070','#000000' ,'#606060', '#F0F0F0'],
+            opacity : [0.3, 0.6, 0.4, 0.7],            
             scolor : '#000000',
             sopacity : 1.0,
         }

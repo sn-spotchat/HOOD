@@ -10,58 +10,59 @@ import { database } from '../firebase';
 import { bindActionCreators } from 'redux';
 import Theme from '../modules/Theme.js';
 
-const PolyMap = (props) => {
-
-  let chatNum={}
-  let test=database.ref('/chat').once('value').then(function(snapshot){
-    var a=snapshot.val();
-    var b=Object.values(a);
-    for(var i=0;i<b.length;i++){
-      var data=b[i];
-       if(data.chatroom_id in chatNum) chatNum[data.chatroom_id]+=1
-       else chatNum[data.chatroom_id]=1
-    }
-    // for(var i=1;i<=423;i++){
-    //   if(i in chatNum) database.ref('chatroom/'+i).update({chatNum:chatNum[i]});
-    //   else database.ref('chatroom/'+i).update({chatNum:0});
-    // }
-    for(var key in chatNum){
-      database.ref('chatroom/'+key + '/chatNum').set(chatNum[key]);
-    }
+const RESETDATABASE = () => {
+  database.ref('chat/').remove();
+  database.ref('chatroom/').remove();
+  for (var i = 0; i < 424; i++) {
+    database.ref('/chatroom/' + i + '/name').set(SeoulDong.features[i].properties.adm_nm);
+    database.ref('/chatroom/' + i + '/chatnum').set(0);
+  }
+  database.ref('user/').once('value', Snap => {
+    var a = Snap.val();
+    var b = Object.keys(a);
+    b.forEach(key => {
+      delete a[key].chatlist;
+      delete a[key].chatroomlist;
+      database.ref('user/' + key).set(a[key]);
+    })
   })
+}
 
-  function MakePolygon(geojson, polyList) {
+const PolyMap = (props) => {
+  let chatNum = props.chatNum;
+  let totalNum = props.totalNum;
+  function MakePolygon(geojson, polyList) {    
     var data = props.nearlist;
-    var chatRank={};
-    var chatRank2={};
-    data.forEach((feature,index) => {
-      let chatRoom=feature.chatroom;
-      if (chatRoom in chatNum) chatRank[chatRoom]=chatNum[chatRoom];
-      else chatRank[chatRoom]=0;
+    var chatRank = {};
+    var chatRank2 = {};
+    data.forEach((feature, index) => {
+      let chatRoom = feature.chatroom;
+      if (chatRoom in chatNum) chatRank[chatRoom] = chatNum[chatRoom];
+      else chatRank[chatRoom] = 0;
       //채팅의 개수에따라 순위를 매겨 opacity를 설정한다.
     })
-    for(var key in chatRank){
-      var rank=1;
-      var curValue=chatRank[key];
-      if(curValue===0){
-        chatRank2[key]=0;
+    for (var key in chatRank) {
+      var rank = 1;
+      var curValue = chatRank[key];
+      if (curValue === 0) {
+        chatRank2[key] = 0;
         break
       }
-      for(var key2 in chatRank){
-        if(curValue>chatRank[key2]) rank++;
+      for (var key2 in chatRank) {
+        if (curValue > chatRank[key2]) rank++;
       }
-      chatRank2[key]=rank;
+      chatRank2[key] = rank;
     }
 
-    data.forEach((feature,index)=>{
+    data.forEach((feature, index) => {
       let coordinates = feature.coordinates;
       let name = feature.name;
-      let chatroom=feature.chatroom;
-      DisplayArea(coordinates, polyList, name, chatroom,chatRank2[chatroom]);      
+      let chatroom = feature.chatroom;
+      DisplayArea(coordinates, polyList, name, chatroom, chatNum[chatroom]/totalNum);
     })
   }
-  
-  function DisplayArea(coordinates, polyList, name, index,rank) {
+
+  function DisplayArea(coordinates, polyList, name, index, ratio) {
     var path = [];
     coordinates[0].forEach(data => {
       data.forEach(Coordinate => {
@@ -77,23 +78,40 @@ const PolyMap = (props) => {
     const sidebarstate = useSelector(state => state.statereducer.sidebarstate);
 
     const Theme = useSelector(state => state.themereducer.polygondesign
-                             );
-
-    var color1 = Theme.color[0]; var opacity1 = Theme.opacity[0]*(0.1*rank==0)?0.05:0.1*rank;
-    var color2 = Theme.color[1]; var opacity2 = Theme.opacity[1];
-    var color3 = Theme.color[2]; var opacity3 = Theme.opacity[2]*(0.1*rank==0)?0.05:0.1*rank;
-    var scolor = Theme.scolor;   var sopacity = Theme.sopacity;
-    useEffect(()=>{
-      color1 = Theme.color[0]; opacity1 = Theme.opacity[0]*(0.1*rank==0)?0.05:0.1*rank;
-      color2 = Theme.color[1]; opacity2 = Theme.opacity[1];
-      color3 = Theme.color[2]; opacity3 = Theme.opacity[2]*(0.1*rank==0)?0.05:0.1*rank;
-      scolor = Theme.scolor;   sopacity = Theme.sopacity;
-      setColor(color1); setOpacity(opacity1);
-
-    },[Theme]);
+    );
+    const colordiff = (c1, c2, r) => {
+      r = Math.pow(r, 0.3);
+      let c1r = parseInt(c1.slice(1,3),16);let c2r = parseInt(c2.slice(1,3),16);
+      let c1g = parseInt(c1.slice(3,5),16);let c2g = parseInt(c2.slice(3,5),16);
+      let c1b = parseInt(c1.slice(5,7),16);let c2b = parseInt(c2.slice(5,7),16);
+      let c3r = parseInt((c2r - c1r) * r + c1r,10).toString(16);
+      let c3g = parseInt((c2g - c1g) * r + c1g,10).toString(16);
+      let c3b = parseInt((c2b - c1b) * r + c1b,10).toString(16);
+      return '#' + c3r + c3g + c3b;
+    }
+    const opacitydiff = (o1, o2, r) => {
+      r = Math.pow(r ,0.4)
+      return (o2 - o1) * r + o1;      
+    }
     
 
-    const YesClick=()=>{
+    var color1 = colordiff(Theme.color[0], Theme.color[1], ratio); 
+    var opacity1 = opacitydiff(Theme.opacity[0], Theme.opacity[1], ratio);
+    var color2 = Theme.color[2]; var opacity2 = Theme.opacity[2];
+    var color3 = Theme.color[3]; var opacity3 = Theme.opacity[3];
+    var scolor = Theme.scolor; var sopacity = Theme.sopacity;
+    useEffect(() => {
+      color1 = colordiff(Theme.color[0], Theme.color[1], ratio); 
+      opacity1 = opacitydiff(Theme.opacity[0], Theme.opacity[1], ratio);
+      color2 = Theme.color[2]; opacity2 = Theme.opacity[1];
+      color3 = Theme.color[3]; opacity3 = Theme.opacity[2];
+      scolor = Theme.scolor; sopacity = Theme.sopacity;
+      setColor(color1); setOpacity(opacity1);
+
+    }, [Theme]);
+
+
+    const YesClick = () => {
       dispatch(actionType.setSidebar('chat'));
       dispatch(actionType.setChatroom(index));
       dispatch(actionType.setChatroomname(name));
@@ -104,18 +122,18 @@ const PolyMap = (props) => {
         setOpacity(opacity3);
         dispatch(actionType.setSidebar('near'));
         dispatch(actionType.setChatroom(null));
-        
+
         confirmAlert({
           title: '채팅방입장',
           message: `${name} 채팅방에 입장하시겠습니까?`,
           buttons: [
             {
               label: 'YES',
-              onClick : () => YesClick()
+              onClick: () => YesClick()
             },
             {
               label: 'NO',
-              onClick : () => {
+              onClick: () => {
                 setColor(color1)
                 setOpacity(opacity1)
               }
@@ -123,7 +141,7 @@ const PolyMap = (props) => {
           ]
         })
       }
-      else{
+      else {
         confirmAlert({
           title: '채팅방입장',
           message: '로그인 후 입장가능합니다.',
@@ -140,25 +158,25 @@ const PolyMap = (props) => {
 
     const polyOut = () => {
       if (color === color3) return;
-        setColor(color1)
-        setOpacity(opacity1)
+      setColor(color1)
+      setOpacity(opacity1)
     }
 
-    useEffect(()=>{
-      if(chatroom === index && sidebarstate === 'chat'){
+    useEffect(() => {
+      if (chatroom === index && sidebarstate === 'chat') {
         setColor(color3);
         setOpacity(opacity3);
-      }    
-      else{
+      }
+      else {
         setColor(color1)
         setOpacity(opacity1)
       }
-    },[chatroom, sidebarstate, index])
+    }, [chatroom, sidebarstate, index])
 
     polyList.push(
       <Polygon
-        id = {name}
-        key = {name}
+        id={name}
+        key={name}
         paths={path}
         fillColor={color}
         fillOpacity={opacity}
@@ -166,10 +184,10 @@ const PolyMap = (props) => {
         strokeOpacity={sopacity}
         strokeWeight={2}
         clickable={true}
-        onClick={ () => polyClick()}
+        onClick={() => polyClick()}
         onMouseover={polyOver}
         onMouseout={polyOut}
-        style = {{transition : '0.3s'}}
+        style={{ transition: '0.3s' }}
       />
     );
   }
@@ -231,10 +249,31 @@ const Map = () => {
   const location = useSelector(state => state.datareducer.location);
   const nearlist = useSelector(state => state.datareducer.nearlist);
 
+  const [chatNumstate, setchatNum] = useState({});
+  const [totalNumstate, settotalNum] = useState(0);
+  useEffect(()=>{
+    database.ref('/chatroom').once('value', Snap => {
+      let chatNum = {}
+      let totalNum = 0;
+      var a = Snap.val();
+      var b = Object.keys(a);
+      b.forEach(key => {
+        if (a[key] === undefined) chatNum[key] = 0;
+        else{
+          chatNum[key] = a[key].chatnum;
+          totalNum += a[key].chatnum;
+        } 
+      })
+      setchatNum(chatNum);
+      settotalNum(totalNum);
+    });
+
+  },[]);
+
   return (
     <div className="Map">
       <RenderAfterNavermapsLoaded ncpClientId={'5blqxkrbsw'}>
-        <PolyMap nearlist={nearlist} Geo={location} />
+        <PolyMap nearlist={nearlist} Geo={location} chatNum = {chatNumstate} totalNum = {totalNumstate}  />
       </RenderAfterNavermapsLoaded>
     </div>
   );

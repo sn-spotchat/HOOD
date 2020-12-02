@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Map.css';
-import { RenderAfterNavermapsLoaded, NaverMap, Polygon } from 'react-naver-maps'; // 패키지 불러오기
+import { RenderAfterNavermapsLoaded, NaverMap, Polygon, Marker } from 'react-naver-maps'; // 패키지 불러오기
 import SeoulDong from "./SeoulDong.json";
 import { useSelector, useDispatch } from 'react-redux';
 import * as actionType from '../modules/action';
@@ -194,22 +194,51 @@ const PolyMap = (props) => {
 
   function NaverMapAPI() {
     var polyList = [];
+    const navermaps = window.naver.maps;
     MakePolygon(SeoulDong, polyList)
-    return (
-      <NaverMap
-        mapDivId={'maps-getting-started-uncontrolled'}
-        style={{
-          width: '100%',
-          height: '100%'
-        }}
-        defaultCenter={{ lat: props.Geo['latitude'], lng: props.Geo['longitude'] }}
-        defaultZoom={14}
-        minZoom={13}
-        maxZoom={16}
-      >
-        {polyList}
-      </NaverMap>
-    );
+    const marker = useSelector(state => state.markerreducer.marker);
+    const markerx = useSelector(state => state.markerreducer.searchmarkerx);
+    const markery = useSelector(state => state.markerreducer.searchmarkery);
+    if(marker === true){
+      return (
+        <NaverMap
+          mapDivId={'maps-getting-started-uncontrolled'} 
+          style={{
+            width: '100%', 
+            height: '100%' 
+          }}
+          defaultCenter={{ lat: props.Geo['latitude'], lng: props.Geo['longitude'] }}     
+          defaultZoom={14} 
+          minZoom={13}
+          maxZoom={16}
+        >
+          {polyList}
+          <Marker
+          key = {1}
+          position = {new navermaps.LatLng(markery, markerx)}
+          onClick={() => {alert('현재 사용자 위치입니다')}}
+        />
+        </NaverMap>
+      );
+    }
+    else{
+      return (
+        <NaverMap
+          mapDivId={'maps-getting-started-uncontrolled'} 
+          style={{
+            width: '100%', 
+            height: '100%' 
+          }}
+          defaultCenter={{ lat: props.Geo['latitude'], lng: props.Geo['longitude'] }}     
+          defaultZoom={14} 
+          minZoom={13}
+          maxZoom={16}
+        >
+          {polyList}
+        </NaverMap>
+      );
+    }
+    
   }
   return (
     <NaverMapAPI />

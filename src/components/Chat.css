@@ -142,3 +142,40 @@ border-radius: 2px;
     position: absolute;
     right:0px;
 }
+
+.tool{
+    width:100%;
+    height: 30px;
+    background-color: gray;
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+}
+.toolicon{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+.Coord{
+    max-width: 60%;
+    background-color:#dbee71;
+    padding:7px;
+    margin-right:5px;
+    margin-left:5px;
+    text-align: left;
+    border-radius: 5px;
+    word-break: break-all;
+}
+.desc{
+    height: 50px;
+}
+.title{
+    font-size: 20px;
+}
+.category{
+    font-size: 15px;
+    color: gray;
+}

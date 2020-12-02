@@ -7,13 +7,14 @@ import Signin from './Signup';
 import Near from './Near';
 import Chatlist from './Chatlist';
 import Chat from './Chat';
+import Search from './Search';
 import Settings from './Settings';
 import './Sidebar.css';
 
 const Sidebar = ({ sidebarstate }) => {
   const [sidebarType, setSidebarType] = useState(sidebarstate);
-  const chatid = useSelector(state => state.statereducer.chatid);
-
+  const chatroomname = useSelector(state => state.statereducer.chatroomname);
+  console.log(chatroomname);
   useEffect(() => {
     if (sidebarstate === 'home') {
       setSidebarType(<Home></Home>);
@@ -37,10 +38,13 @@ const Sidebar = ({ sidebarstate }) => {
       setSidebarType(<Settings/>);
     }
     else if (sidebarstate === 'chat') {
-      setSidebarType(<Chat chatRoomId={chatid}></Chat>);
+      setSidebarType(<Chat></Chat>);
+    }
+    else if (sidebarstate === 'search') {
+      setSidebarType(<Search chatRoomName={chatroomname}></Search>);
     }
     
-  }, [sidebarstate, chatid]);
+  }, [sidebarstate, chatroomname]);
 
   return (
     <div id='Sidebar' className="Sidebar">

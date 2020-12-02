@@ -1,8 +1,10 @@
 import {combineReducers} from 'redux';
-import flagreducer from './flagreducer';
-import datareducer from './datareducer';
-import userreducer from './userreducer';
-import statereducer from './statereducer';
+
+import flagreducer from './flagreducer'
+import datareducer from './datareducer'
+import userreducer from './userreducer'
+import statereducer from './statereducer'
+import markerreducer from './markerreducer'
 import themereducer from './themereducer';
 
 const rootReducer = combineReducers({
@@ -11,6 +13,7 @@ const rootReducer = combineReducers({
     userreducer,
     statereducer,
     datareducer,
+    markerreducer,
     themereducer,
 });
 

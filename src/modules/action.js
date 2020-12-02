@@ -15,8 +15,14 @@ export const loggedinObject = { type: LOGGEDIN };
 export const SETUSER = 'user/setuser';
 export const setUser = (user) => ({ type: SETUSER, user: user });
 
-export const SETKEY = 'user/setkey';
-export const setKey = (key) => ({ type: SETKEY, key: key });
+export const SETNICKNAME = 'user/nickname';
+export const setNickname = (nickname) => ({ type: SETNICKNAME, nickname: nickname });
+
+export const SETID = 'user/ID';
+export const setID = (ID) => ({ type: SETID, ID : ID});
+
+export const SETPW = 'user/PW';
+export const setPW = (PW) => ({ type: SETPW, PW : PW});
 
 export const INSERTCHATROOM = 'user/insertchatroom';
 export const insertChatroom = (chatroom, time) => ({ type: INSERTCHATROOM, chatroom: chatroom, time : time });
@@ -55,3 +61,10 @@ export const setMarkerX = (searchmarkerx) => ({type: SETMARKERX, searchmarkerx: 
 
 export const SETMARKERY = 'search/setmarkery';
 export const setMarkerY = (searchmarkery) => ({type: SETMARKERY, searchmarkery: searchmarkery});
+
+//theme
+export const SETPOLYGONDESIGN = 'theme/setpolygondesign';
+export const setPolygondesign = (polygondesign) => ({type : SETPOLYGONDESIGN, polygondesign : polygondesign});
+
+export const SETTHEMENAME = 'theme/setthemename';
+export const setThemename = (themename) => ({type : SETTHEMENAME, themename : themename});

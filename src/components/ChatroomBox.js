@@ -56,7 +56,6 @@ const ChatroomBox = (props) => {
     }>
       <div className="upper">
         <div id="name">{chatroomname}</div>
-        <div className="ActivationNum">n</div>
       </div>
       <div className="lower">
         <div id="message">{content}</div>

@@ -8,6 +8,7 @@ import Near from './Near';
 import Chatlist from './Chatlist';
 import Chat from './Chat';
 import Search from './Search';
+import Settings from './Settings';
 import './Sidebar.css';
 
 const Sidebar = ({ sidebarstate }) => {
@@ -32,6 +33,9 @@ const Sidebar = ({ sidebarstate }) => {
     }
     else if (sidebarstate === 'chatlist') {
       setSidebarType(<Chatlist></Chatlist>);
+    }
+    else if (sidebarstate === 'settings') {
+      setSidebarType(<Settings/>);
     }
     else if (sidebarstate === 'chat') {
       setSidebarType(<Chat></Chat>);

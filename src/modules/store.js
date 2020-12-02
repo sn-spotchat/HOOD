@@ -35,6 +35,15 @@ const initialState = {
         nearlist: null,
         location: null,
     },
+    theme : {
+        themename : 'Original',
+        polygondesign: {
+            color : ['#7ea4f0','#F51D1A','#10E040'],
+            opacity : [0.4, 0.3, 0.4],
+            scolor : '#FFFFFF',
+            sopacity : 1.0,
+        }
+    },
     update: [
         null
     ],

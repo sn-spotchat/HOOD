@@ -197,8 +197,11 @@ const PolyMap = (props) => {
     const navermaps = window.naver.maps;
     MakePolygon(SeoulDong, polyList)
     const marker = useSelector(state => state.markerreducer.marker);
-    const markerx = useSelector(state => state.markerreducer.searchmarkerx);
-    const markery = useSelector(state => state.markerreducer.searchmarkery);
+    const markerlat = useSelector(state => state.markerreducer.searchmarkerlat);
+    const markerlng = useSelector(state => state.markerreducer.searchmarkerlng);
+    const markeraddr = useSelector(state => state.markerreducer.searchmarkeraddr);
+    
+    console.log(markerlat, markerlng);
     if(marker === true){
       return (
         <NaverMap
@@ -215,8 +218,8 @@ const PolyMap = (props) => {
           {polyList}
           <Marker
           key = {1}
-          position = {new navermaps.LatLng(markery, markerx)}
-          onClick={() => {alert('현재 사용자 위치입니다')}}
+          position = {new navermaps.LatLng(markerlat, markerlng)}
+          onClick={() => {alert(markeraddr)}}
         />
         </NaverMap>
       );

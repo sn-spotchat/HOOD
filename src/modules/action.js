@@ -56,11 +56,14 @@ export const setNearlist = (nearlist) => ({ type: SETNEARLIST, nearlist: nearlis
 export const SETMARKER = 'search/setmarker';
 export const setMarker = (marker) => ({type: SETMARKER, marker: marker});
 
-export const SETMARKERX = 'search/setmarkerx';
-export const setMarkerX = (searchmarkerx) => ({type: SETMARKERX, searchmarkerx: searchmarkerx});
+export const SETMARKERLAT = 'search/setmarkerlat';
+export const setMarkerLAT = (searchmarkerlat) => ({type: SETMARKERLAT, searchmarkerlat: searchmarkerlat});
 
-export const SETMARKERY = 'search/setmarkery';
-export const setMarkerY = (searchmarkery) => ({type: SETMARKERY, searchmarkery: searchmarkery});
+export const SETMARKERLNG = 'search/setmarkerlng';
+export const setMarkerLNG = (searchmarkerlng) => ({type: SETMARKERLNG, searchmarkerlng: searchmarkerlng});
+
+export const SETMARKERADDR = 'search/setmarkeraddr';
+export const setMarkerAddr = (searchmarkeraddr) => ({type: SETMARKERADDR, searchmarkeraddr: searchmarkeraddr});
 
 //theme
 export const SETPOLYGONDESIGN = 'theme/setpolygondesign';

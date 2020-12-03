@@ -5,10 +5,12 @@ const markerreducer = (state = initialState.marker, action) =>{
     switch(action.type){
         case actionType.SETMARKER:
             return {...state, marker : action.marker};
-        case actionType.SETMARKERX:
-            return {...state, searchmarkerx : action.searchmarkerx};
-        case actionType.SETMARKERY:
-            return {...state, searchmarkery : action.searchmarkery};
+        case actionType.SETMARKERLAT:
+            return {...state, searchmarkerlat : action.searchmarkerlat};
+        case actionType.SETMARKERLNG:
+            return {...state, searchmarkerlng : action.searchmarkerlng};
+        case actionType.SETMARKERADDR:
+            return {...state, searchmarkeraddr : action.searchmarkeraddr};
         default:
             return state;
     }

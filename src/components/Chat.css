@@ -21,13 +21,15 @@
 }
 .chatBody{
     width:100%;
-    height: calc(100vh - var(--SHH) - var(--C_U_H));
+    max-height: calc(100vh - var(--SHH) - var(--C_U_H));
     display: flex;
     flex-direction: column-reverse;
     overflow: auto;
 }
 .chatUnder{
     width:100%;
+    position: absolute;
+    bottom: 0px;
     height: var(--C_U_H);
 }
 .chat_form{

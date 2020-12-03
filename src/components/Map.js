@@ -201,7 +201,6 @@ const PolyMap = (props) => {
     const markerlng = useSelector(state => state.markerreducer.searchmarkerlng);
     const markeraddr = useSelector(state => state.markerreducer.searchmarkeraddr);
     
-    console.log(markerlat, markerlng);
     if(marker === true){
       return (
         <NaverMap

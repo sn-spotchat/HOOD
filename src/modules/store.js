@@ -49,8 +49,9 @@ const initialState = {
     ],
     marker:{
         marker: false,
-        searchmarkerx: null,
-        searchmarkery: null,
+        searchmarkerlat: null,
+        searchmarkerlng: null,
+        searchmarkeraddr: null,
     }
 }
 

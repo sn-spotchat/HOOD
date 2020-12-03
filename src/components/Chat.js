@@ -118,8 +118,8 @@ const Chat = (props) => {
   }
 
   function sendMarker(e){
-    dispatch(actionType.setMarkerX(null));
-    dispatch(actionType.setMarkerY(null));
+    dispatch(actionType.setMarkerLAT(null));
+    dispatch(actionType.setMarkerLNG(null));
   }
 
   //
@@ -204,10 +204,11 @@ const Chat = (props) => {
   const ClickSearch = () => {
     dispatch(actionType.setSidebar('search'));   
   }
-  function setMarker(lat, lng){
+  function setMarker(lat, lng, addr){
     dispatch(actionType.setMarker(true));
-    dispatch(actionType.setMarkerX(lat));
-    dispatch(actionType.setMarkerY(lng));
+    dispatch(actionType.setMarkerLAT(lat));
+    dispatch(actionType.setMarkerLNG(lng));
+    dispatch(actionType.setMarkerAddr(addr));
   };
   return (
     <div className='SidebarContent'>
@@ -250,7 +251,7 @@ const Chat = (props) => {
               return ( 
                 <div className="MyRow" key={index}>
                   <div className="MyTime">{getTime(message.time)}</div>
-                  <div className="Coord" onClick={setMarker(message.content.lat, message.content.lng)}>
+                  <div className="Coord" onClick={setMarker(message.content.lat, message.content.lng, message.content.roadAddress)}>
                     <div className="desc">
                         <div className="title" dangerouslySetInnerHTML={{__html: message.content.title}}></div>
                         <div className="category">{message.content.category}</div>

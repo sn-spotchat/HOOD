@@ -20,9 +20,8 @@ const SearchBox = (props) => {
     
     var p = proj4('TM128', 'WGS84');
     var temp = p.forward([Number(props.mapx), Number(props.mapy)]);
-    var lat = temp[0];
-    var lng = temp[1];
-
+    var lat = temp[1];
+    var lng = temp[0];
     function writeMsgData(messageObject) {
         //chat db에 저장
         let chat = database.ref('chat/').push(messageObject).key;
@@ -41,8 +40,9 @@ const SearchBox = (props) => {
       }
     function setMarker(event){
         dispatch(actionType.setMarker(true));
-        dispatch(actionType.setMarkerX(lat));
-        dispatch(actionType.setMarkerY(lng));
+        dispatch(actionType.setMarkerLAT(lat));
+        dispatch(actionType.setMarkerLNG(lng));
+        dispatch(actionType.setMarkerAddr(props.roadAddress));
     };
     function sendMarker(event){
         console.log("sne");
@@ -66,8 +66,9 @@ const SearchBox = (props) => {
         dispatch(actionType.setSidebar("chat"));
         socketRef.current.emit("send message", messageObject);
         dispatch(actionType.setMarker(false));
-        dispatch(actionType.setMarkerX(null));
-        dispatch(actionType.setMarkerY(null));
+        dispatch(actionType.setMarkerLAT(null));
+        dispatch(actionType.setMarkerLNG(null));
+        dispatch(actionType.setMarkerAddr(null));
     }
 
 

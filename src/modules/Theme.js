@@ -57,7 +57,65 @@ const Themes = {
             sopacity : 1.0,
         }
     },
-    Black : {
+    SKY : {
+        color : {
+        '--N_BC'    :   '#FEFEFB',      // Navigation BackgroundColor
+        '--NI_C'    :   '#88AAEE',      // NavigationIcon Color
+        '--NI_BC'   :   '#FFFFFF',      // NavigationIcon BackgroundColor
+        '--NIH_C'   :   '#5544FF',      // NavigationIconHover Color
+        '--NIH_BC'  :   '#FFFFFF',      // NavigationIconHover BackgroundColor
+        '--NIC_C'   :   '#FFFFFF',      // NavigationIconClick Color
+        '--NIC_BC'  :   '#5544FF',      // NavigationIconClick BackgroundColor
+
+        '--SB_C'    :   '#88AAEE',      // SidebarButton Color
+        '--SB_BC'   :   '#FFFFFF',      // SidebarButton BackgroundColor
+        '--S_B_C'   :   '#FFFFFF',      // Sidebar Border Color
+        '--S_BC'    :   '#FFFFFF',      // Sidebar BackgroundColor
+        '--SH_C'    :   '#505050',      // SidebarHead Color
+        '--SH_BC'   :   '#CCF0F5',      // SidebarHead BackgroundColor
+
+        '--M_B_C'   :   '#FEFEFB',      // Map Border Color
+
+        '--ER_BC'   :   '#FFFFFF',      // EventRow BackgroundColor
+        '--ER_B_C'  :   '#DADADA',      // EventRow Border Color
+        '--ERH_C'   :   '#DADADA',      // EventRowHover Color
+        '--EN_C'    :   '#404040',      // EventName Color
+        '--EC_C'    :   '#404040',      // EventContent Color
+        '--ET_C'    :   '#404040',      // EventTime Color
+
+        '--CBR_B_C' :   '#D3D3D3',      // ChatroomBoxRaw Border Color
+        '--CBR_C'   :   '#404040',      // ChatroomBoxRaw Color
+        '--CBR_BC'  :   '#FFFFFF',      // ChatroomBoxRaw BackgroundColor
+        '--CBRH_BC' :   '#DADADA',      // ChatroomBoxRawHover BackgroundColor
+        '--AN_BC'   :   '#d48080',      // ActivationNum BackgroundColor
+        '--CBRM_C'  :   '#404040',      // ChatroomBoxRawMessage Color
+        '--CBRT_C'  :   '#D0D0D0',      // ChatroomBoxRawTime Color
+
+        '--C_TA_C'  :   '#202020',      // Chat TextArea Color
+        '--C_TA_BC' :   '#F5F5F5',      // Chat TextArea BackgroundColor
+        '--C_SB_C'  :   '#FFFFFF',      // Chat SendButton Color
+        '--C_SB_BC' :   '#5544FF',      // Chat SendButton BackgroundColor
+        '--C_SBH_C' :   '#FFFFFF',      // Chat SendButtonHover Color
+        '--C_SBH_BC':   '#505050',      // Chat SendButtonHover BackgroundColor
+        '--C_C_BC'  :   '#606060',      // Chat Chat BackgroundColor
+
+        '--C_MT_C'  :   '#B0B0B0',      // Chat MyTime Color
+        '--C_MM_C'  :   '#FFFFFF',      // Chat MyMsg Color
+        '--C_MM_BC' :   '#A0A0A0',      // Chat MyMsg BackgroundColor
+        
+        '--C_PT_C'  :   '#B0B0B0',      // Chat PeerTime Color
+        '--C_PN_C'  :   '#E0E0E0',      // Chat PeerName Color
+        '--C_PM_C'  :   '#FFFFFF',      // Chat PeerMsg Color
+        '--C_PM_BC' :   '#A0A0A0',      // Chat PeerMsg BackgroundColor
+        },
+        polygondesign:{
+            color : ['#7ED4F0','#4040F0', '#F51D1A', '#10E040'],
+            opacity : [0.3, 0.5, 0.3, 0.4],
+            scolor : '#FFFFFF',
+            sopacity : 1.0,
+        }
+    },
+    BLACk : {
         color : {
         '--N_BC'    :   '#101010',      // Navigation BackgroundColor
         '--NI_C'    :   '#101010',      // NavigationIcon Color

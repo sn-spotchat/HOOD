@@ -31,6 +31,7 @@ const Navigation = () => {
         if (loggedin === false) {
             setNavList(oldList => [...oldList, { id: "login", func: () => dispatch(actionType.setSidebar('login')), icon: <Person></Person>}]);
             setNavList(oldList => [...oldList, { id: "home", func: () => dispatch(actionType.setSidebar('home')), icon: <Home></Home>}]);
+            setNavList(oldList => [...oldList, { id: "settings", func: () => dispatch(actionType.setSidebar('settings')), icon: <SettingsIcon/>}]);
         }
         else {
             setNavList(oldList => [...oldList, { id: "mypage", func: () => dispatch(actionType.setSidebar('mypage')), icon:<AccountCircle></AccountCircle> }]);

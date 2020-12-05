@@ -12,6 +12,8 @@
     transition-timing-function: var(--STransF);
     border-right-color: var(--S_B_C, #659169);
     background-color: var(--S_BC, #ebf2fd);
+    box-shadow: 1px 1px 20px 1px #B1B4A6;
+
 }
 .SidebarContent{
     height: 100%;
@@ -33,7 +35,7 @@
     font-size : 150%;
 
     color : var(--SH_C, #000000);
-    background-color: var(--SH_BC, #659169);    
+    background-color: var(--SH_BC, #659169); 
 }
 .Sidebarbody{
     max-height: calc(100% - var(--SHH));

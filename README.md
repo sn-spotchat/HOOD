@@ -16,3 +16,4 @@
 
 5. 프로젝트 진행상황 & 개발일지를 공유하는 [노션 :calendar:](https://www.notion.so/e34e7d75bb854c0dbe09250868c6af46?v=064ee8a7ad944ef7a5db32c23a44f125)
 
+6. 프로젝트 전반을 정리한 [서강위키](http://cscp2.sogang.ac.kr/CSE4187/index.php/Tmi)
